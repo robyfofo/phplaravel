@@ -55,19 +55,11 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-
-
-                                    <a class="dropdown-item" href="{{ route('profile') }}" title="Modifica profilo"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Profile</a>
-                                    <a class="dropdown-item" href="{{ route('profile.avatar') }}" title="Modifica avatar"><i class="fas fa-image fa-sm fa-fw mr-2 text-gray-400"></i> Avatar</a>
-                                    <a class="dropdown-item" href="{{ route('profile.password') }}" title="Modifica password"><i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i> Password</a>
-
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-
-
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf

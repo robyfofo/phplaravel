@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +16,24 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('home');
+  })->middleware(['auth', 'verified'])->name('homr');
+  
+  
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::middleware('auth')->group(function () {
+    
+    
+    Route::get('/profile', [ProfileController::class,'edit'])->name('profile');
+    Route::get('/profile.avatar', [ProfileController::class,'avatar'])->name('profile.avatar');
+    Route::get('/profile.password', [ProfileController::class,'password'])->name('profile.password');
+  
+    Route::post('/profile-update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile-avatar-update', [ProfileController::class, 'avatar_update'])->name('profile.avatar.update');
+    Route::post('/profile-password-update', [ProfileController::class, 'password_update'])->name('profile.password.update');
+
+});
