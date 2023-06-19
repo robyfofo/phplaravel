@@ -21,7 +21,13 @@
 	<div class="col-md-2 help text-right"></div>
 </div>
 
-<div class="card shadow mt-3 mb-4">
+
+
+
+
+
+
+<div class="card">
 	<div class="card-body">
 
 		<form name="searchForm" id="searchFormID" role="form" method="GET" action="{{ route('modules.index') }}">
@@ -38,7 +44,7 @@
 					</select>
 				</div>
 				<label for="itemsforpageID" class="col-md-2 col-form-label form-control-sm">Voci per pagina</label>
-
+		
 				<label for="searchFromTableID" class="offset-md-6 col-md-1 col-form-label form-control-sm" style="text-align:right;">Cerca</label>
 				<div class="col-md-2">
 					<input type="search" name="searchFromTable" id="searchFromTableID" class="form-control form-control-sm" value="@isset($searchFromTable){{ $searchFromTable }}@endisset" onchange="this.form.submit();">
@@ -46,8 +52,8 @@
 			</div>
 		</form>
 
-		<div class="table-responsive">
-			<table class="table table-striped table-bordered table-hover table-sm listData">
+		<div class="table-responsive text-nowrap">
+      <table class="table table-sm table-bordered listData">
 				<thead>
 					<tr>
 						<th>id</th>
@@ -64,11 +70,9 @@
 							<td>{{ $module->id }}</td>
 							<td>
 								@if ($module->ordering == 'DESC')
-									<a class="" href={{ route('modules.lessordering',[$module->id,$orderType]) }}" title="sposta giu"><i class="fas fa-long-arrow-alt-down"></i></a>
-									<a class="" href="{{ route('modules.moreordering',[$module->id,$orderType]) }}" title="sposta su"><i class="fas fa-long-arrow-alt-up"></i></a>
+									<a class="" href={{ route('modules.lessordering',[$module->id,$orderType]) }}" title="sposta giu"><i class='bx bx-down-arrow-alt' ></i></a><a class="" href="{{ route('modules.moreordering',[$module->id,$orderType]) }}" title="sposta su"><i class='bx bx-up-arrow-alt' ></i></a>
 								@else
-									<a class="" href="{{ route('modules.moreordering',[$module->id,$orderType]) }}" title="sposta giu"><i class="fas fa-long-arrow-alt-down"></i></a>
-									<a class="" href="{{ route('modules.lessordering',[$module->id,$orderType]) }}" title="sposta su"><i class="fas fa-long-arrow-alt-up"></i></a>
+									<a class="" href="{{ route('modules.moreordering',[$module->id,$orderType]) }}" title="sposta giu"><i class='bx bx-down-arrow-alt' ></i></a><a class="" href="{{ route('modules.lessordering',[$module->id,$orderType]) }}" title="sposta su"><i class='bx bx-up-arrow-alt' ></i></a>
 								@endif
 								({{ $module->ordering }})
 						</td>
@@ -77,9 +81,9 @@
 							<td>{{ $module->content }}</td>
 						
 							<td class="actions text-right">
-								<a href="javascript:void(0);" data-id="{{ $module->id }}" data-table="modules" data-label="Modulo" data-labelsex="o" data-token="{{ csrf_token() }}" class="btn btn-sm btn-default setactive" title=""><i class="fa fa-sm fa-{{ $module->active == 1 ? 'unlock' : 'lock' }}{{ $module->active == 1 ? ' text-success' : ' text-danger' }}"></i></a><a class="btn btn-sm btn-default" href="{{ route('modules.edit', [$module->id]) }}" title="Modifica progetto"><i class="far fa-edit"></i></a>
+								<a href="javascript:void(0);" data-id="{{ $module->id }}" data-table="modules" data-label="Modulo" data-labelsex="o" data-token="{{ csrf_token() }}" class="setactive" title=""><i class="bx bx-{{ $module->active == 1 ? 'lock-open-alt' : 'lock-alt' }}{{ $module->active == 1 ? ' text-success' : ' text-danger' }}"></i></a><a class="" href="{{ route('modules.edit', [$module->id]) }}" title="Modifica progetto"><i class='bx bx-edit'></i></a>
 								{!! Form::open(['style'=>'','class'=>'float-right','method' => 'DELETE','route' => ['modules.destroy', $module->id]]) !!}
-								<a class="btn btn-sm btn-default deleteitemformbutton" href="#" title="Cancella Modulo"><i class="far fa-trash-alt"></i></a>
+								<a class="deleteitemformbutton" href="#" title="Cancella Modulo"><i class='bx bx-trash'></i></a>
 								{!! Form::close() !!}
 						</td>
 
@@ -88,13 +92,10 @@
 					@endforeach
 				</tbody>
 			</table>
+			
+			{!! $modules->links() !!}
+			
 		</div>
-
-		{!! $modules->links() !!}
-
-
-
 	</div>
 </div>
-
 @stop
