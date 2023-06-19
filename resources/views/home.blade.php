@@ -15,6 +15,10 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+
+
+
+                    <a class="btn btn-primary" href="#"><i class="bi bi-0-circle"></i> Prova</a>
                 </div>
             </div>
         </div>

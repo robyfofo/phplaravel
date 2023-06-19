@@ -108,7 +108,7 @@ function getLastOrdering($table, $field = 'ordering', $clause = '')
   return $foo;
 }
 
-function showUserAvatar($id)
+function showUserAvatar($id,$alt,$class)
 {
   $avatar_info = '';
   $avatar = '';
@@ -120,7 +120,7 @@ function showUserAvatar($id)
 
       if (isset($avatar_info['mimeType'])) {
         $src = 'data: ' . $avatar_info['mimeType'] . ';base64,' . $avatar;
-        echo '<img src="' . $src . '" class="img-profile rounded-circle" alt="' . $item->name . '">';
+        echo '<img src="' . $src . '" class="'.$class.'" alt="' . $alt . '">';
       }
     }
   }
