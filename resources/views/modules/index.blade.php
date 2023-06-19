@@ -93,7 +93,7 @@
 				</tbody>
 			</table>
 			
-			{!! $modules->links() !!}
+			{!! $modules->links('pagination::bootstrap-5') !!}
 			
 		</div>
 	</div>
