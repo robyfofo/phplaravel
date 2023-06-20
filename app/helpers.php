@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\DB;
 
-//use App\Models\LeftMenu;
+use App\Models\LeftMenu;
 
-/*
+
 function leftmenu()
 {
   $leftMenu = LeftMenu::all();
@@ -16,7 +16,8 @@ function leftmenu()
 
     $menu = json_decode($module->code_menu) or die('Errore nel campo menu. Formato Json non valido!' . $module->code_menu);
 
-    $classLiMain = ' class="nav-item"';
+    $classLiMain = 'menu-item';
+    $classAhrefMain = 'menu-link';
     $moduleName = (isset($module->name) ? $module->name : '');
     $moduleLabel = (isset($module->label) ? $module->label : '');
 
@@ -24,8 +25,10 @@ function leftmenu()
     $menuIcon = (isset($menu->icon) ? $menu->icon : '');
     $menuAction = (isset($menu->action) ? $menu->action : '');
     $menuLabel = (isset($menu->label) ? $menu->label : '');
-
-    $output .= '<li' . $classLiMain . '><a class="nav-link" href="/' . $moduleName . '">' . $menuIcon . '<span>' . $menuLabel . '</span></a></li>' . PHP_EOL;
+    $output .= '<li class="' . $classLiMain . '">
+    <a class="' . $classAhrefMain . '" href="/' . $moduleName . '">' . $menuIcon;
+    $output .= '<div data-i18n="' . $moduleName . '">' . $moduleLabel . '</div>' . PHP_EOL;
+    $output .= '</a></li>' . PHP_EOL;
 
     // sostituiso il modulename con la localizzazione se esiste
     $output = preg_replace('/%LABEL%/', $moduleLabel, $output);
@@ -35,7 +38,7 @@ function leftmenu()
   }
   return $outputmenu;
 }
-*/
+
 function lessorder($id, $table = '', $opt = array())
 {
   $orderingFieldRif = 'ordering';
