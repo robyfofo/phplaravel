@@ -65,14 +65,14 @@ class AjaxrequestsController extends Controller
         }
 
         $value = 0;
-        $icon = 'fa fa-lock text-danger';
+        $icon = 'bx bx-lock-alt text-danger';
         $message = ucfirst(preg_replace('/%ITEM%/',$label,'%ITEM% disattivato')).'!';
         $title = ucfirst(preg_replace('/%ITEM%/',$label,'attiva %ITEM%'));
         if ($labelsex == 'a') $message = ucfirst(preg_replace('/%ITEM%/',$label,'%ITEM% disattivata')).'!';
 
         if ($foo-> active == 0) {
             $value = 1;
-            $icon = 'fa fa-unlock text-success';
+            $icon = 'bx bx-lock-open-alt text-success';
             $message = ucfirst(preg_replace('/%ITEM%/',$label,'%ITEM% attivato')).'!';
             $title = ucfirst(preg_replace('/%ITEM%/',$label,'disattiva %ITEM%'));
             if ($labelsex == 'a') $message = ucfirst(preg_replace('/%ITEM%/',$label,'%ITEM% attivato')).'!';

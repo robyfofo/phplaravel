@@ -43,3 +43,9 @@ Route::middleware('auth')->group(function () {
   Route::get('/modules.lessordering/{id}/{foo}', [ModulesController::class, 'lessordering'])->name('modules.lessordering');
 
 });
+
+
+use App\Http\Controllers\AjaxrequestsController;
+Route::controller(AjaxrequestsController::class)->group(function () {
+    Route::post('ajaxrequests/setdbrowactive', 'setdbrowactive');
+});

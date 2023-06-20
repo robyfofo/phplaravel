@@ -2,18 +2,9 @@
 
 @section('content')
 
-@if (session('success'))
-<div class="alert alert-success">
-	{{ session('success') }}
-</div>
-@endif
-@if (session('error'))
-<div class="alert alert-danger">
-	{{ session('error') }}
-</div>
-@endif
 
-<div class="row">
+
+<div class="row mb-3">
 	<div class="col-md-3 new">
 		<a href="{{ route('modules.create') }}" title="Inserisci un nuovo modulo" class="btn btn-sm btn-primary">Nuovo Modulo</a>
 	</div>
@@ -34,7 +25,7 @@
 			@csrf
 			<div class="form-group row">
 				<div class="col-md-1">
-					<select name="itemsforpage" id="itemsforpage" class="custom-select custom-select-sm" onchange="this.form.submit();">
+					<select name="itemsforpage" id="itemsforpage" class="form-select form-select-sm" onchange="this.form.submit();">
 						<option @if ($itemsforpage==1) selected @endif value="1">1</option>
 						<option @if ($itemsforpage==5) selected @endif value="5">5</option>
 						<option @if ($itemsforpage==10) selected @endif value="10">10</option>
@@ -52,7 +43,7 @@
 			</div>
 		</form>
 
-		<div class="table-responsive text-nowrap">
+		<div class="table-responsive text-nowrap my-2">
       <table class="table table-sm table-bordered listData">
 				<thead>
 					<tr>
@@ -80,9 +71,9 @@
 							<td>{{ $module->label }}</td>
 							<td>{{ $module->content }}</td>
 						
-							<td class="actions text-right">
-								<a href="javascript:void(0);" data-id="{{ $module->id }}" data-table="modules" data-label="Modulo" data-labelsex="o" data-token="{{ csrf_token() }}" class="setactive" title=""><i class="bx bx-{{ $module->active == 1 ? 'lock-open-alt' : 'lock-alt' }}{{ $module->active == 1 ? ' text-success' : ' text-danger' }}"></i></a><a class="" href="{{ route('modules.edit', [$module->id]) }}" title="Modifica progetto"><i class='bx bx-edit'></i></a>
-								{!! Form::open(['style'=>'','class'=>'float-right','method' => 'DELETE','route' => ['modules.destroy', $module->id]]) !!}
+							<td class="actions text-end">
+								<a href="javascript:void(0);" data-id="{{ $module->id }}" data-table="modules" data-label="Modulo" data-labelsex="o" data-token="{{ csrf_token() }}" class="setactive" title=""><i class="bx bx-{{ $module->active == 1 ? 'lock-open-alt' : 'lock-alt' }}{{ $module->active == 1 ? ' text-success' : ' text-danger' }}"></i></a><a class="" href="{{ route('modules.edit', [$module->id]) }}" title="Modifica modulo"><i class='bx bx-edit'></i></a>
+								{!! Form::open(['style'=>'','class'=>'float-end','method' => 'DELETE','route' => ['modules.destroy', $module->id]]) !!}
 								<a class="deleteitemformbutton" href="#" title="Cancella Modulo"><i class='bx bx-trash'></i></a>
 								{!! Form::close() !!}
 						</td>
@@ -92,10 +83,10 @@
 					@endforeach
 				</tbody>
 			</table>
-			
-			{!! $modules->links('pagination::bootstrap-5') !!}
-			
 		</div>
+
+		{!! $modules->links('pagination::bootstrap-5') !!}
+
 	</div>
 </div>
 @stop

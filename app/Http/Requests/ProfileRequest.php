@@ -32,12 +32,12 @@ class ProfileRequest extends FormRequest
     public function messages()
     {
       return [
-      'passwordnew.required' => 'Il campo nuova password è richiesto00.',
-      'passwordck.required' => 'Il campo verifica password è richiesto11.',
-      'passwordold.required' => 'Il campo vecchia password è richiesto22.',
+      'passwordnew.required' => 'Il campo nuova password è richiesto.',
+      'passwordck.required' => 'Il campo verifica password è richiesto.',
+      'passwordold.required' => 'Il campo vecchia password è richiesto.',
       
-      'passwordold.min' => 'Il campo vecchia password deve avere minimo 8 caratteri!.',
-      'passwordold.min' => 'Il campo verifica password deve avere minimo 8 caratteri!.',
+      'passwordnew.min' => 'Il campo vecchia password deve avere minimo 8 caratteri!.',
+      'passwordck.min' => 'Il campo verifica password deve avere minimo 8 caratteri!.',
       'passwordold.min' => 'Il campo nuova password deve avere minimo 8 caratteri!.',
       ];
     }
