@@ -2,8 +2,6 @@
 
 @section('content')
 
-
-
 <div class="row mb-3">
 	<div class="col-md-3 new">
 		<a href="{{ route('modules.create') }}" title="Inserisci un nuovo modulo" class="btn btn-sm btn-primary">Nuovo Modulo</a>
@@ -11,12 +9,6 @@
 	<div class="col-md-7 help-small-list"></div>
 	<div class="col-md-2 help text-right"></div>
 </div>
-
-
-
-
-
-
 
 <div class="card">
 	<div class="card-body">
@@ -66,7 +58,7 @@
 									<a class="" href="{{ route('modules.moreordering',[$module->id,$orderType]) }}" title="sposta giu"><i class='bx bx-down-arrow-alt' ></i></a><a class="" href="{{ route('modules.lessordering',[$module->id,$orderType]) }}" title="sposta su"><i class='bx bx-up-arrow-alt' ></i></a>
 								@endif
 								({{ $module->ordering }})
-						</td>
+							</td>
 							<td>{{ $module->name }}</td>
 							<td>{{ $module->label }}</td>
 							<td>{{ $module->content }}</td>
@@ -76,8 +68,7 @@
 								{!! Form::open(['style'=>'','class'=>'float-end','method' => 'DELETE','route' => ['modules.destroy', $module->id]]) !!}
 								<a class="deleteitemformbutton" href="#" title="Cancella Modulo"><i class='bx bx-trash'></i></a>
 								{!! Form::close() !!}
-						</td>
-
+							</td>
 						</tr>
 
 					@endforeach

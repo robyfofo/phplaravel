@@ -42,6 +42,10 @@ Route::middleware('auth')->group(function () {
   Route::get('/modules.moreordering/{id}/{foo}', [ModulesController::class, 'moreordering'])->name('modules.moreordering');
   Route::get('/modules.lessordering/{id}/{foo}', [ModulesController::class, 'lessordering'])->name('modules.lessordering');
 
+  Route::resource('/projects', ProjectsController::class);
+  Route::get('/projects.moreordering/{id}/{foo}', [ProjectsController::class, 'moreordering'])->name('projects.moreordering');
+  Route::get('/projects.lessordering/{id}/{foo}', [ProjectsController::class, 'lessordering'])->name('projects.lessordering');
+
 });
 
 
