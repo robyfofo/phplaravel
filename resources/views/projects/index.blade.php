@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+ <?php
+$foo = 'en';
+ echo Config::get('settings.langs.'.$foo);
+ ?>
+
+{{ Config::get('settings.langs.en') }}
 
 <div class="row mb-3">
 	<div class="col-md-3 new">
@@ -67,7 +73,12 @@
 
 						<td>{{ $project->title }}</td>
 						<td>{{ $project->content }}</td>
-						<td>{{ $project->status }}</td>
+						<td>
+							<?php
+								echo Config::get('settings.project_status.'.$project->status);
+							?>
+						{{ $project->status }}
+						</td>
 						<td>{{ $project->completato }}</td>
 						<td>{{ $project->active }}</td>
 
