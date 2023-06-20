@@ -50,14 +50,14 @@
 						<div class="row mb-3">
 							{{ Form::label('stauts', 'Status', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
 							<div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
-								{{ Form::text('status', null, array('class' => 'form-control form-control-sm')) }}
+								{{ Form::text('status', 0, array('class' => 'form-control form-control-sm')) }}
 							</div>
 						</div>
 
 						<div class="row mb-3">
-							{{ Form::label('completato', 'Completato', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							{{ Form::label('completato', 'Completato %', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
 							<div id="completatoID" class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
-								{{ Form::text('completato', null, array('class' => 'form-control form-control-sm')) }}
+								{{ Form::number('completato',0, array('class' => 'form-control form-control-sm')) }}
 							</div>
 						</div>
 
@@ -72,7 +72,7 @@
 						<div class="row mb-3">
 							{{ Form::label('ordering', 'Ordinamento', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label']) }}
 							<div id="orderingID" class="col-sm-12 col-md-12 col-lg-2 col-xl-1">
-								{{ Form::text('ordering', 0, array('class' => 'form-control form-control-sm','length' => 10)) }}
+								{{ Form::text('ordering', $ordering, array('class' => 'form-control form-control-sm','length' => 10)) }}
 							</div>
 						</div>
 

@@ -49,16 +49,16 @@
 					</div>
 
 					<div class="row mb-3">
-						{{ Form::label('stauts', 'Status', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+						{{ Form::label('status', 'Status', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
 						<div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
-							{{ Form::text('stauts', null, array('class' => 'form-control form-control-sm')) }}
+							{{ Form::text('status', null, array('class' => 'form-control form-control-sm')) }}
 						</div>
 					</div>
 
 					<div class="row mb-3">
-						{{ Form::label('completato', 'Completato', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+						{{ Form::label('completato', 'Completato %', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
 						<div id="completatoID" class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
-							{{ Form::text('completato', null, array('class' => 'form-control form-control-sm')) }}
+							{{ Form::number('completato', null, array('class' => 'form-control form-control-sm')) }}
 						</div>
 					</div>
 
@@ -73,7 +73,7 @@
 					<div class="row mb-3">
 						{{ Form::label('ordering', 'Ordinamento', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label']) }}
 						<div id="orderingID" class="col-sm-12 col-md-12 col-lg-2 col-xl-1">
-							{{ Form::text('ordering', $module->ordering, array('class' => 'form-control form-control-sm','length' => 10)) }}
+							{{ Form::text('ordering', $project->ordering, array('class' => 'form-control form-control-sm','length' => 10)) }}
 						</div>
 					</div>
 
@@ -81,7 +81,7 @@
 						{{ Form::label('active', 'Attiva', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label']) }}
 						<div class="col-sm-12 col-md-12 col-lg-3 col-xl-3'">
 							<div class="form-check">
-								{{ Form::checkbox('active', 1,  $module->active ,array('class' => 'form-check-input')) }}
+								{{ Form::checkbox('active', 1,  $project->active ,array('class' => 'form-check-input')) }}
 							</div>
 						</div>
 					</div>

@@ -55,6 +55,9 @@
 
     <link rel="stylesheet" href="/assets/vendor/libs/apex-charts/apex-charts.css" />
 
+
+
+
     <!-- Page CSS -->
 
     <!-- Helpers -->
@@ -88,13 +91,7 @@
 
           <ul class="menu-inner py-1">
 
-            <!-- Dashboard -->
-            <li class="menu-item active">
-              <a href="/home" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Analytics">Home</div>
-              </a>
-            </li>
+           
             <?php echo leftmenu(); ?>
           </ul>
         </aside>
@@ -272,6 +269,9 @@
 
     <!-- Vendors JS -->
     <script src="/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+    <script src="/plugins/bootbox/bootbox.min.js"></script>
+    <script src="/plugins/lightbox/js/lightbox.min.js"></script>
 
     <!-- Main JS -->
     <script src="/assets/js/main.js"></script>

@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="row">
+<div class="row mb-3">
 	<div class="col-md-3 new">
 		<a href="{{ route('projects.create') }}" title="Inserisci un nuovo progetto" class="btn btn-sm btn-primary">Nuovo Progetto</a>
 	</div>
@@ -72,9 +72,9 @@
 						<td>{{ $project->active }}</td>
 
 						<td class="actions text-end">
-							<a href="javascript:void(0);" data-id="{{ $project->id }}" data-table="modules" data-label="Modulo" data-labelsex="o" data-token="{{ csrf_token() }}" class="setactive" title=""><i class="bx bx-{{ $project->active == 1 ? 'lock-open-alt' : 'lock-alt' }}{{ $project->active == 1 ? ' text-success' : ' text-danger' }}"></i></a><a class="" href="{{ route('modules.edit', [$project->id]) }}" title="Modifica modulo"><i class='bx bx-edit'></i></a>
-							{!! Form::open(['style'=>'','class'=>'float-end','method' => 'DELETE','route' => ['modules.destroy', $project->id]]) !!}
-							<a class="deleteitemformbutton" href="#" title="Cancella Modulo"><i class='bx bx-trash'></i></a>
+							<a href="javascript:void(0);" data-id="{{ $project->id }}" data-table="projects" data-label="Progetto" data-labelsex="o" data-token="{{ csrf_token() }}" class="setactive" title=""><i class="bx bx-{{ $project->active == 1 ? 'lock-open-alt' : 'lock-alt' }}{{ $project->active == 1 ? ' text-success' : ' text-danger' }}"></i></a><a class="" href="{{ route('projects.edit', [$project->id]) }}" title="Modifica progetto"><i class='bx bx-edit'></i></a>
+							{!! Form::open(['style'=>'','class'=>'float-end','method' => 'DELETE','route' => ['projects.destroy', $project->id]]) !!}
+							<a class="deleteitemformbutton" href="#" title="Cancella Progetto"><i class='bx bx-trash'></i></a>
 							{!! Form::close() !!}
 						</td>
 					</tr>

@@ -2,14 +2,25 @@
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+
 
 use App\Models\LeftMenu;
 
 
 function leftmenu()
 {
+
+  Route::get('/')->name('home');
   $leftMenu = LeftMenu::all();
-  $outputmenu = '';
+  $outputmenu = ' <!-- Dashboard -->
+  <li class="menu-item'.(Route::is('home') ? ' active' : ' noactive').'">
+    <a href="/home" class="menu-link">
+      <i class="menu-icon tf-icons bx bx-home-circle"></i>
+      <div data-i18n="Analytics">Home</div>
+    </a>
+  </li>';
   foreach (LeftMenu::all() as $module) {
     $output = '';
 
@@ -17,6 +28,8 @@ function leftmenu()
     $menu = json_decode($module->code_menu) or die('Errore nel campo menu. Formato Json non valido!' . $module->code_menu);
 
     $classLiMain = 'menu-item';
+    if (Route::is($module->name.'.*')) $classLiMain .= ' active';
+
     $classAhrefMain = 'menu-link';
     $moduleName = (isset($module->name) ? $module->name : '');
     $moduleLabel = (isset($module->label) ? $module->label : '');
