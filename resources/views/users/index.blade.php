@@ -48,13 +48,17 @@
 					</tr>
 				</thead>
 				<tbody>
-					@foreach($modules as $module)
+					@foreach($users as $user)
 						<tr>
 							<td>{{ $user->id }}</td>
 							<td>{{ $user->name }}</td>
 							<td>{{ $user->surname }}</td>
 							<td>{{ $user->email }}</td>
-							<td><?php echo showImageUserAvatar(auth()->user()->id, $alt = auth()->user()->name, $class = 'w-px-80 h-auto rounded-circle'); ?></td>
+							<td>
+
+								<img src="<?php echo getImageUserAvatar($user->id ); ?>" alt="<?php echo $user->name; ?>" class="w-px-40 h-auto rounded-circle">
+													
+							</td>
 							<td class="actions text-end">
 								<a href="javascript:void(0);" data-id="{{ $user->id }}" data-table="users" data-label="Utente" data-labelsex="o" data-token="{{ csrf_token() }}" class="setactive" title=""><i class="bx bx-{{ $user->active == 1 ? 'lock-open-alt' : 'lock-alt' }}{{ $user->active == 1 ? ' text-success' : ' text-danger' }}"></i></a><a class="" href="{{ route('users.edit', [$user->id]) }}" title="Modifica utente"><i class='bx bx-edit'></i></a>
 								{!! Form::open(['style'=>'','class'=>'float-end','method' => 'DELETE','route' => ['users.destroy', $user->id]]) !!}

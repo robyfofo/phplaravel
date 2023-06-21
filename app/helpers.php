@@ -143,3 +143,21 @@ function showImageUserAvatar($id,$alt,$class)
     }
   }
 }
+
+function getImageUserAvatar($id)
+{
+  $avatar_info = '';
+  $avatar = '';
+  if ($id > 0) {
+    $item = DB::table('users')->where('id', '=', $id)->get()->first();
+    if (isset($item->id)) {
+      $avatar = $item->avatar;
+      $avatar_info = unserialize($item->avatar_info);
+
+      if (isset($avatar_info['mimeType'])) {
+        $src = 'data: ' . $avatar_info['mimeType'] . ';base64,' . $avatar;
+        echo $src;
+      }
+    }
+  }
+}

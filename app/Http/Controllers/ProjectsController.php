@@ -107,7 +107,7 @@ class ProjectsController extends Controller
     $project->completato = $request->input('completato');
     $project->save();
 
-    return to_route('projects.index');
+    return to_route('projects.index')->with('success', 'Progetto inserito!');
   }
 
   /**

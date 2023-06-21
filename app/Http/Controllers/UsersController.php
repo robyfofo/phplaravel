@@ -57,7 +57,7 @@ class UsersController extends Controller
       }
     }
 
-    $appJavascriptLinks = array('<script src="js/modules/users.index.20230608.js"></script>');
+    $appJavascriptLinks = array('<script src="js/modules/users.index.20230612.js"></script>');
 
     $users = User::orderBy('id', $this->orderType)
       ->where($where)
@@ -70,21 +70,30 @@ class UsersController extends Controller
     ->with('appJavascriptLinks', $appJavascriptLinks);
   }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+  /**
+   * Show the form for creating a new resource.
+   */
+  public function create()
+  {
+    $user = new User;
+    return view('users.create');
+  }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+  /**
+   * Store a newly created resource in storage.
+   */
+  public function store(UserRequest $request)
+  {
+    $user = new User;
+    $user->name = $request->input('name');
+    $user->surname = $request->input('surname');
+    $user->email = $request->input('email');
+    
+    $user->password = 'aa';
+
+    $user->save();
+    return to_route('users.index')->with('success', 'Utente inserito!');
+  }
 
     /**
      * Display the specified resource.
@@ -99,15 +108,23 @@ class UsersController extends Controller
      */
     public function edit(string $id)
     {
-        //
+      $user = User::findOrFail($id);
+      return view('users.edit', ['user' => $user]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserRequest $request, $id)
     {
-        //
+      $user = User::findOrFail($id);
+      $user->name = $request->input('name');
+      $user->surname = $request->input('surname');
+      $user->email = $request->input('email');
+    
+      $user->save();
+
+    return to_route('users.index')->with('success', 'Utente modificato!');
     }
 
     /**
