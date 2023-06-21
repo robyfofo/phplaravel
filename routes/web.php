@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ModulesController;
 use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\UsersController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -39,7 +40,7 @@ Route::middleware('auth')->group(function () {
   Route::post('/profile-avatar-update', [ProfileController::class, 'avatar_update'])->name('profile.avatar.update');
   Route::post('/profile-password-update', [ProfileController::class, 'password_update'])->name('profile.password.update');
 
-  Route::resource('/users', ModulesController::class);
+  Route::resource('/users', UsersController::class);
  
   Route::resource('/modules', ModulesController::class);
   Route::get('/modules.moreordering/{id}/{foo}', [ModulesController::class, 'moreordering'])->name('modules.moreordering');

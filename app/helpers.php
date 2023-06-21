@@ -21,7 +21,9 @@ function leftmenu()
       <div data-i18n="Analytics">Home</div>
     </a>
   </li>';
-  foreach (LeftMenu::all() as $module) {
+
+  $foo = LeftMenu::all()->sortBy("ordering");
+  foreach ($foo as $module) {
     $output = '';
 
 

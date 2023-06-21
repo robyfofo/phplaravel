@@ -2,41 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
+use App\Models\User;
+use App\Http\Requests\UserRequest;
 
-use App\Models\Users;
-use App\Http\Requests\UsersRequest;
 
 class UsersController extends Controller
 {
-  /**
-   * Display a listing of the resource.
-   *
-   * @return \Illuminate\Contracts\View\View
-   */
 
   private $itemsforpage = 2;
   private $page = 1;
   private $searchFromTable = '';
   private $orderType = 'ASC';
 
+    
+  /**
+   * Display a listing of the resource.
+   */
   public function index(Request $request)
   {
-
     // numero pagine
-    if ($request->session()->missing('projects itemsforpage')) $request->session()->put('projects itemsforpage', 10);
-    if (request()->input('itemsforpage')) $request->session()->put('projects itemsforpage', request()->input('itemsforpage'));
+    if ($request->session()->missing('users itemsforpage')) $request->session()->put('users itemsforpage', 10);
+    if (request()->input('itemsforpage')) $request->session()->put('users itemsforpage', request()->input('itemsforpage'));
 
     // paginazione
-    if ($request->session()->missing('projects page')) $request->session()->put('projects page', 1);
-    if (request()->input('page')) $request->session()->put('projects page', request()->input('page'));
+    if ($request->session()->missing('users page')) $request->session()->put('users page', 1);
+    if (request()->input('page')) $request->session()->put('users page', request()->input('page'));
 
-    if ($request->session()->has('projects itemsforpage')) $this->itemsforpage = $request->session()->get('projects itemsforpage');
-    if ($request->session()->has('projects page')) $this->page = $request->session()->get('projects page');
+    if ($request->session()->has('users itemsforpage')) $this->itemsforpage = $request->session()->get('users itemsforpage');
+    if ($request->session()->has('users page')) $this->page = $request->session()->get('users page');
 
     // ricerca 
     if ($request->session()->missing('projeks searchFromTable')) $request->session()->put('projeks searchFromTable', '');
@@ -64,133 +59,62 @@ class UsersController extends Controller
 
     $appJavascriptLinks = array('<script src="js/modules/users.index.20230608.js"></script>');
 
-    $projects = user::orderBy('ordering', $this->orderType)
+    $users = User::orderBy('id', $this->orderType)
       ->where($where)
       ->paginate($this->itemsforpage);
 
     return view('users.index', ['users' => $users])
-      ->with('itemsforpage', $this->itemsforpage)
-      ->with('searchFromTable', $this->searchFromTable)
-      ->with('orderType', $this->orderType)
-      ->with('appJavascriptLinks', $appJavascriptLinks);
+    ->with('itemsforpage', $this->itemsforpage)
+    ->with('searchFromTable', $this->searchFromTable)
+    ->with('orderType', $this->orderType)
+    ->with('appJavascriptLinks', $appJavascriptLinks);
   }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Contracts\View\View
-   */
-  public function create()
-  {
-    $user = new user;
-    $ordering = getLastOrdering('users', 'ordering', array());
-    return view('users.create')->with('ordering', $ordering);
-  }
-
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  userRequest  $request
-   * @return \Illuminate\Http\RedirectResponse
-   */
-  public function store(userRequest $request)
-  {
-
-    if (!$request->has('active')) $request->merge(['active' => 0]);
-
-    $user = new user;
-    $user->title = $request->input('title');
-    $user->content = $request->input('content');
-    $user->active = $request->input('active');
-    $user->ordering = $request->input('ordering');
-    $user->status = $request->input('status');
-    $user->completato = $request->input('completato');
-    $user->save();
-
-    return to_route('users.index');
-  }
-
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Contracts\View\View
-   */
-  public function show($id)
-  {
-    $user = User::findOrFail($id);
-    return view('usersshow', ['project' => $project]);
-  }
-
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Contracts\View\View
-   */
-  public function edit($id)
-  {
-    $project = Users::findOrFail($id);
-    return view('usersedit', ['project' => $project]);
-  }
-
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  UserRequest  $request
-   * @param  int  $id
-   * @return \Illuminate\Http\RedirectResponse
-   */
-  public function update(UserRequest $request, $id)
-  {
-
-    if (!$request->has('active')) {
-      $request->merge(['active' => 0]);
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
     }
 
-    $project = Users::findOrFail($id);
-    $project->title = $request->input('title');
-    $project->content = $request->input('content');
-    $project->active = $request->input('active');
-    $project->ordering = $request->input('ordering');
-    $project->status = $request->input('status');
-    $project->completato = $request->input('completato');
-    $project->save();
-
-    return to_route('users.index')->with('success', 'Utente modificato!');
-  }
-
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\RedirectResponse
-   */
-  public function destroy($id)
-  {
-    $project = Users::findOrFail($id);
-    $project->delete();
-    optimizeFieldOrdering($table = 'projects', $fieldOrder = 'ordering', $fieldParent = array(), $fieldParentValue = array());
-    return to_route('users.index')->with('success', 'Utente cancellato!');
-  }
-
-  public function moreordering($id, $foo)
-  {
-    $result = moreorder($id, $table = 'projects', $opt = array());
-
-    if ($result == false) {
-      return to_route('users.index')->with('error', 'Utente NON spostato.');
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
     }
-    return to_route('users.index')->with('success', 'Utente spostato.');
-  }
 
-  public function lessordering($id, $foo)
-  {
-    $result = lessorder($id, $table = 'projects', $opt = array());
-
-    if ($result == false) {
-      return to_route('users.index')->with('error', 'Utente NON spostato.');
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
     }
-    return to_route('users.index')->with('success', 'Utente spostato.');
-  }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
 }

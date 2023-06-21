@@ -78,7 +78,7 @@
 					<div class="row mb-3">
 						{{ Form::label('ordering', 'Ordinamento', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label']) }}
 						<div id="orderingID" class="col-sm-12 col-md-12 col-lg-2 col-xl-1">
-							{{ Form::text('ordering', 0, array('class' => 'form-control form-control-sm','length' => 10)) }}
+							{{ Form::text('ordering', $ordering, array('class' => 'form-control form-control-sm','length' => 10)) }}
 						</div>
 					</div>
 
