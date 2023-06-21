@@ -124,7 +124,7 @@ function getLastOrdering($table, $field = 'ordering', $clause = '')
   return $foo;
 }
 
-function showUserAvatar($id,$alt,$class)
+function showImageUserAvatar($id,$alt,$class)
 {
   $avatar_info = '';
   $avatar = '';

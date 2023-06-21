@@ -44,7 +44,7 @@
 
 					<?php
 					if ($profile->avatar != '') {
-						echo showUserAvatar(auth()->user()->id, $alt = auth()->user()->name, $class = 'w-px-80 h-auto rounded-circle');
+						echo showImageUserAvatar(auth()->user()->id, $alt = auth()->user()->name, $class = 'w-px-80 h-auto rounded-circle');
 					} else {
 						echo '<img alt="' . $profile->name . ' avatar" src="/assets/img/avatars/user.png"  style="max-height:100px;">';
 					}

@@ -1,3 +1,5 @@
 {"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bx-cog\"><\/i>","label":"%LABEL%"}
 
 {"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bx-pyramid\"><\/i>","label":"%LABEL%"}
+
+{"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bx-users\"><\/i>","label":"%LABEL%"}
