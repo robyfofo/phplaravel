@@ -24,7 +24,7 @@
 				</li>
 			</ul>
 
-			{!! Form::open(['route' => 'modules.store']) !!}
+			{!! Form::open(['route' => 'users.store']) !!}
 
 			<div class="tab-content">
 				
@@ -40,32 +40,13 @@
 						</div>
 
 						<div class="row mb-3">
-							{{ Form::label('alias', 'Alias', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							{{ Form::label('surname', 'Cognome', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
 							<div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
-								{{ Form::text('alias', null, array('class' => 'form-control form-control-sm')) }}
+								{{ Form::text('surname', null, array('class' => 'form-control form-control-sm')) }}
 							</div>
 						</div>
 
-						<div class="row mb-3">
-							{{ Form::label('label', 'Label', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-							<div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
-								{{ Form::text('label', null, array('class' => 'form-control form-control-sm')) }}
-							</div>
-						</div>
-
-						<div class="row mb-3">
-							{{ Form::label('content', 'Content', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-							<div id="contentID" class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
-								{{ Form::textarea('content', null, array('class' => 'form-control form-control-sm')) }}
-							</div>
-						</div>
-
-						<div class="row mb-3">
-							{{ Form::label('code_menu', 'Codice Menu', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-							<div id="divfieldnameID" class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
-								{{ Form::textarea('code_menu', null, array('class' => 'form-control form-control-sm')) }}
-							</div>
-						</div>
+					
 
 					</fieldset>	
 				</div>
@@ -75,22 +56,7 @@
 			<div class="tab-pane fade" id="navs-pills-top-altro" role="tabpanel">
 				<fieldset>
 
-					<div class="row mb-3">
-						{{ Form::label('ordering', 'Ordinamento', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label']) }}
-						<div id="orderingID" class="col-sm-12 col-md-12 col-lg-2 col-xl-1">
-							{{ Form::text('ordering', 0, array('class' => 'form-control form-control-sm','length' => 10)) }}
-						</div>
-					</div>
-
-					<div class="row mb-3">
-						{{ Form::label('active', 'Attiva', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label']) }}
-						<div class="col-sm-12 col-md-12 col-lg-3 col-xl-3'">
-							<div class="form-check">
-								{{ Form::checkbox('active', 1,  1 ,array('class' => 'form-check-input')) }}
-							</div>
-						</div>
-					</div>
-
+				
 					</fieldset>
 				</div>
 				<!-- altro -->
@@ -104,7 +70,7 @@
 				</div>
 
 				<div class="col-md-6 col-xs-12 text-right">
-					<a href="{{ route('modules.index') }}" title="Torna alla lista" class="btn btn-success">Indietro</a>
+					<a href="{{ route('users.index') }}" title="Torna alla lista" class="btn btn-success">Indietro</a>
 				</div>
 			</div>
 
