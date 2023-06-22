@@ -4,7 +4,7 @@
 
 <div class="row mb-3">
 	<div class="col-md-3 new">
-		<a href="{{ route('modules.create') }}" title="Inserisci un nuovo modulo" class="btn btn-sm btn-primary">Nuovo Modulo</a>
+		<a href="{{ route('levels.create') }}" title="Inserisci un nuovo livello" class="btn btn-sm btn-primary">Nuovo livello</a>
 	</div>
 	<div class="col-md-7 help-small-list"></div>
 	<div class="col-md-2 help text-right"></div>
@@ -13,7 +13,7 @@
 <div class="card">
 	<div class="card-body">
 
-		<form name="searchForm" id="searchFormID" role="form" method="GET" action="{{ route('modules.index') }}">
+		<form name="searchForm" id="searchFormID" role="form" method="GET" action="{{ route('levels.index') }}">
 			@csrf
 			<div class="form-group row">
 				<div class="col-md-1">
@@ -40,33 +40,21 @@
 				<thead>
 					<tr>
 						<th>id</th>
-						<th>Ord</th>
-						<th>Nome</th>
-						<th>Label</th>
-						<th>content</th>
+						<th>Titolo</th>
+						<th>Moduli</th>
 						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
-					@foreach($modules as $module)
+					@foreach($levels as $level)
 						<tr>
-							<td>{{ $module->id }}</td>
-							<td>
-								@if ($module->ordering == 'DESC')
-									<a class="" href={{ route('modules.lessordering',[$module->id,$orderType]) }}" title="sposta giu"><i class='bx bx-down-arrow-alt' ></i></a><a class="" href="{{ route('modules.moreordering',[$module->id,$orderType]) }}" title="sposta su"><i class='bx bx-up-arrow-alt' ></i></a>
-								@else
-									<a class="" href="{{ route('modules.moreordering',[$module->id,$orderType]) }}" title="sposta giu"><i class='bx bx-down-arrow-alt' ></i></a><a class="" href="{{ route('modules.lessordering',[$module->id,$orderType]) }}" title="sposta su"><i class='bx bx-up-arrow-alt' ></i></a>
-								@endif
-								({{ $module->ordering }})
-							</td>
-							<td>{{ $module->name }}</td>
-							<td>{{ $module->label }}</td>
-							<td>{{ $module->content }}</td>
-						
+							<td>{{ $level->id }}</td>
+							<td>{{ $level->title }}</td>
+							<td>{{ $level->modules }}</td>
 							<td class="actions text-end">
-								<a href="javascript:void(0);" data-id="{{ $module->id }}" data-table="modules" data-label="Modulo" data-labelsex="o" data-token="{{ csrf_token() }}" class="setactive" title=""><i class="bx bx-{{ $module->active == 1 ? 'lock-open-alt' : 'lock-alt' }}{{ $module->active == 1 ? ' text-success' : ' text-danger' }}"></i></a><a class="" href="{{ route('modules.edit', [$module->id]) }}" title="Modifica modulo"><i class='bx bx-edit'></i></a>
-								{!! Form::open(['style'=>'','class'=>'float-end','method' => 'DELETE','route' => ['modules.destroy', $module->id]]) !!}
-								<a class="deleteitemformbutton" href="#" title="Cancella Modulo"><i class='bx bx-trash'></i></a>
+								<a href="javascript:void(0);" data-id="{{ $level->id }}" data-table="levels" data-label="livello" data-labelsex="o" data-token="{{ csrf_token() }}" class="setactive" title=""><i class="bx bx-{{ $level->active == 1 ? 'lock-open-alt' : 'lock-alt' }}{{ $level->active == 1 ? ' text-success' : ' text-danger' }}"></i></a><a class="" href="{{ route('levels.edit', [$level->id]) }}" title="Modifica livello"><i class='bx bx-edit'></i></a>
+								{!! Form::open(['style'=>'','class'=>'float-end','method' => 'DELETE','route' => ['levels.destroy', $level->id]]) !!}
+								<a class="deleteitemformbutton" href="#" title="Cancella livello"><i class='bx bx-trash'></i></a>
 								{!! Form::close() !!}
 							</td>
 						</tr>
@@ -76,7 +64,7 @@
 			</table>
 		</div>
 
-		{!! $modules->links('pagination::bootstrap-5') !!}
+		{!! $levels->links('pagination::bootstrap-5') !!}
 
 	</div>
 </div>

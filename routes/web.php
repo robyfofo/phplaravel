@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ModulesController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\LevelsController;
 
 use Illuminate\Support\Facades\Route;
 

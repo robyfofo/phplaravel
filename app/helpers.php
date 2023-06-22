@@ -13,7 +13,6 @@ function leftmenu()
 {
 
   Route::get('/')->name('home');
-  $leftMenu = LeftMenu::all();
   $outputmenu = ' <!-- Dashboard -->
   <li class="menu-item'.(Route::is('home') ? ' active' : ' noactive').'">
     <a href="/home" class="menu-link">
@@ -22,7 +21,7 @@ function leftmenu()
     </a>
   </li>';
 
-  $foo = LeftMenu::all()->sortBy("ordering");
+  $foo = LeftMenu::all()->sortBy("ordering")->where('active','=',1);
   foreach ($foo as $module) {
     $output = '';
 

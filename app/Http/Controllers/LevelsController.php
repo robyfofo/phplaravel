@@ -7,10 +7,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
-use App\Models\Module;
-use App\Http\Requests\ModuleRequest;
+use App\Models\Level;
+use App\Http\Requests\LevelRequest;
 
-class ModulesController extends Controller
+class LevelsController extends Controller
 {
   /**
    * Display a listing of the resource.
@@ -27,47 +27,47 @@ class ModulesController extends Controller
   {
       
     // numero pagine
-    if ( $request->session()->missing('modules itemsforpage') ) $request->session()->put('modules itemsforpage',10);  
-    if (request()->input('itemsforpage')) $request->session()->put('modules itemsforpage',request()->input('itemsforpage'));  
+    if ( $request->session()->missing('levels itemsforpage') ) $request->session()->put('levels itemsforpage',10);  
+    if (request()->input('itemsforpage')) $request->session()->put('levels itemsforpage',request()->input('itemsforpage'));  
     
     // paginazione
-    if ( $request->session()->missing('modules page') ) $request->session()->put('modules page',1);  
-    if (request()->input('page')) $request->session()->put('modules page',request()->input('page'));  
+    if ( $request->session()->missing('levels page') ) $request->session()->put('levels page',1);  
+    if (request()->input('page')) $request->session()->put('levels page',request()->input('page'));  
 
-    if ( $request->session()->has('modules itemsforpage') ) $this->itemsforpage = $request->session()->get('modules itemsforpage');
-    if ( $request->session()->has('modules page') ) $this->page = $request->session()->get('modules page');
+    if ( $request->session()->has('levels itemsforpage') ) $this->itemsforpage = $request->session()->get('levels itemsforpage');
+    if ( $request->session()->has('levels page') ) $this->page = $request->session()->get('levels page');
 
     // ricerca 
-    if ( $request->session()->missing('projeks searchFromTable') ) $request->session()->put('projeks searchFromTable','');  
+    if ( $request->session()->missing('levels searchFromTable') ) $request->session()->put('levels searchFromTable','');  
     if (request()->input('searchFromTable')) {
-        $request->session()->put('projeks searchFromTable',request()->input('searchFromTable'));  
+        $request->session()->put('levels searchFromTable',request()->input('searchFromTable'));  
     } else {
-        $request->session()->put('projeks searchFromTable','');   
+        $request->session()->put('levels searchFromTable','');   
     }
-    if ( $request->session()->has('projeks searchFromTable') ) $this->searchFromTable = $request->session()->get('projeks searchFromTable');
+    if ( $request->session()->has('levels searchFromTable') ) $this->searchFromTable = $request->session()->get('levels searchFromTable');
 
     $where = array();
-    $fieldsSearch = array('name','label','alias','content');
+    $fieldsSearch = array('title');
     if ($this->searchFromTable != '') {
-      $words = explode(',',$this->searchFromTable);
+      $words = explode(',', $this->searchFromTable);
       if (count($fieldsSearch) > 0) {
-        foreach($fieldsSearch AS $key=>$value){					
+        foreach ($fieldsSearch as $key => $value) {
           if (count($words) > 0) {
-            foreach($words AS $value1){
-              $where[] = array($value, 'LIKE', '%'.$value1.'%');
+            foreach ($words as $value1) {
+              $where[] = array($value, 'LIKE', '%' . $value1 . '%');
             }
-          }		
-        }			
+          }
+        }
       }
     }
 
-    $appJavascriptLinks = array('<script src="js/modules/modules.index.20230612.js"></script>');
+    $appJavascriptLinks = array('<script src="js/levels/levels.index.20230612.js"></script>');
       
-    $modules = Module::orderBy('ordering', $this->orderType)
+    $levels = Level::orderBy('title', $this->orderType)
       ->where($where)
       ->paginate($this->itemsforpage);
 
-    return view('modules.index', ['modules' => $modules])
+    return view('levels.index', ['levels' => $levels])
       ->with('itemsforpage', $this->itemsforpage)
       ->with('searchFromTable', $this->searchFromTable)
       ->with('orderType', $this->orderType)
@@ -81,32 +81,28 @@ class ModulesController extends Controller
   */
   public function create()
   {
-    $project = new Module;
-    $ordering = getLastOrdering('modules', 'ordering', array());
-    return view('modules.create')->with('ordering', $ordering);
+    $level = new Level;
+    $ordering = getLastOrdering('levels', 'ordering', array());
+    return view('levels.create')->with('ordering', $ordering);
   }
 
   /**
      * Store a newly created resource in storage.
      *
-     * @param  ModuleRequest  $request
+     * @param  LevelRequest  $request
      * @return \Illuminate\Http\RedirectResponse
   */
-  public function store(ModuleRequest $request)
+  public function store(LevelRequest $request)
   {
     if (!$request->has('active')) $request->merge(['active' => 0]);
 
-    $module = new Module;
-    $module->name = $request->input('name');
-    $module->label = $request->input('label');
-    $module->alias = $request->input('alias');
-    $module->content = $request->input('content');
-    $module->code_menu = $request->input('code_menu');
-    $module->ordering = $request->input('ordering');
-    $module->active = $request->input('active');
-    $module->save();
+    $level = new Level;
+    $level->title = $request->input('title');
+    $level->modules = $request->input('modules');
+    $level->active = $request->input('active');
+    $level->save();
 
-    return to_route('modules.index');
+    return to_route('levels.index');
   }
 
   /**
@@ -117,8 +113,8 @@ class ModulesController extends Controller
    */
   public function show($id)
   {
-      $module = Module::findOrFail($id);
-      return view('modules.show',['module'=>$module]);
+      $level = Level::findOrFail($id);
+      return view('levels.show',['module'=>$level]);
   }
 
   /**
@@ -129,33 +125,29 @@ class ModulesController extends Controller
    */
   public function edit($id)
   {
-      $module = Module::findOrFail($id);
-      return view('modules.edit',['module'=>$module]);
+      $level = Level::findOrFail($id);
+      return view('levels.edit',['level'=>$level]);
   }
 
   /**
    * Update the specified resource in storage.
    *
-   * @param  ModuleRequest  $request
+   * @param  LevelRequest  $request
    * @param  int  $id
    * @return \Illuminate\Http\RedirectResponse
    */
-  public function update(ModuleRequest $request,$id)
+  public function update(LevelRequest $request,$id)
   {
     if (!$request->has('active')) {
       $request->merge(['active' => 0]);
     }
     
-    $module = Module::findOrFail($id);
-		$module->name = $request->input('name');
-		$module->label = $request->input('label');
-		$module->alias = $request->input('alias');
-		$module->content = $request->input('content');
-		$module->code_menu = $request->input('code_menu');
-		$module->ordering = $request->input('ordering');
-		$module->active = $request->input('active');
-    $module->save();
-    return to_route('modules.index')->with('success', 'Modulo modificato!');
+    $level = Level::findOrFail($id);
+    $level->title = $request->input('title');
+    $level->modules = $request->input('modules');
+		$level->active = $request->input('active');
+    $level->save();
+    return to_route('levels.index')->with('success', 'Livello modificato!');
   }
 
   /**
@@ -166,32 +158,9 @@ class ModulesController extends Controller
    */
   public function destroy($id)
   {
-    $module = Module::findOrFail($id);
-    $module->delete();
-    optimizeFieldOrdering($table = 'modules', $fieldOrder = 'ordering', $fieldParent = array(), $fieldParentValue = array());
-    return to_route('modules.index')->with('success', 'Modulo cancellato!');
+    $level = Level::findOrFail($id);
+    $level->delete();
+    return to_route('levels.index')->with('success', 'Livello cancellato!');
   }
-
-  public function moreordering($id, $foo)
-  {
-    $result = moreorder($id, $table = 'modules', $opt = array());
-    if ($result == false) {
-      return to_route('modules.index')->with('error', 'Modulo NON spostato.');
-    }
-    return to_route('modules.index')->with('success', 'Modulo spostato.');
-  }
-
-  public function lessordering($id, $foo)
-  {
-    $result = lessorder($id, $table = 'modules', $opt = array());
-    if ($result == false) {
-      return to_route('modules.index')->with('error', 'Modulo NON spostato.');
-    }
-    return to_route('modules.index')->with('success', 'Modulo spostato.');
-  }
-
-
-
-
 
 }

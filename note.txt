@@ -3,3 +3,8 @@
 {"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bx-pyramid\"><\/i>","label":"%LABEL%"}
 
 {"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bx-users\"><\/i>","label":"%LABEL%"}
+
+{"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"%LABEL%"}
+
+
+<i class='bx bxs-user-detail'></i>
