@@ -18,6 +18,12 @@
 				</li>
 
 				<li class="nav-item">
+					<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-modules" aria-controls="navs-pills-top-modules" aria-selected="true">
+						Moduli
+					</button>
+				</li>
+
+				<li class="nav-item">
 					<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-altro" aria-controls="navs-pills-top-altro" aria-selected="false">
 						Altro
 					</button>
@@ -42,6 +48,50 @@
 					</fieldset>	
 				</div>
 				<!-- datibase -->
+
+
+				<!-- modules -->
+				<div class="tab-pane fade" id="navs-pills-top-modules" role="tabpanel">
+					<fieldset>
+
+						<div class="row mb-3">
+							<div class="col-md-3">
+								<strong>Moduli attivi</strong>
+							</div>
+
+							<div class="col-md-4">
+								<strong>Accessi</strong>
+							</div>
+							<div class="col-md-5">
+
+							</div>
+						</div>
+					
+						@foreach($allModulesActive as $module)
+							<div class="row py-3">
+								<div class="col-md-3">
+									<label class="control-label">{{ $module->label }}</label>
+								</div>
+
+								<div class="col-md-4">
+									<label style="padding-right:2px;" class="">Lettura</label>
+									<input type="checkbox" name="modules_read[{{ $module->id }}]" id="" class="" value="1">
+									<label style="padding-left:20px; padding-right:2px;" class="">Scrittura</label>
+									<input type="checkbox" name="modules_write[{{ $module->id }}]" id="" class="" value="1">
+								</div>
+								<div class="col-md-5">
+									{{ $module->content }}
+								</div>
+							</div>
+
+						@endforeach
+						
+					
+
+					</fieldset>
+				</div>
+				<!-- modules -->
+
 
 				<!-- altro -->
 				<div class="tab-pane fade" id="navs-pills-top-altro" role="tabpanel">

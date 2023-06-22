@@ -26,7 +26,6 @@ class ProjectsController extends Controller
 
   public function index(Request $request)
   {
-
     // numero pagine
     if ($request->session()->missing('projects itemsforpage')) $request->session()->put('projects itemsforpage', 10);
     if (request()->input('itemsforpage')) $request->session()->put('projects itemsforpage', request()->input('itemsforpage'));

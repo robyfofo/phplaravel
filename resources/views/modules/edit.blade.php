@@ -17,6 +17,8 @@
 					</button>
 				</li>
 
+			
+
 				<li class="nav-item">
 					<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-altro" aria-controls="navs-pills-top-altro" aria-selected="false">
 						Altro
@@ -28,7 +30,7 @@
 
 			<div class="tab-content">
 				
-				<!-- datibase -->
+				<!-- dati base -->
 				<div class="tab-pane fade show active" id="navs-pills-top-datibase" role="tabpanel">
 					<fieldset>
 						

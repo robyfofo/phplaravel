@@ -125,8 +125,10 @@ class LevelsController extends Controller
    */
   public function edit($id)
   {
-      $level = Level::findOrFail($id);
-      return view('levels.edit',['level'=>$level]);
+    $allModulesActive = app('allModulesActive');
+    $level = Level::findOrFail($id);
+    //return view('levels.edit',['level'=>$level])->with('allModulesActive',$allModulesActive);
+    return view('levels.edit',['level'=>$level]);
   }
 
   /**

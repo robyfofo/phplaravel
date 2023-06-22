@@ -1,12 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
- <?php
-$foo = 'en';
- echo Config::get('settings.langs.'.$foo);
- ?>
-
-{{ Config::get('settings.langs.en') }}
 
 <div class="row mb-3">
 	<div class="col-md-3 new">

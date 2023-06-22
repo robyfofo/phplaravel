@@ -91,8 +91,12 @@
 
           <ul class="menu-inner py-1">
 
-           
-            <?php echo leftmenu(); ?>
+      
+            <?php 
+            $allModules = app('allModules');
+            $allModulesActive = app('allModulesActive');
+            echo leftmenu($allModulesActive); 
+            ?>
           </ul>
         </aside>
         <!-- / Menu -->

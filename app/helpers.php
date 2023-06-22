@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\LeftMenu;
 
 
-function leftmenu()
+function leftmenu($allModulesActive)
 {
 
   Route::get('/')->name('home');
@@ -22,7 +22,7 @@ function leftmenu()
   </li>';
 
   $foo = LeftMenu::all()->sortBy("ordering")->where('active','=',1);
-  foreach ($foo as $module) {
+  foreach ($allModulesActive as $module) {
     $output = '';
 
 
