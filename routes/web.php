@@ -41,7 +41,9 @@ Route::middleware('auth')->group(function () {
   Route::post('/profile-password-update', [ProfileController::class, 'password_update'])->name('profile.password.update');
 
   Route::resource('/users', UsersController::class);
- 
+  
+  Route::resource('/levels', LevelsController::class);
+
   Route::resource('/modules', ModulesController::class);
   Route::get('/modules.moreordering/{id}/{foo}', [ModulesController::class, 'moreordering'])->name('modules.moreordering');
   Route::get('/modules.lessordering/{id}/{foo}', [ModulesController::class, 'lessordering'])->name('modules.lessordering');
