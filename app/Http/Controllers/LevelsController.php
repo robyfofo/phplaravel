@@ -127,6 +127,11 @@ class LevelsController extends Controller
   {
     $allModulesActive = app('allModulesActive');
     $level = Level::findOrFail($id);
+
+    //$level_modules = getLevelModulesRights($App->id);
+		//print_r($App->level_modules);
+
+
     //return view('levels.edit',['level'=>$level])->with('allModulesActive',$allModulesActive);
     return view('levels.edit',['level'=>$level]);
   }
@@ -142,6 +147,22 @@ class LevelsController extends Controller
   {
     if (!$request->has('active')) {
       $request->merge(['active' => 0]);
+    }
+
+    // salva le associazioni livello
+    $allModulesActive = app('allModulesActive');
+    $users_id = 0;
+     // asserra i record con lo stesso livello
+     DB::insert('delete from modules_levels_access where levels_id = ?', [$id]);
+
+    foreach($allModulesActive AS $module) {		
+      $accessread = 0;
+      if (isset($request->get('modules_read')[$module->id])) $accessread = $request->get('modules_read')[$module->id];
+      echo ' - access read: '. $accessread;
+      $accesswrite = 0;
+      if (isset($request->get('modules_write')[$module->id])) $accesswrite = $request->get('modules_write')[$module->id];
+      // salva nel database
+      DB::insert('insert into modules_levels_access (modules_id, levels_id, users_id, read_access, write_access) values (?, ?, ?, ?, ? )', [$module->id,$id,$users_id,$accessread,$accesswrite]);
     }
     
     $level = Level::findOrFail($id);
