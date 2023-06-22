@@ -18,6 +18,18 @@
 				</li>
 
 				<li class="nav-item">
+					<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-contatti" aria-controls="navs-pills-top-contaii" aria-selected="false">
+						Contatti
+					</button>
+				</li>
+
+				<li class="nav-item">
+					<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-avatar" aria-controls="navs-pills-top-avatar" aria-selected="false">
+						Avatar
+					</button>
+				</li>
+
+				<li class="nav-item">
 					<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-altro" aria-controls="navs-pills-top-altro" aria-selected="false">
 						Altro
 					</button>
@@ -46,6 +58,14 @@
 							</div>
 						</div>
 
+					</fieldset>	
+				</div>
+				<!-- datibase -->
+
+								<!-- contatti -->
+				<div class="tab-pane fade" id="navs-pills-top-contatti" role="tabpanel">
+					<fieldset>
+						
 						<div class="row mb-3">
 							{{ Form::label('email', 'Email', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
 							<div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
@@ -53,18 +73,41 @@
 							</div>
 						</div>
 
-					
-
 					</fieldset>	
 				</div>
-				<!-- datibase -->
+				<!-- contatti -->
 
-			<!-- altro -->
-			<div class="tab-pane fade" id="navs-pills-top-altro" role="tabpanel">
-				<fieldset>
+				<!-- avatar -->
+				<div class="tab-pane fade" id="navs-pills-top-avatar" role="tabpanel">
+					<fieldset>
 
-				
+						<div class="row mb-3">
+							<div class="col-md-9">
+								<div class="row mb-3">
+									<label for="avatarID" class="col-md-3 col-form-label">Avatar</label>
+									<div class="col-md-9">
+										<input type="file" name="avatar" id="avatarID" class="form-control">		
+									</div>							
+								</div>
+								<div class="row mb-3">
+									
+								</div>
+							</div>
+							<div class="col-md-3">
+							
+							</div>
+						</div>
+
 					</fieldset>
+				</div>
+				<!-- avatar -->
+
+				<!-- altro -->
+				<div class="tab-pane fade" id="navs-pills-top-altro" role="tabpanel">
+					<fieldset>
+
+					
+						</fieldset>
 				</div>
 				<!-- altro -->
 
@@ -76,7 +119,7 @@
 					<button data-color="red" data-size="s" data-style="expand-right" id="submitFormID" type="submit" name="submitForm" value="submit" class="btn btn-primary submittheform">Invia</button>
 				</div>
 
-				<div class="col-md-6 col-xs-12 text-right">
+				<div class="col-md-6 col-xs-12 text-sm-center text-xl-end">
 					<a href="{{ route('users.index') }}" title="Torna alla lista" class="btn btn-success">Indietro</a>
 				</div>
 			</div>

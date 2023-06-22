@@ -47,24 +47,22 @@
 
 						</div>
 
-						<div class="row mb-2">
-							{{ Form::label('name', 'Nome', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-							<div id="nameID" class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-								{{ Form::text('name', null, array('class' => 'form-control form-control-sm')) }}
-							</div>
-
-							{{ Form::label('surname', 'Cognome', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-							<div id="surnameID" class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-								{{ Form::text('surname', null, array('class' => 'form-control form-control-sm')) }}
-							</div>
-
-						</div>
+		
 					</fieldset>
 				</div>
 				<!-- anagrafica -->
 
 				<div class="tab-pane fade" id="navs-top-contatti" role="tabpanel">
+					<fieldset>
 
+						<div class="row mb-3">
+							{{ Form::label('email', 'Email', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							<div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+								{{ Form::text('email', null, array('class' => 'form-control form-control-sm')) }}
+							</div>
+						</div>
+						
+					</fieldset>
 				</div>
 				<div class="tab-pane fade" id="navs-top-altro" role="tabpanel">
 

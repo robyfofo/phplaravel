@@ -89,7 +89,38 @@ class UsersController extends Controller
     $user->surname = $request->input('surname');
     $user->email = $request->input('email');
     
-    $user->password = 'aa';
+    $user->password = '';
+
+    // avatar
+    if ($request->has('avatar')) {   
+      if ($request->file('avatar')->isValid()) {
+        $path = $request->file('avatar')->path();    
+        $avatar = file_get_contents($path);
+        $base64 = base64_encode($avatar);
+        $user->avatar = $base64;
+        
+        // preleva le info file
+        $avatarinfo = array(
+          'clientOriginalName'=> $request->file('avatar')->getClientOriginalName(),
+          'ClientOriginalExtension' => $request->file('avatar')->getClientOriginalExtension(),
+          'size' => $request->file('avatar')->getSize(),
+          'mimeType' => $request->file('avatar')->getMimeType()
+        );
+
+        // controllo dimensioni
+        if ($avatarinfo['size'] > 65000) return to_route('users.index')->with('error', "Le dimensioni dell'immagine superano gli 65000 byte!");
+
+
+        $user->avatar_info = serialize($avatarinfo);      
+      } 
+    }
+
+    // cancella se selezionato
+    if ($request->has('deleteavatar')) {
+      $user->avatar = '';
+      $user->avatar_info = '';
+    }
+    // fine avatar
 
     $user->save();
     return to_route('users.index')->with('success', 'Utente inserito!');
@@ -121,7 +152,34 @@ class UsersController extends Controller
       $user->name = $request->input('name');
       $user->surname = $request->input('surname');
       $user->email = $request->input('email');
-    
+
+      // avatar
+      if ($request->has('avatar')) {   
+        if ($request->file('avatar')->isValid()) {
+          $path = $request->file('avatar')->path();    
+          $avatar = file_get_contents($path);
+          $base64 = base64_encode($avatar);
+          $user->avatar = $base64;
+          
+          // preleva le info file
+          $avatarinfo = array(
+            'clientOriginalName'=> $request->file('avatar')->getClientOriginalName(),
+            'ClientOriginalExtension' => $request->file('avatar')->getClientOriginalExtension(),
+            'size' => $request->file('avatar')->getSize(),
+            'mimeType' => $request->file('avatar')->getMimeType()
+          );
+          // controllo dimensioni
+          if ($avatarinfo['size'] > 65000) return to_route('users.index')->with('error', "Le dimensioni dell'immagine superano gli 65000 byte!");
+          $user->avatar_info = serialize($avatarinfo);      
+        } 
+      }
+  
+      // cancella se selezionato
+      if ($request->has('deleteavatar')) {
+        $user->avatar = '';
+        $user->avatar_info = '';
+      }
+      // fine avatar
       $user->save();
 
     return to_route('users.index')->with('success', 'Utente modificato!');

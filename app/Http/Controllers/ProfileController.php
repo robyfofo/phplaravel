@@ -105,6 +105,8 @@ class ProfileController extends Controller
           'size' => $request->file('avatar')->getSize(),
           'mimeType' => $request->file('avatar')->getMimeType()
         );
+        // controllo dimensioni
+        if ($avatarinfo['size'] > 65000) return to_route('profile.index')->with('error', "Le dimensioni dell'immagine superano gli 65000 byte!");
         $profile->avatar_info = serialize($avatarinfo);      
       } 
     }
