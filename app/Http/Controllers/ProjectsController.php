@@ -46,7 +46,9 @@ class ProjectsController extends Controller
     }
     if ($request->session()->has('projeks searchFromTable')) $this->searchFromTable = $request->session()->get('projeks searchFromTable');
 
-    $where = array();
+
+    /*
+    $searchwhere = array();
     $fieldsSearch = array('title', 'content');
     if ($this->searchFromTable != '') {
       $words = explode(',', $this->searchFromTable);
@@ -54,18 +56,22 @@ class ProjectsController extends Controller
         foreach ($fieldsSearch as $key => $value) {
           if (count($words) > 0) {
             foreach ($words as $value1) {
-              $where[] = array($value, 'LIKE', '%' . $value1 . '%');
+              $searchwhere[] = array($value, 'LIKE', '%' . $value1 . '%');
             }
           }
         }
       }
     }
-
+    */
+  
     $appJavascriptLinks = array('<script src="js/modules/projects.index.20230608.js"></script>');
 
     $projects = Project::orderBy('ordering', $this->orderType)
-      ->where($where)
-      ->paginate($this->itemsforpage);
+    ->where(function($query) {
+      $query->where('title', 'like', '%' . $this->searchFromTable . '%')
+      ->orWhere('content', 'like', '%' . $this->searchFromTable . '%');
+    })
+    ->paginate($this->itemsforpage);
 
     return view('projects.index', ['projects' => $projects])
       ->with('itemsforpage', $this->itemsforpage)

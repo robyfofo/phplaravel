@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\User;
+use App\Models\Level;
+
 use App\Http\Requests\UserRequest;
 
 
@@ -15,8 +17,14 @@ class UsersController extends Controller
   private $page = 1;
   private $searchFromTable = '';
   private $orderType = 'ASC';
+  private $levels;
 
-    
+  public function __construct()
+  {
+    $this->levels = Level::all()->where('active','=',1)->sortby('title')->keyBy('id');
+  }
+
+
   /**
    * Display a listing of the resource.
    */
@@ -42,32 +50,26 @@ class UsersController extends Controller
     }
     if ($request->session()->has('projeks searchFromTable')) $this->searchFromTable = $request->session()->get('projeks searchFromTable');
 
-    $where = array();
-    $fieldsSearch = array('title', 'content');
-    if ($this->searchFromTable != '') {
-      $words = explode(',', $this->searchFromTable);
-      if (count($fieldsSearch) > 0) {
-        foreach ($fieldsSearch as $key => $value) {
-          if (count($words) > 0) {
-            foreach ($words as $value1) {
-              $where[] = array($value, 'LIKE', '%' . $value1 . '%');
-            }
-          }
-        }
-      }
-    }
-
+  
     $appJavascriptLinks = array('<script src="js/modules/users.index.20230612.js"></script>');
 
     $users = User::orderBy('id', $this->orderType)
-      ->where($where)
+
+      ->where('is_root', '=', 0)
+      ->where(function($query) {
+        $query->where('name', 'like', '%' . $this->searchFromTable . '%')
+        ->orWhere('surname', 'like', '%' . $this->searchFromTable . '%')
+        ->orWhere('email', 'like', '%' . $this->searchFromTable . '%');
+      })
+      
       ->paginate($this->itemsforpage);
 
     return view('users.index', ['users' => $users])
     ->with('itemsforpage', $this->itemsforpage)
     ->with('searchFromTable', $this->searchFromTable)
     ->with('orderType', $this->orderType)
-    ->with('appJavascriptLinks', $appJavascriptLinks);
+    ->with('appJavascriptLinks', $appJavascriptLinks)
+    ->with('levels',$this->levels);
   }
 
   /**
@@ -140,7 +142,7 @@ class UsersController extends Controller
     public function edit(string $id)
     {
       $user = User::findOrFail($id);
-      return view('users.edit', ['user' => $user]);
+      return view('users.edit', ['user' => $user])->with('levels',$this->levels);
     }
 
     /**
@@ -152,6 +154,7 @@ class UsersController extends Controller
       $user->name = $request->input('name');
       $user->surname = $request->input('surname');
       $user->email = $request->input('email');
+      $user->levels_id = $request->input('levels_id');
 
       // avatar
       if ($request->has('avatar')) {   

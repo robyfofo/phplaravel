@@ -126,6 +126,25 @@
 				<!-- altro -->
 				<div class="tab-pane fade" id="navs-pills-top-altro" role="tabpanel">
 					<fieldset>
+
+				
+
+						<div class="row mb-3">
+							{{ Form::label('levels_id', 'Livello', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							<div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+							<select class="form-select form-select-sm" name="levels_id">
+								@foreach($levels as $item)
+									<option value="{{$item->id}}">{{$item->title}}</option>
+								@endforeach
+							</select>
+							</div>
+						</div>
+
+
+						
+				
+
+
 				
 					</fieldset>
 				</div>

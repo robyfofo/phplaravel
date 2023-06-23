@@ -43,6 +43,7 @@
 						<th>Nome</th>
 						<th>Cognome</th>
 						<th>Email</th>
+						<th>Livello</th>
 						<th>Avatar</th>
 						<th>Action</th>
 					</tr>
@@ -54,6 +55,12 @@
 							<td>{{ $user->name }}</td>
 							<td>{{ $user->surname }}</td>
 							<td>{{ $user->email }}</td>
+							<td>
+								
+							
+							{{ $levels[$user->levels_id]->title }} (<small>{{ $user->levels_id }}</small>)
+
+							</td>
 							<td>
 
 								<img src="<?php echo getImageUserAvatar($user->id ); ?>" alt="<?php echo $user->name; ?>" class="w-px-40 h-auto rounded-circle">

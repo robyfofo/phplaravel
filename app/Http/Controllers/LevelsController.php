@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PermissionsController;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -125,15 +126,16 @@ class LevelsController extends Controller
    */
   public function edit($id)
   {
+
+    $level_modules_rigths = (new PermissionsController)->getLevelModulesRights($id);
+    //var_dump($level_modules_rigths);die();
+
+
     $allModulesActive = app('allModulesActive');
     $level = Level::findOrFail($id);
 
-    //$level_modules = getLevelModulesRights($App->id);
-		//print_r($App->level_modules);
-
-
     //return view('levels.edit',['level'=>$level])->with('allModulesActive',$allModulesActive);
-    return view('levels.edit',['level'=>$level]);
+    return view('levels.edit',['level'=>$level])->with('level_modules_rigths',$level_modules_rigths);
   }
 
   /**
