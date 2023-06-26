@@ -68,6 +68,24 @@ class LevelsController extends Controller
       ->where($where)
       ->paginate($this->itemsforpage);
 
+
+
+    // ciclo per integrare la lista moduli
+    foreach($levels AS $key=>$row) {
+      
+      $level_modules_rigths = (new PermissionsController)->getLevelModulesRights($row->id);
+      $modules = array();
+      foreach ($level_modules_rigths AS $k1=>$v1) {	
+        if ($v1->read_access == 1 || $v1->write_access == 1) {
+          $modules[] = $k1;   	
+        } 
+      }
+      $row->modules = implode(', ',$modules);
+
+      $levels[$key] = $row;
+    }
+
+
     return view('levels.index', ['levels' => $levels])
       ->with('itemsforpage', $this->itemsforpage)
       ->with('searchFromTable', $this->searchFromTable)
@@ -82,6 +100,8 @@ class LevelsController extends Controller
   */
   public function create()
   {
+    $allModulesActive = app('allModulesActive');
+
     $level = new Level;
     $ordering = getLastOrdering('levels', 'ordering', array());
     return view('levels.create')->with('ordering', $ordering);
@@ -102,6 +122,19 @@ class LevelsController extends Controller
     $level->modules = $request->input('modules');
     $level->active = $request->input('active');
     $level->save();
+
+    // salva le associazioni livello
+    $allModulesActive = app('allModulesActive');
+    $users_id = 0;
+
+    foreach($allModulesActive AS $module) {		
+      $accessread = 0;
+      if (isset($request->get('modules_read')[$module->id])) $accessread = $request->get('modules_read')[$module->id];
+      $accesswrite = 0;
+      if (isset($request->get('modules_write')[$module->id])) $accesswrite = $request->get('modules_write')[$module->id];
+      // salva nel database
+      DB::insert('insert into modules_levels_access (modules_id, levels_id, users_id, read_access, write_access) values (?, ?, ?, ?, ? )', [$module->id,$level->id,$users_id,$accessread,$accesswrite]);
+    }
 
     return to_route('levels.index');
   }
@@ -126,15 +159,12 @@ class LevelsController extends Controller
    */
   public function edit($id)
   {
-
     $level_modules_rigths = (new PermissionsController)->getLevelModulesRights($id);
     //var_dump($level_modules_rigths);die();
-
 
     $allModulesActive = app('allModulesActive');
     $level = Level::findOrFail($id);
 
-    //return view('levels.edit',['level'=>$level])->with('allModulesActive',$allModulesActive);
     return view('levels.edit',['level'=>$level])->with('level_modules_rigths',$level_modules_rigths);
   }
 
@@ -160,7 +190,6 @@ class LevelsController extends Controller
     foreach($allModulesActive AS $module) {		
       $accessread = 0;
       if (isset($request->get('modules_read')[$module->id])) $accessread = $request->get('modules_read')[$module->id];
-      echo ' - access read: '. $accessread;
       $accesswrite = 0;
       if (isset($request->get('modules_write')[$module->id])) $accesswrite = $request->get('modules_write')[$module->id];
       // salva nel database
@@ -183,8 +212,11 @@ class LevelsController extends Controller
    */
   public function destroy($id)
   {
+    // cancella associazioni livello
+    DB::table('modules_levels_access')->where('levels_id', $id)->delete();
+
     $level = Level::findOrFail($id);
-    $level->delete();
+    //$level->delete();
     return to_route('levels.index')->with('success', 'Livello cancellato!');
   }
 

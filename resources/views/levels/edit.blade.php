@@ -12,13 +12,13 @@
 		<div class="nav-align-top mb-4">
 			<ul class="nav nav-tabs mb-3" role="tablist">
 				<li class="nav-item">
-					<button type="button" class="nav-link aactive" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-datibase" aria-controls="navs-pills-top-datibase" aria-selected="true">
+					<button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-datibase" aria-controls="navs-pills-top-datibase" aria-selected="true">
 						Dati base
 					</button>
 				</li>
 
 				<li class="nav-item">
-					<button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-modules" aria-controls="navs-pills-top-modules" aria-selected="true">
+					<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-modules" aria-controls="navs-pills-top-modules" aria-selected="true">
 						Moduli
 					</button>
 				</li>
@@ -35,7 +35,7 @@
 			<div class="tab-content">
 
 				<!-- datibase -->
-				<div class="tab-pane fade ashow aactive" id="navs-pills-top-datibase" role="tabpanel">
+				<div class="tab-pane fade show active" id="navs-pills-top-datibase" role="tabpanel">
 					<fieldset>
 
 						<div class="row mb-3">
@@ -51,11 +51,8 @@
 
 
 				<!-- modules -->
-				<div class="tab-pane fade show active" id="navs-pills-top-modules" role="tabpanel">
+				<div class="tab-pane fade" id="navs-pills-top-modules" role="tabpanel">
 					<fieldset>
-
-					@dump($level_modules_rigths);
-
 						<div class="row mb-3">
 							<div class="col-md-3">
 								<strong>Moduli attivi</strong>
@@ -92,23 +89,6 @@
 
 							</div>
 							<div class="col-md-5">
-
-								module name: {{ $module->name }}
-
-								@isset($level_modules_rigths[$module->name]->read_access)
-								<br>read {{ $level_modules_rigths[$module->name]->read_access }}
-								@endisset
-
-								@isset($level_modules_rigths[$module->name]->write_access)
-								<br>write {{ $level_modules_rigths[$module->name]->write_access }}
-								@endisset
-								
-
-
-
-
-
-								<br>
 								{{ $module->content }}
 							</div>
 						</div>
