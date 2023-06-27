@@ -83,10 +83,28 @@ class ThirdpartiesController extends Controller
    */
   public function store(ThirdpartyRequest $request)
   {
+
+    if (!$request->has('active')) $request->merge(['active' => 0]);
+
     $thirdparty = new Thirdparty;
+
     $thirdparty->name = $request->input('name');
     $thirdparty->surname = $request->input('surname');
+    $thirdparty->street = $request->input('street');
+    $thirdparty->zip_code = $request->input('zip_code');
+    
+    $thirdparty->telephone = $request->input('telephone');
+    $thirdparty->mobile = $request->input('mobile');
     $thirdparty->email = $request->input('email');
+    
+    $thirdparty->ragione_sociale = $request->input('ragione_sociale');
+    $thirdparty->partita_iva = $request->input('partita_iva');
+    $thirdparty->codice_fiscale = $request->input('codice_fiscale');
+    $thirdparty->sid = $request->input('sid');
+    $thirdparty->pec = $request->input('pec');
+
+    $thirdparty->active = $request->input('active');
+
     $thirdparty->save();
     return to_route('thirdparties.index')->with('success', 'Cliente inserito!');
   }
@@ -106,10 +124,28 @@ class ThirdpartiesController extends Controller
      */
     public function update(ThirdpartyRequest $request, $id)
     {
+
+      if (!$request->has('active')) $request->merge(['active' => 0]);
+
       $thirdparty = Thirdparty::findOrFail($id);
+
       $thirdparty->name = $request->input('name');
       $thirdparty->surname = $request->input('surname');
+      $thirdparty->street = $request->input('street');
+      $thirdparty->zip_code = $request->input('zip_code');
+      
+      $thirdparty->telephone = $request->input('telephone');
+      $thirdparty->mobile = $request->input('mobile');
       $thirdparty->email = $request->input('email');
+      
+      $thirdparty->ragione_sociale = $request->input('ragione_sociale');
+      $thirdparty->partita_iva = $request->input('partita_iva');
+      $thirdparty->codice_fiscale = $request->input('codice_fiscale');
+      $thirdparty->sid = $request->input('sid');
+      $thirdparty->pec = $request->input('pec');
+
+      $thirdparty->active = $request->input('active');
+      
       $thirdparty->save();
       return to_route('thirdparties.index')->with('success', 'Cliente modificato!');
     }

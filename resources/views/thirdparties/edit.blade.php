@@ -59,9 +59,16 @@
 						</div>
 						
 						<div class="row mb-3">
-							{{ Form::label('email', 'Email', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							{{ Form::label('zip_code', 'CAP', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
 							<div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
-								{{ Form::text('email', null, array('class' => 'form-control form-control-sm')) }}
+								{{ Form::text('zip_code', null, array('class' => 'form-control form-control-sm')) }}
+							</div>
+						</div>
+
+						<div class="row mb-3">
+							{{ Form::label('street', 'Via', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							<div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+								{{ Form::text('street', null, array('class' => 'form-control form-control-sm')) }}
 							</div>
 						</div>
 
@@ -80,6 +87,20 @@
 							</div>
 						</div>
 
+						<div class="row mb-3">
+
+							{{ Form::label('telephone', 'Telefono', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+								{{ Form::text('telephone', null, array('class' => 'form-control form-control-sm')) }}
+							</div>
+					
+							{{ Form::label('mobile', 'Mobile', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+								{{ Form::text('mobile', null, array('class' => 'form-control form-control-sm')) }}
+							</div>
+
+						</div>
+						
 					</fieldset>	
 				</div>
 				<!-- contatti -->
@@ -88,6 +109,42 @@
 				<div class="tab-pane fade" id="navs-pills-top-fiscale" role="tabpanel">
 					<fieldset>
 
+						<div class="row mb-3">
+							{{ Form::label('ragione_sociale', 'Ragione sociale', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							<div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+								{{ Form::text('ragione_sociale', null, array('class' => 'form-control form-control-sm')) }}
+							</div>
+						</div>
+
+						<div class="row mb-3">
+
+							{{ Form::label('codice_fiscale', 'Codice fiscale', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+								{{ Form::text('codice_fiscale', null, array('class' => 'form-control form-control-sm')) }}
+							</div>
+						
+
+							{{ Form::label('partita_iva', 'Partita IVA', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+								{{ Form::text('partita_iva', null, array('class' => 'form-control form-control-sm')) }}
+							</div>
+						</div>
+						
+						<div class="row mb-3">
+
+							{{ Form::label('pec', 'PEC', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+								{{ Form::text('pec', null, array('class' => 'form-control form-control-sm')) }}
+							</div>
+						
+
+							{{ Form::label('sid', 'SID', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+								{{ Form::text('sid', null, array('class' => 'form-control form-control-sm')) }}
+							</div>
+							
+						</div>
+						
 					
 
 					</fieldset>
@@ -98,6 +155,15 @@
 				<!-- altro -->
 				<div class="tab-pane fade" id="navs-pills-top-altro" role="tabpanel">
 					<fieldset>
+
+						<div class="row mb-3">
+							{{ Form::label('active', 'Attiva', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label']) }}
+							<div class="col-sm-12 col-md-12 col-lg-3 col-xl-3'">
+								<div class="form-check">
+									{{ Form::checkbox('active', 1,  $thirdparty->active ,array('class' => 'form-check-input')) }}
+								</div>
+							</div>
+						</div>
 
 		
 					</fieldset>

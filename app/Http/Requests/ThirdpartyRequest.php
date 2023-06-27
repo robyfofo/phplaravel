@@ -24,14 +24,20 @@ class ThirdpartyRequest extends FormRequest
     public function rules()
     {
        return [
-        'email' => 'required',
+        'email' => 'required|email',
+        'telephone' => 'required|numeric|min:10',
        ];
     }
 
     public function messages()
     {
       return [
-      'email.required' => 'Il campo email è richiesto.'
+      'email.required' => 'Il campo email è richiesto.',
+      'email.email' => 'Il campo email deve essere un indirizzo email valido.',
+
+      'telephone.required' => 'Il campo telefono è richiesto.',
+      'telephone.numeric' => 'Il campo telefono deve essere numerico.',
+      'telephone.min' => 'Il campo telefono deve avere almeno 10 caratteri.',
       ];
     }
 

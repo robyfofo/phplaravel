@@ -41,8 +41,8 @@
 					<tr>
 						<th>id</th>
 						<th>Categoria</th>
-						<th>Nome</th>
-						<th>Cognome</th>
+						<th>Ragione Sociale</th>
+						<th>Nome e Cognome</th>
 						<th>Email</th>
 						<th>Action</th>
 					</tr>
@@ -52,12 +52,12 @@
 						<tr>
 							<td>{{ $thirdparty->id }}</td>
 							<td>{{ $thirdparty->categories_id }}</td>
-							<td>{{ $thirdparty->name }}</td>
-							<td>{{ $thirdparty->surname }}</td>
+							<td>{{ $thirdparty->ragione_sociale }}</td>
+							<td>{{ $thirdparty->name }}, {{ $thirdparty->surname }}</td>
 							<td>{{ $thirdparty->email }}</td>
 						
 							<td class="actions text-end">
-								<a href="javascript:void(0);" data-id="{{ $thirdparty->id }}" data-table="thirdparty" data-label="Cliente" data-labelsex="o" data-token="{{ csrf_token() }}" class="setactive" title=""><i class="bx bx-{{ $thirdparty->active == 1 ? 'lock-open-alt' : 'lock-alt' }}{{ $thirdparty->active == 1 ? ' text-success' : ' text-danger' }}"></i></a><a class="" href="{{ route('thirdparties.edit', [$thirdparty->id]) }}" title="Modifica Cliente"><i class='bx bx-edit'></i></a>
+								<a href="javascript:void(0);" data-id="{{ $thirdparty->id }}" data-table="thirdparties" data-label="Cliente" data-labelsex="o" data-token="{{ csrf_token() }}" class="setactive" title=""><i class="bx bx-{{ $thirdparty->active == 1 ? 'lock-open-alt' : 'lock-alt' }}{{ $thirdparty->active == 1 ? ' text-success' : ' text-danger' }}"></i></a><a class="" href="{{ route('thirdparties.edit', [$thirdparty->id]) }}" title="Modifica Cliente"><i class='bx bx-edit'></i></a>
 								{!! Form::open(['style'=>'','class'=>'float-end','method' => 'DELETE','route' => ['thirdparties.destroy', $thirdparty->id]]) !!}
 								<a class="deleteitemformbutton" href="#" title="Cancella Cliente"><i class='bx bx-trash'></i></a>
 								{!! Form::close() !!}
