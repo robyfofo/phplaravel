@@ -24,9 +24,9 @@ return new class extends Migration
             $table->string('zip_code')->nullable();
             $table->string('provincia_alt')->nullable();
 
-            $table->integer('loacation_cities_id')->default(0);
-            $table->integer('loacation_province_id')->default(0);
-            $table->integer('loacation_nations_id')->default(0);
+            $table->integer('location_cities_id')->default(0);
+            $table->integer('location_province_id')->default(0);
+            $table->integer('location_nations_id')->default(0);
             
             $table->string('email')->unique();
             $table->string('telephone')->nullable();

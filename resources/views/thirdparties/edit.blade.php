@@ -57,6 +57,44 @@
 								{{ Form::text('surname', null, array('class' => 'form-control form-control-sm')) }}
 							</div>
 						</div>
+
+						<hr>
+
+						<div class="row mb-3">
+
+							{{ Form::label('location_nations_id', 'Nazione', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+							<select class="form-select form-select-sm" name="location_nations_id">
+								@foreach($location_nations as $item)
+									<option value="{{ $item->id }}"{{ $thirdparty->location_nations_id == $item->id ? ' selected' : '' }}>{{ $item->title_it }}</option>
+								@endforeach
+							</select>
+							</div>
+
+						</div>
+
+						<hr>
+
+						<div class="row mb-3">
+							
+							{{ Form::label('location_province_id', 'Provincia', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							<div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+							<select class="form-select form-select-sm" name="location_province_id">
+							<option value="0"{{ $thirdparty->location_nations_id == 0 ? ' selected' : '' }}>Altra provincia -></option>
+								@foreach($location_province as $item)
+									<option value="{{ $item->id }}"{{ $thirdparty->location_province_id == $item->id ? ' selected' : '' }}>{{ $item->nome }}</option>
+								@endforeach
+							</select>
+							</div>
+
+							{{ Form::label('provincia_alt', 'Altra provincia', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+								{{ Form::text('provincia_alt', null, array('class' => 'form-control form-control-sm')) }}
+							</div>
+
+						</div>
+
+
 						
 						<div class="row mb-3">
 							{{ Form::label('zip_code', 'CAP', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}

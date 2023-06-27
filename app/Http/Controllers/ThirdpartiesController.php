@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
+
 use Illuminate\Http\Request;
+
 
 use App\Models\Thirdparty;
 
@@ -16,11 +19,18 @@ class ThirdpartiesController extends Controller
   private $page = 1;
   private $searchFromTable = '';
   private $orderType = 'ASC';
-  private $levels;
+  private $location_nations;
+  private $location_province;
+  private $location_cities;
 
   public function __construct()
   {
-
+    // preleva le nazioni
+    $this->location_nations = DB::table('location_nations')->where('active', '=', '1')->get();
+    // preleva le province
+    $this->location_province = DB::table('location_province')->where('active', '=', '1')->get();
+    // preleva le citta
+    $this->location_cities = DB::table('location_cities')->where('active', '=', '1')->get();
   }
 
 
@@ -75,7 +85,10 @@ class ThirdpartiesController extends Controller
   public function create()
   {
     $thirdparty = new Thirdparty;
-    return view('thirdparties.create');
+    return view('thirdparties.create')
+    -> with('location_cities', $this->location_cities)
+    -> with('location_province', $this->location_province)
+    -> with('location_nations', $this->location_nations);
   }
 
   /**
@@ -92,6 +105,9 @@ class ThirdpartiesController extends Controller
     $thirdparty->surname = $request->input('surname');
     $thirdparty->street = $request->input('street');
     $thirdparty->zip_code = $request->input('zip_code');
+
+    $thirdparty->location_nations_id = $request->input('location_nations_id');
+    $thirdparty->location_province_id = $request->input('location_province_id');
     
     $thirdparty->telephone = $request->input('telephone');
     $thirdparty->mobile = $request->input('mobile');
@@ -110,51 +126,75 @@ class ThirdpartiesController extends Controller
   }
 
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-      $thirdparty = Thirdparty::findOrFail($id);
-      return view('thirdparties.edit', ['thirdparty' => $thirdparty]);
-    }
+  /**
+   * Show the form for editing the specified resource.
+   */
+  public function edit(string $id)
+  {
+    $thirdparty = Thirdparty::findOrFail($id);
+    
+    $appJavascriptBodyCode = "
+    let selected_location_nations_id = '".$thirdparty->location_nations_id."';
+		let selected_location_province_id = '".$thirdparty->location_province_id."';
+		let selected_location_cities_id = '".$thirdparty->location_cities_id."';
+		
+		let default_provincia_alt = '".$thirdparty->provincia_alt."';
+		let default_city_alt = '".$thirdparty->city_alt."';
+    ";
+    $appJavascriptLinks = array('<script src="/js/modules/thirdparties.edit.20230612.js"></script>');
+    
+    return view('thirdparties.edit', ['thirdparty' => $thirdparty])    
+    -> with('location_cities', $this->location_cities)
+    -> with('location_province', $this->location_province)
+    -> with('location_nations', $this->location_nations)
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(ThirdpartyRequest $request, $id)
-    {
+    ->with('appJavascriptBodyCode', $appJavascriptBodyCode)
+    ->with('appJavascriptLinks', $appJavascriptLinks);
+  }
 
-      if (!$request->has('active')) $request->merge(['active' => 0]);
+  /**
+   * Update the specified resource in storage.
+   */
+  public function update(ThirdpartyRequest $request, $id)
+  {
 
-      $thirdparty = Thirdparty::findOrFail($id);
+    if (!$request->has('active')) $request->merge(['active' => 0]);
 
-      $thirdparty->name = $request->input('name');
-      $thirdparty->surname = $request->input('surname');
-      $thirdparty->street = $request->input('street');
-      $thirdparty->zip_code = $request->input('zip_code');
-      
-      $thirdparty->telephone = $request->input('telephone');
-      $thirdparty->mobile = $request->input('mobile');
-      $thirdparty->email = $request->input('email');
-      
-      $thirdparty->ragione_sociale = $request->input('ragione_sociale');
-      $thirdparty->partita_iva = $request->input('partita_iva');
-      $thirdparty->codice_fiscale = $request->input('codice_fiscale');
-      $thirdparty->sid = $request->input('sid');
-      $thirdparty->pec = $request->input('pec');
+    $thirdparty = Thirdparty::findOrFail($id);
 
-      $thirdparty->active = $request->input('active');
-      
-      $thirdparty->save();
-      return to_route('thirdparties.index')->with('success', 'Cliente modificato!');
-    }
+    $thirdparty->name = $request->input('name');
+    $thirdparty->surname = $request->input('surname');
+    $thirdparty->street = $request->input('street');
+    $thirdparty->zip_code = $request->input('zip_code');
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+    $thirdparty->location_nations_id = $request->input('location_nations_id');
+    $thirdparty->location_province_id = $request->input('location_province_id');
+    
+    $thirdparty->provincia_alt = $request->input('provincia_alt');
+
+    $thirdparty->telephone = $request->input('telephone');
+    $thirdparty->mobile = $request->input('mobile');
+    $thirdparty->email = $request->input('email');
+    
+    $thirdparty->ragione_sociale = $request->input('ragione_sociale');
+    $thirdparty->partita_iva = $request->input('partita_iva');
+    $thirdparty->codice_fiscale = $request->input('codice_fiscale');
+    $thirdparty->sid = $request->input('sid');
+    $thirdparty->pec = $request->input('pec');
+
+    $thirdparty->active = $request->input('active');
+    
+    $thirdparty->save();
+    return to_route('thirdparties.index')->with('success', 'Cliente modificato!');
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   */
+  public function destroy(string $id)
+  {
+    $thirdparty = Thirdparty::findOrFail($id);
+    $thirdparty->delete();
+    return to_route('thirdparties.index')->with('success', 'Cliente cancellato!');
+  }
 }
