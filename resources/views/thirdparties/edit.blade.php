@@ -24,14 +24,8 @@
 				</li>
 
 				<li class="nav-item">
-					<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-avatar" aria-controls="navs-pills-top-avatar" aria-selected="false">
-						Avatar
-					</button>
-				</li>
-
-				<li class="nav-item">
-					<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-password" aria-controls="navs-pills-top-password" aria-selected="true">
-						Password
+					<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-fiscale" aria-controls="navs-pills-top-fiscale" aria-selected="false">
+						Fiscale
 					</button>
 				</li>
 
@@ -42,7 +36,7 @@
 				</li>
 			</ul>
 
-			{{ Form::model($user, array('route' => array('users.update', $user->id), 'method' => 'PUT','enctype' => 'multipart/form-data')) }}
+			{{ Form::model($thirdparty, array('route' => array('thirdparties.update', $thirdparty->id), 'method' => 'PUT','enctype' => 'multipart/form-data')) }}
 
 			<div class="tab-content">
 				
@@ -90,79 +84,21 @@
 				</div>
 				<!-- contatti -->
 
-				<!-- avatar -->
-				<div class="tab-pane fade" id="navs-pills-top-avatar" role="tabpanel">
+				<!-- fiscale -->
+				<div class="tab-pane fade" id="navs-pills-top-fiscale" role="tabpanel">
 					<fieldset>
 
-						<div class="row mb-3">
-							<div class="col-md-9">
-								<div class="row mb-3">
-									<label for="avatarID" class="col-md-3 col-form-label">Avatar</label>
-									<div class="col-md-9">
-										<input type="file" name="avatar" id="avatarID" class="form-control">		
-									</div>							
-								</div>
-								<div class="row mb-3">
-									<label for="deleteavatarID" class="col-sm-6 col-md-6 col-lg-2 col-xl-2 col-form-label-sm">
-										Cancella
-									</label>
-									<div class="col-sm-12 col-md-12 col-lg-3 col-xl-3'">
-										<div class="form-check">
-											<input name="deleteavatar" id="deleteavatarID" value="1" type="checkbox" class="form-check-input">
-											<label class="form-check-label" for="deleteavatarID"></label>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								@if($user->avatar != '')
-									<img src="<?php echo getImageUserAvatar($user->id ); ?>" alt="<?php echo $user->name; ?>" width="200" height="200" class="rounded-circle">
-								@else
-									<img alt="<?php echo $user->name; ?> avatar" src="/assets/img/avatars/user.png"  style="max-height:100px;">
-								@endif
-							</div>
-						</div>
-
-					</fieldset>
-				</div>
-				<!-- avatar -->
-
-				<!-- password -->
-				<div class="tab-pane fade" id="navs-pills-top-password" role="tabpanel">
-					<fieldset>
-
-						<div class="row mb-2">
-							{{ Form::label('passwordnew', 'Nuova password', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-							<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-								{{ Form::password('passwordnew', null, array('class' => 'form-control form-control-sm')) }}
-							</div>
-						</div>
 					
-						<div class="row mb-2">
-							{{ Form::label('passwordck', 'Verifica password', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-							<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-								{{ Form::password('passwordck', null, array('class' => 'form-control form-control-sm')) }}
-							</div>
-						</div>
 
 					</fieldset>
 				</div>
-				<!-- password -->
+				<!-- fiscale -->
+
 
 				<!-- altro -->
 				<div class="tab-pane fade" id="navs-pills-top-altro" role="tabpanel">
 					<fieldset>
 
-						<div class="row mb-3">
-							{{ Form::label('levels_id', 'Livello', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-							<div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
-							<select class="form-select form-select-sm" name="levels_id">
-								@foreach($levels as $item)
-									<option value="{{$item->id}}">{{$item->title}}</option>
-								@endforeach
-							</select>
-							</div>
-						</div>
 		
 					</fieldset>
 				</div>
@@ -177,7 +113,7 @@
 				</div>
 
 				<div class="col-md-6 col-xs-12 text-sm-center text-xl-end">
-					<a href="{{ route('users.index') }}" title="Torna alla lista" class="btn btn-success">Indietro</a>
+					<a href="{{ route('thirdparties.index') }}" title="Torna alla lista" class="btn btn-success">Indietro</a>
 				</div>
 				
 			</div>

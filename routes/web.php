@@ -5,6 +5,7 @@ use App\Http\Controllers\ModulesController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\LevelsController;
+use App\Http\Controllers\ThirdpartiesController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -44,15 +45,16 @@ Route::middleware('auth')->group(function () {
   Route::resource('/users', UsersController::class);
   
   Route::resource('/levels', LevelsController::class);
-
+  
   Route::resource('/modules', ModulesController::class);
   Route::get('/modules.moreordering/{id}/{foo}', [ModulesController::class, 'moreordering'])->name('modules.moreordering');
   Route::get('/modules.lessordering/{id}/{foo}', [ModulesController::class, 'lessordering'])->name('modules.lessordering');
-
+  
   Route::resource('/projects', ProjectsController::class);
   Route::get('/projects.moreordering/{id}/{foo}', [ProjectsController::class, 'moreordering'])->name('projects.moreordering');
   Route::get('/projects.lessordering/{id}/{foo}', [ProjectsController::class, 'lessordering'])->name('projects.lessordering');
-
+  
+  Route::resource('/thirdparties', ThirdpartiesController::class);
 });
 
 

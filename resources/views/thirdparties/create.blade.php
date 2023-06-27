@@ -18,16 +18,17 @@
 				</li>
 
 				<li class="nav-item">
-					<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-contatti" aria-controls="navs-pills-top-contaii" aria-selected="false">
+					<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-contatti" aria-controls="navs-pills-top-contatti" aria-selected="false">
 						Contatti
 					</button>
 				</li>
 
 				<li class="nav-item">
-					<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-avatar" aria-controls="navs-pills-top-avatar" aria-selected="false">
-						Avatar
+					<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-fiscale" aria-controls="navs-pills-top-fiscale" aria-selected="false">
+						Fiscale
 					</button>
 				</li>
+
 
 				<li class="nav-item">
 					<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-altro" aria-controls="navs-pills-top-altro" aria-selected="false">
@@ -36,7 +37,7 @@
 				</li>
 			</ul>
 
-			{!! Form::open(['route' => 'users.store','enctype' => 'multipart/form-data']) !!}
+			{!! Form::open(['route' => 'thirdparties.store','enctype' => 'multipart/form-data']) !!}
 
 			<div class="tab-content">
 				
@@ -77,67 +78,22 @@
 				</div>
 				<!-- contatti -->
 
-				<!-- avatar -->
-				<div class="tab-pane fade" id="navs-pills-top-avatar" role="tabpanel">
+				<!-- fiscale -->
+				<div class="tab-pane fade" id="navs-pills-top-fiscale" role="tabpanel">
 					<fieldset>
 
-						<div class="row mb-3">
-							<div class="col-md-9">
-								<div class="row mb-3">
-									<label for="avatarID" class="col-md-3 col-form-label">Avatar</label>
-									<div class="col-md-9">
-										<input type="file" name="avatar" id="avatarID" class="form-control">		
-									</div>							
-								</div>
-								<div class="row mb-3">
-									
-								</div>
-							</div>
-							<div class="col-md-3">
-							
-							</div>
-						</div>
+					
 
 					</fieldset>
 				</div>
-				<!-- avatar -->
+				<!-- fiscale -->
 
-				<!-- password -->
-				<div class="tab-pane fade" id="navs-pills-top-password" role="tabpanel">
-				<fieldset>
-
-					<div class="row mb-2">
-						{{ Form::label('passwordnew', 'Nuova password', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-						<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-							{{ Form::password('passwordnew', null, array('class' => 'form-control form-control-sm')) }}
-						</div>
-					</div>
-				
-					<div class="row mb-2">
-						{{ Form::label('passwordck', 'Verifica password', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-						<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-							{{ Form::password('passwordck', null, array('class' => 'form-control form-control-sm')) }}
-						</div>
-					</div>
-
-				</fieldset>
-			</div>
-			<!-- password -->
-
+		
 				<!-- altro -->
 				<div class="tab-pane fade" id="navs-pills-top-altro" role="tabpanel">
 					<fieldset>
 
-						<div class="row mb-3">
-							{{ Form::label('levels_id', 'Livello', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-							<div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
-							<select class="form-select form-select-sm" name="levels_id">
-								@foreach($levels as $item)
-									<option value="{{$item->id}}">{{$item->title}}</option>
-								@endforeach
-							</select>
-							</div>
-						</div>
+			
 					
 					</fieldset>
 				</div>
@@ -152,7 +108,7 @@
 				</div>
 
 				<div class="col-md-6 col-xs-12 text-sm-center text-xl-end">
-					<a href="{{ route('users.index') }}" title="Torna alla lista" class="btn btn-success">Indietro</a>
+					<a href="{{ route('thirdparties.index') }}" title="Torna alla lista" class="btn btn-success">Indietro</a>
 				</div>
 			</div>
 

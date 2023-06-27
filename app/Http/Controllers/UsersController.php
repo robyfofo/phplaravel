@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+Use Illuminate\Support\Facades\Hash;
 
 use App\Models\User;
 use App\Models\Level;
@@ -42,13 +43,13 @@ class UsersController extends Controller
     if ($request->session()->has('users page')) $this->page = $request->session()->get('users page');
 
     // ricerca 
-    if ($request->session()->missing('projeks searchFromTable')) $request->session()->put('projeks searchFromTable', '');
+    if ($request->session()->missing('users searchFromTable')) $request->session()->put('users searchFromTable', '');
     if (request()->input('searchFromTable')) {
-      $request->session()->put('projeks searchFromTable', request()->input('searchFromTable'));
+      $request->session()->put('users searchFromTable', request()->input('searchFromTable'));
     } else {
-      $request->session()->put('projeks searchFromTable', '');
+      $request->session()->put('users searchFromTable', '');
     }
-    if ($request->session()->has('projeks searchFromTable')) $this->searchFromTable = $request->session()->get('projeks searchFromTable');
+    if ($request->session()->has('users searchFromTable')) $this->searchFromTable = $request->session()->get('users searchFromTable');
 
   
     $appJavascriptLinks = array('<script src="js/modules/users.index.20230612.js"></script>');
@@ -78,7 +79,7 @@ class UsersController extends Controller
   public function create()
   {
     $user = new User;
-    return view('users.create');
+    return view('users.create')->with('levels',$this->levels);
   }
 
   /**
@@ -183,9 +184,19 @@ class UsersController extends Controller
         $user->avatar_info = '';
       }
       // fine avatar
+
+      // password
+      $passwordnew = $request->input('passwordnew');
+      $passwordck = $request->input('passwordck');
+
+      if ($passwordnew !== $passwordck) {
+        return to_route('users.index')->with('error', 'Le due password non corrispondono!');
+      }
+
+      $user->password = Hash::make($passwordnew);
       $user->save();
 
-    return to_route('users.index')->with('success', 'Utente modificato!');
+      return to_route('users.index')->with('success', 'Utente modificato!');
     }
 
     /**
