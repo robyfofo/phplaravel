@@ -8,3 +8,16 @@
 
 
 <i class='bx bxs-user-detail'></i>
+
+{"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"%LABEL%"}
+
+{
+	"action":"thirdparties","name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"%LABEL%","submenus":
+		[
+			{"action":"thirdparties","name":"listCate","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"Categorie"},
+			{"action":"thirdparties","name":"listItem","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"Clienti"}
+		]
+}
+
+
+

@@ -27,22 +27,75 @@ function leftmenu($allModulesActive)
 
 
     $menu = json_decode($module->code_menu) or die('Errore nel campo menu. Formato Json non valido!' . $module->code_menu);
+    $havesubmenu = 0;
+		if (isset($menu->submenus) && count($menu->submenus)) $havesubmenu = 1;
 
+    
     $classLiMain = 'menu-item';
     if (Route::is($module->name.'.*')) $classLiMain .= ' active';
-
+    
     $classAhrefMain = 'menu-link';
     $moduleName = (isset($module->name) ? $module->name : '');
     $moduleLabel = (isset($module->label) ? $module->label : '');
-
+    
     $menuName = (isset($menu->name) ? $menu->name : '');
     $menuIcon = (isset($menu->icon) ? $menu->icon : '');
     $menuAction = (isset($menu->action) ? $menu->action : '');
     $menuLabel = (isset($menu->label) ? $menu->label : '');
+
+    $menuAhref = '/'.$moduleName;
+
+    if ($havesubmenu == 1) {
+      $classAhrefMain = 'menu-link menu-toggle';
+      $menuAhref = 'javascript:void(0);';
+      
+    }
+      
+
+
+
+
+
     $output .= '<li class="' . $classLiMain . '">
-    <a class="' . $classAhrefMain . '" href="/' . $moduleName . '">' . $menuIcon;
+
+    <a class="' . $classAhrefMain . '" href="' . $menuAhref . '">' . $menuIcon;
     $output .= '<div data-i18n="' . $moduleName . '">' . $moduleLabel . '</div>' . PHP_EOL;
-    $output .= '</a></li>' . PHP_EOL;
+    $output .= '</a>';
+
+    // crea submenu
+
+    $output .= '<ul class="menu-sub">';
+
+    if (isset($menu->submenus) && is_array($menu->submenus) && count($menu->submenus) > 0) {
+      foreach ($menu->submenus AS $submenu) {
+				
+      $submanuLabel = $submenu->label;
+      if (isset($LangVars[$submanuLabel])) $submanuLabel = $LangVars[$submanuLabel];								
+      $submenuName = (isset($submenu->name) ? $submenu->name : '');
+      $submenuIcon = (isset($submenu->icon) ? $submenu->icon : '');
+      $submenuAction = (isset($submenu->action) ? $submenu->action : '');
+      
+      $submenuUrl .= $moduleName.'/'.$submenuName;
+
+
+      $output .= '<li class="menu-item">
+      <a href="forms-basic-inputs.html" class="menu-link">
+        <div data-i18n="Basic Inputs">Basic Inputs</div>
+      </a>
+      </li>';
+
+      }
+
+    }
+
+
+  
+    $output .= '</ul>';
+
+
+
+    
+    $output .='</li>' . PHP_EOL;
 
     // sostituiso il modulename con la localizzazione se esiste
     $output = preg_replace('/%LABEL%/', $moduleLabel, $output);
