@@ -85,10 +85,23 @@ class ThirdpartiesController extends Controller
   public function create()
   {
     $thirdparty = new Thirdparty;
+
+    $appJavascriptBodyCode = "
+    let selected_location_nations_id = '0';
+		let selected_location_province_id = '0';
+		let selected_location_cities_id = '0';
+		
+		let default_provincia_alt = '';
+		let default_city_alt = '';
+    ";
+    $appJavascriptLinks = array('<script src="/js/modules/thirdparties.create.20230612.js"></script>');
+
     return view('thirdparties.create')
     -> with('location_cities', $this->location_cities)
     -> with('location_province', $this->location_province)
-    -> with('location_nations', $this->location_nations);
+    -> with('location_nations', $this->location_nations)
+    -> with('appJavascriptBodyCode', $appJavascriptBodyCode)
+    -> with('appJavascriptLinks', $appJavascriptLinks);
   }
 
   /**
@@ -147,9 +160,8 @@ class ThirdpartiesController extends Controller
     -> with('location_cities', $this->location_cities)
     -> with('location_province', $this->location_province)
     -> with('location_nations', $this->location_nations)
-
-    ->with('appJavascriptBodyCode', $appJavascriptBodyCode)
-    ->with('appJavascriptLinks', $appJavascriptLinks);
+    -> with('appJavascriptBodyCode', $appJavascriptBodyCode)
+    -> with('appJavascriptLinks', $appJavascriptLinks);
   }
 
   /**
