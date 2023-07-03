@@ -63,39 +63,44 @@ function leftmenu($allModulesActive)
     $output .= '</a>';
 
     // crea submenu
-
-    $output .= '<ul class="menu-sub">';
-
+    
+    $suboutput = '';
+    
+    
     if (isset($menu->submenus) && is_array($menu->submenus) && count($menu->submenus) > 0) {
+      $suboutput .= '<ul class="menu-sub">';
       foreach ($menu->submenus AS $submenu) {
-				
-      $submanuLabel = $submenu->label;
-      if (isset($LangVars[$submanuLabel])) $submanuLabel = $LangVars[$submanuLabel];								
-      $submenuName = (isset($submenu->name) ? $submenu->name : '');
-      $submenuIcon = (isset($submenu->icon) ? $submenu->icon : '');
-      $submenuAction = (isset($submenu->action) ? $submenu->action : '');
-      
-      $submenuUrl .= $moduleName.'/'.$submenuName;
+        //dd($submenu);
+        
+        $submanuLabel = $submenu->label;
+        $submenuName = (isset($submenu->name) ? $submenu->name : '');
+        $submenuIcon = (isset($submenu->icon) ? $submenu->icon : '');
+        $submenuAction = (isset($submenu->action) ? $submenu->action : '');
+        
+        $submenuUrl = '/'.$moduleName.$submenuAction;
 
+        $suboutput .= '
+        <li class="menu-item">
+          <a href="'.$submenuUrl.'" title="'.$submanuLabel.'" class="menu-link">
+            <div data-i18n="Basic Inputs">'.$submanuLabel.'</div>
+          </a>
+        
+        </li>';
 
-      $output .= '<li class="menu-item">
-      <a href="forms-basic-inputs.html" class="menu-link">
-        <div data-i18n="Basic Inputs">Basic Inputs</div>
-      </a>
-      </li>';
+       
 
       }
 
+      $suboutput .= '</ul>';
     }
 
 
   
-    $output .= '</ul>';
 
 
 
     
-    $output .='</li>' . PHP_EOL;
+    $output .= $suboutput.'</li>' . PHP_EOL;
 
     // sostituiso il modulename con la localizzazione se esiste
     $output = preg_replace('/%LABEL%/', $moduleLabel, $output);

@@ -6,6 +6,8 @@ use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\LevelsController;
 use App\Http\Controllers\ThirdpartiesController;
+use App\Http\Controllers\ThirdpartiesCategoriesController;
+use App\Http\Controllers\CategoriesController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -55,6 +57,11 @@ Route::middleware('auth')->group(function () {
   Route::get('/projects.lessordering/{id}/{foo}', [ProjectsController::class, 'lessordering'])->name('projects.lessordering');
   
   Route::resource('/thirdparties', ThirdpartiesController::class);
+  Route::resource('/thirdpartiescategories', ThirdpartiesCategoriesController::class);
+
+
+  Route::resource('/categories', CategoriesController::class);
+
 });
 
 

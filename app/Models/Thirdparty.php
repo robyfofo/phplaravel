@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Thirdparty extends Model
 {
     use HasFactory;
+
+
 }
