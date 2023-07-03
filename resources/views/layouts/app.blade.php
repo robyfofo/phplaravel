@@ -27,9 +27,9 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>PHPproject - gestione progetti con Laravel</title>
 
-    <meta name="description" content="" />
+    <meta name="description" content="PHProjekt è un software per la gestione progetti sviluppato in PHP e Laravel" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/assets/img/favicon/favicon.ico" />
@@ -89,7 +89,7 @@
             <a href="/home" class="app-brand-link">
               <span class="app-brand-logo demo">
               </span>
-              <span class="app-brand-text demo menu-text fw-bolder ms-2">PHProjekt</span>
+              <span class="app-brand-text demo menu-text fw-bolder ms-2">PHProject</span>
             </a>
 
             <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
