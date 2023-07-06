@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 use App\Models\ThirdpartiesCategories;
 
-use App\Http\Requests\ThirdpartiesCategoriesRequest;
+use App\Http\Requests\ThirdpartiesCategoryRequest;
 
 
 class ThirdpartiesCategoriesController extends Controller
@@ -20,14 +20,16 @@ class ThirdpartiesCategoriesController extends Controller
   private $searchFromTable = '';
   private $orderType = 'ASC';
 
+  private  $categories;
+
   public function __construct()
   {
-
+    $this->categories = ThirdpartiesCategories::tree();
   }
 
   public function index()
   {
-    $categories = ThirdpartiesCategories::tree();
+   
 
 
     $appCssLinks = array(
@@ -39,7 +41,7 @@ class ThirdpartiesCategoriesController extends Controller
       '<script src="js/modules/thirdpartiescategories.index.20230612.js"></script>'
     );
 
-    return view('thirdpartiescategories.index',['categories' => $categories])
+    return view('thirdpartiescategories.index',['categories' => $this->categories])
     ->with('appCssLinks', $appCssLinks)
     ->with('appJavascriptLinks', $appJavascriptLinks);
 
@@ -50,10 +52,31 @@ class ThirdpartiesCategoriesController extends Controller
 
   }
 
-  public function edit()
+  public function edit($id)
   {
-    
+    $thirdpartiesCategory = ThirdpartiesCategories::findOrFail($id);
+    return view('thirdpartiescategories.edit', ['thirdpartiesCategory' => $thirdpartiesCategory])
+    ->with('categories',$this->categories);
   }
+
+
+  public function update(ThirdpartiesCategoryRequest $request, $id)
+  {
+
+    if (!$request->has('active')) {
+      $request->merge(['active' => 0]);
+    }
+
+    $thirdpartiesCategory = ThirdpartiesCategories::findOrFail($id);
+    $thirdpartiesCategory->title = $request->input('title');
+    $thirdpartiesCategory->parent_id = $request->input('parent_id');
+    $thirdpartiesCategory->active = $request->input('active');
+    //$thirdpartiesCategory->ordering = $request->input('ordering');
+    $thirdpartiesCategory->save();
+
+    return to_route('thirdpartiescategories.index')->with('success', 'Categoria modificata!');
+  }
+
 
   public function destroy($id)
   {
