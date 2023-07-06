@@ -1,3 +1,12 @@
+@php
+for ($i = 0; $i < $level; $i++) {
+  $levelstr .= '-->';
+}
+    
+@endphp
+
+
+
 <tr class="treegrid-{{ $category->id }}{{ $category->parent_id > 0 ? ' treegrid-parent-'.$category->parent_id : '' }}" valign="top">
   <td class="tree-simbol"></td>
   <td>{{ $category->id }}/{{ $category->parent_id }}/{{ $level }}</td>
@@ -16,9 +25,9 @@
 
   @if (count($category->children) > 0)
     @foreach ($category->children as $sub)
-      @php $levelstr .= ' --> '; @endphp
       @php $level++; @endphp
       @include('layouts.subcategoriestable', ['category' => $sub,'level' => $level,'levelstr'=>$levelstr])
+      @php $level-- @endphp
     @endforeach
   @endif
 </tr>
