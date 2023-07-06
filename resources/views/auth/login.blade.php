@@ -67,9 +67,9 @@
 
                         <div class="row mb-0 mt-5">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                
                                     Account per test<br> email: test@domain.org<br>password: testtest
-                                </button>
+                               
                             </div>
                         </div>
 

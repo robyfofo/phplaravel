@@ -12,59 +12,35 @@
 
 <div class="card">
 	<div class="card-body">
+		<div class="table-responsive text-nowrap my-2">
 
 
-
-    <div class="table-responsive text-nowrap my-2">
-      <table class="table table-sm table-bordered listData">
+			<table class="table table-sm table-bordered listData">
 				<thead>
 					<tr>
 						<th>id</th>
 						<th>Parent</th>
 						<th>Livello</th>
 						<th>Titolo</th>
-					
+
 					</tr>
 				</thead>
 				<tbody>
-        	@foreach($categories as $parent)
-						<tr>
-							<td>{{ $parent->id }}</td>
-							<td>{{ $parent->parent_id }}</td>
-							<td>{{ $parent->level }}</td>
-							<td>{{ $parent->title }}</td>		
-						</tr>
 
-						@foreach($parent->children as $son)
-							<tr>
-								<td>{{ $son->id }}</td>
-								<td>{{ $son->parent_id }}</td>
-								<td>{{ $parent->level }}</td>
-								<td>{{ $son->title }}</td>
-							</tr>
+					@php $level = 0; @endphp
+					
+					<!-- Loop through each category -->
+					@foreach ($categories as $category)
 
-								@foreach($son->children as $subson)
-								<tr>
-									<td>{{ $subson->id }}</td>
-									<td>{{ $subson->parent_id }}</td>
-									<td>{{ $parent->level }}</td>
-									<td>{{ $subson->title }}</td>
-								</tr>
-								@endforeach
-
-						@endforeach
+						<!-- Include subcategories.blade.php file and pass the current category to it -->
+						@include('layouts.subcategoriestable', ['category' => $category,'level'=>$level])
 
 					@endforeach
 
 				</tbody>
 			</table>
+
 		</div>
-
-
-
 	</div>
 </div>
 @stop
-
-
-

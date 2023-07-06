@@ -60,7 +60,7 @@ class ThirdpartiesCategoriesController extends Controller
   {
     $categories = ThirdpartiesCategories::tree();
 
-    dd($categories);die();
+    //dd($categories);die();
 
     return view('thirdpartiescategories.index',['categories' => $categories]);
 
