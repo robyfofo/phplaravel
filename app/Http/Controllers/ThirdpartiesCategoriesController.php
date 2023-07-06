@@ -25,37 +25,6 @@ class ThirdpartiesCategoriesController extends Controller
 
   }
 
-  public function aaaindex(Request $request)
-  {
-    if ($request->session()->missing('thirdpartiescat itemsforpage')) $request->session()->put('thirdpartiescat itemsforpage', 10);
-    if (request()->input('itemsforpage')) $request->session()->put('thirdpartiescat itemsforpage', request()->input('itemsforpage'));
-    if ($request->session()->missing('thirdpartiescat page')) $request->session()->put('thirdpartiescat page', 1);
-    if (request()->input('page')) $request->session()->put('thirdpartiescat page', request()->input('page'));
-    if ($request->session()->has('thirdpartiescat itemsforpage')) $this->itemsforpage = $request->session()->get('thirdpartiescat itemsforpage');
-    if ($request->session()->has('thirdpartiescat page')) $this->page = $request->session()->get('thirdpartiescat page');
-    if ($request->session()->missing('thirdpartiescat searchFromTable')) $request->session()->put('thirdpartiescat searchFromTable', '');
-    if (request()->input('searchFromTable')) {
-      $request->session()->put('thirdpartiescat searchFromTable', request()->input('searchFromTable'));
-    } else {
-      $request->session()->put('thirdpartiescat searchFromTable', '');
-    }
-    if ($request->session()->has('thirdpartiescat searchFromTable')) $this->searchFromTable = $request->session()->get('thirdpartiescat searchFromTable');
-
-    $appJavascriptLinks = array('<script src="js/modules/thirdpartiescategories.index.20230612.js"></script>');
-
-    $categories = ThirdpartiesCategories::orderBy('id', $this->orderType)
-    ->where(function($query) {
-      $query->where('title', 'like', '%' . $this->searchFromTable . '%');
-    })
-    ->paginate($this->itemsforpage);
-
-    return view('thirdpartiescategories.index',['categories' => $categories])
-    ->with('itemsforpage', $this->itemsforpage)
-    ->with('searchFromTable', $this->searchFromTable)
-    ->with('orderType', $this->orderType)
-    ->with('appJavascriptLinks', $appJavascriptLinks);
-  }
-
   public function index()
   {
     $categories = ThirdpartiesCategories::tree();
@@ -79,6 +48,24 @@ class ThirdpartiesCategoriesController extends Controller
   public function create()
   {
 
+  }
+
+  public function edit()
+  {
+    
+  }
+
+  public function destroy($id)
+  {
+    // controlla se è possibile cancellare
+    if (ThirdpartiesCategories::isfreetodelete($id) == false) {
+      return to_route('thirdpartiescategories.index')->with('error', 'Non è possibile cancellare la categoria!');
+    }
+
+    $thirdpartiesCategories = ThirdpartiesCategories::findOrFail($id);
+    $thirdpartiesCategories->delete();
+    //optimizeFieldOrdering($table = 'projects', $fieldOrder = 'ordering', $fieldParent = array(), $fieldParentValue = array());
+    return to_route('thirdpartiescategories.index')->with('success', 'Categoria cancellata!');
   }
 
 }

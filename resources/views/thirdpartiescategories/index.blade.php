@@ -14,28 +14,25 @@
 	<div class="card-body">
 		<div class="table-responsive text-nowrap my-2">
 
-
-			<table class="table table-sm table-bordered listData">
+			<table class="table table-sm table-bordered listData tree">
 				<thead>
 					<tr>
-						<th>id</th>
 						<th></th>
-						<th>Parent</th>
-						<th>Livello</th>
+						<th>id/Pr/Lv</th>
+						<th>Ord</th>
 						<th>Titolo</th>
-
+						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
 
-					@php $level = 0; @endphp
+					@php 
+					$level = 0; 
+					$levelstr = '';
+					@endphp
 					
-					<!-- Loop through each category -->
 					@foreach ($categories as $category)
-
-						<!-- Include subcategories.blade.php file and pass the current category to it -->
-						@include('layouts.subcategoriestable', ['category' => $category,'level'=>$level])
-
+						@include('layouts.subcategoriestable', ['category' => $category,'level'=>$level,'levelstr'=>$levelstr])
 					@endforeach
 
 				</tbody>

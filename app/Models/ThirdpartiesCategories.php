@@ -41,4 +41,9 @@ class ThirdpartiesCategories extends Model
 
   }
 
+
+  public static function isfreetodelete($id) {
+    if (ThirdpartiesCategories::where('parent_id','=',$id)->count() > 0) return false;
+    return U_TRUNCATED_CHAR_FOUND;
+  }
 }
