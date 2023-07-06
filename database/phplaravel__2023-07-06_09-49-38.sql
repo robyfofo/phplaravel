@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Creato il: Giu 28, 2023 alle 10:44
+-- Creato il: Lug 06, 2023 alle 09:49
 -- Versione del server: 10.6.12-MariaDB-0ubuntu0.22.04.1
 -- Versione PHP: 8.1.2-1ubuntu2.11
 
@@ -20,6 +20,21 @@ SET time_zone = "+00:00";
 --
 -- Database: `phplaravel`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `categories`
+--
+
+CREATE TABLE `categories` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `parent_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `active` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -8727,7 +8742,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (10, '2023_06_22_084530_add_fields_levels_table', 3),
 (11, '2023_06_22_144640_create_modules_levels_access', 4),
 (12, '2023_06_23_073054_addfield_users_access', 5),
-(13, '2023_06_27_080439_create_thirdparty_table', 6);
+(13, '2023_06_27_080439_create_thirdparty_table', 6),
+(14, '2023_06_29_081041_create_thirdparty_categories_table', 7),
+(15, '2023_06_29_085900_modify_thirdparty_categories_table', 8),
+(16, '2023_06_29_130801_create_categories_table', 9);
 
 -- --------------------------------------------------------
 
@@ -8757,7 +8775,7 @@ INSERT INTO `modules` (`id`, `name`, `label`, `alias`, `content`, `code_menu`, `
 (2, 'projects', 'Progetti', 'projects', 'Il modulo che gestisce i progetti', '{\"name\":\"%NAME%\",\"icon\":\"<i class=\\\"menu-icon tf-icons bx bx-pyramid\\\"><\\/i>\",\"label\":\"%LABEL%\"}', 3, 1, '2023-06-19 06:25:49', '2023-06-22 05:48:51'),
 (3, 'users', 'Utenti', 'users', 'Il modulo che gestisce gli utenti', '{\"name\":\"%NAME%\",\"icon\":\"<i class=\\\"menu-icon tf-icons bx bx-user\\\"><\\/i>\",\"label\":\"%LABEL%\"}', 1, 1, '2023-06-21 05:52:08', '2023-06-27 11:31:28'),
 (4, 'levels', 'Livelli', 'levels', 'Il modulo che gestisce i livelli', '{\"name\":\"%NAME%\",\"icon\":\"<i class=\\\"menu-icon tf-icons bx bxs-user-detail\\\"><\\/i>\",\"label\":\"%LABEL%\"}', 2, 1, '2023-06-22 05:48:33', '2023-06-22 05:48:33'),
-(5, 'thirdparties', 'Clienti', 'thirdparties', 'Il modulo che gestisce i clienti', '{\"name\":\"%NAME%\",\"icon\":\"<i class=\\\"menu-icon tf-icons bx bxs-user-detail\\\"><\\/i>\",\"label\":\"%LABEL%\"}', 4, 1, '2023-06-27 11:45:41', '2023-06-27 11:46:18');
+(5, 'thirdparties', 'Clienti', 'thirdparties', 'Il modulo che gestisce i clienti', '{\r\n	\"action\":\"thirdparties\",\"name\":\"%NAME%\",\"icon\":\"<i class=\\\"menu-icon tf-icons bx bxs-user-detail\\\"><\\/i>\",\"label\":\"%LABEL%\",\"submenus\":\r\n		[\r\n			{\"action\":\"categories\",\"name\":\"listCate\",\"icon\":\"<i class=\\\"menu-icon tf-icons bx bxs-user-detail\\\"><\\/i>\",\"label\":\"Categorie\"},\r\n			{\"action\":\"\",\"name\":\"listItem\",\"icon\":\"<i class=\\\"menu-icon tf-icons bx bxs-user-detail\\\"><\\/i>\",\"label\":\"Clienti\"}\r\n		]\r\n}', 4, 1, '2023-06-27 11:45:41', '2023-06-29 06:49:54');
 
 -- --------------------------------------------------------
 
@@ -8901,6 +8919,38 @@ INSERT INTO `thirdparties` (`id`, `categories_id`, `name`, `surname`, `street`, 
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `thirdparties_categories`
+--
+
+CREATE TABLE `thirdparties_categories` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `active` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `parent_id` bigint(20) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dump dei dati per la tabella `thirdparties_categories`
+--
+
+INSERT INTO `thirdparties_categories` (`id`, `title`, `active`, `created_at`, `updated_at`, `parent_id`) VALUES
+(1, 'Categoria 1', 1, NULL, NULL, NULL),
+(2, 'Categoria 2', 1, NULL, NULL, NULL),
+(3, 'Categoria 1 - 1', 1, NULL, NULL, 1),
+(4, 'Categoria 3', 1, NULL, NULL, NULL),
+(5, 'Categoria 4', 1, NULL, NULL, NULL),
+(6, 'Categoria 2 - 2', 1, NULL, NULL, 2),
+(7, 'Categoria 3 - 3', 1, NULL, NULL, 4),
+(8, 'Categoria 2 - 2 - 1', 1, NULL, NULL, 6),
+(9, 'Categoria 2 - 1', 0, NULL, NULL, 2),
+(10, 'Categoria 2 - 2 - 2', 0, NULL, NULL, 6),
+(11, 'Categoria 2 - 2 - 1 - 1', 0, NULL, NULL, 8);
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `users`
 --
 
@@ -8932,6 +8982,13 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `re
 --
 -- Indici per le tabelle scaricate
 --
+
+--
+-- Indici per le tabelle `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `categories_parent_id_index` (`parent_id`);
 
 --
 -- Indici per le tabelle `failed_jobs`
@@ -9019,6 +9076,13 @@ ALTER TABLE `thirdparties`
   ADD UNIQUE KEY `thirdparty_email_unique` (`email`);
 
 --
+-- Indici per le tabelle `thirdparties_categories`
+--
+ALTER TABLE `thirdparties_categories`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `thirdparties_categories_parent_id_index` (`parent_id`);
+
+--
 -- Indici per le tabelle `users`
 --
 ALTER TABLE `users`
@@ -9028,6 +9092,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT per le tabelle scaricate
 --
+
+--
+-- AUTO_INCREMENT per la tabella `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `failed_jobs`
@@ -9063,7 +9133,7 @@ ALTER TABLE `location_province`
 -- AUTO_INCREMENT per la tabella `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT per la tabella `modules`
@@ -9096,10 +9166,32 @@ ALTER TABLE `thirdparties`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT per la tabella `thirdparties_categories`
+--
+ALTER TABLE `thirdparties_categories`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT per la tabella `users`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Limiti per le tabelle scaricate
+--
+
+--
+-- Limiti per la tabella `categories`
+--
+ALTER TABLE `categories`
+  ADD CONSTRAINT `categories_parent_id_foreign` FOREIGN KEY (`parent_id`) REFERENCES `thirdparties_categories` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Limiti per la tabella `thirdparties_categories`
+--
+ALTER TABLE `thirdparties_categories`
+  ADD CONSTRAINT `thirdparties_categories_parent_id_foreign` FOREIGN KEY (`parent_id`) REFERENCES `thirdparties_categories` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
