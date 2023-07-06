@@ -19,6 +19,7 @@
 				<thead>
 					<tr>
 						<th>id</th>
+						<th></th>
 						<th>Parent</th>
 						<th>Livello</th>
 						<th>Titolo</th>

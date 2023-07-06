@@ -1,6 +1,17 @@
 
 $(document).ready(function(){
-	setDbRowActive();
+
+    $(document).ready(function() {
+        $('.tree').treegrid({
+            'initialState': 'collapsed',
+            'saveState': true,
+        });
+    
+        setDbRowActive();
+    
+    });
+
+
 });
 
 

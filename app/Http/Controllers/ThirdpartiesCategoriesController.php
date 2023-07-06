@@ -60,36 +60,21 @@ class ThirdpartiesCategoriesController extends Controller
   {
     $categories = ThirdpartiesCategories::tree();
 
-    //dd($categories);die();
 
-    return view('thirdpartiescategories.index',['categories' => $categories]);
+    $appCssLinks = array(
+      '<link href="/plugins/jquery.treegrid/jquery.treegrid.css" rel="stylesheet">'
+    );
+    $appJavascriptLinks = array(
+      '<script src="/plugins/jquery.cookie/jquery.cookie.js" type="text/javascript"></script>',
+      '<script src="/plugins/jquery.treegrid/jquery.treegrid.min.js" type="text/javascript"></script>',
+      '<script src="js/modules/thirdpartiescategories.index.20230612.js"></script>'
+    );
 
-
-
+    return view('thirdpartiescategories.index',['categories' => $categories])
+    ->with('appCssLinks', $appCssLinks)
+    ->with('appJavascriptLinks', $appJavascriptLinks);
 
   }
-
-  /*
-  public function multiLevelCategory(){
-    $categories = Category::with('children')->get();
-    $this->generateCategories($categories);
-}
-public function generateCategories($categories){
-    foreach ($categories as $category) {
-        echo '';
-            echo '
-' . $category->category . '
-';
-            if (count($category->children) > 0) {
-                        $this->generateCategories($category->children);
-            }
-            echo '
-
-';
-    }
-}
-*/
-
 
   public function create()
   {

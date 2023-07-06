@@ -1,5 +1,6 @@
 <!-- Displaying the current category -->
-<tr>
+<tr class="treegrid-{{ $category->id }}{{ $category->parent_id > 0 ? ' treegrid-parent-'.$category->parent_id : '' }}" valign="top">
+  <td class="tree-simbol"></td>
   <td>{{ $category->id }}</td>
   <td>{{ $category->parent_id }}</td>
   <td>{{ $level }}</td>

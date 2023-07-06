@@ -55,6 +55,13 @@
 
     <link rel="stylesheet" href="/assets/vendor/libs/apex-charts/apex-charts.css" />
 
+    @isset($appCssLinks)
+      @foreach ($appCssLinks as $link)
+        {!! $link !!}
+      @endforeach
+    @endisset
+
+
 
 
 
@@ -102,10 +109,10 @@
           <ul class="menu-inner py-1">
 
       
-            <?php 
+            <?php
             $allModules = app('allModules');
             $allModulesActive = app('allModulesActive');
-            echo leftmenu($allModulesActive); 
+            echo leftmenu($allModulesActive);
             ?>
 
 
