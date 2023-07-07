@@ -8,6 +8,7 @@ use App\Http\Controllers\LevelsController;
 use App\Http\Controllers\ThirdpartiesController;
 use App\Http\Controllers\ThirdpartiesCategoriesController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\TimecardsController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -62,6 +63,7 @@ Route::middleware('auth')->group(function () {
   Route::get('/thirdpartiescategories.moreordering/{id}/{foo}', [ThirdpartiesCategoriesController::class, 'moreordering'])->name('thirdpartiescategories.moreordering');
   Route::get('/thirdpartiescategories.lessordering/{id}/{foo}', [ThirdpartiesCategoriesController::class, 'lessordering'])->name('thirdpartiescategories.lessordering');
   
+  Route::resource('/timecards', TimecardsController::class);
 
 
   Route::resource('/categories', CategoriesController::class);

@@ -101,7 +101,6 @@
 				<div class="col-md-6 col-xs-12 text-sm-center text-xl-end">
 					<a href="{{ route('projects.index') }}" title="Torna alla lista" class="btn btn-success">Indietro</a>
 				</div>
-
 			</div>
 
 			{{ Form::close() }}

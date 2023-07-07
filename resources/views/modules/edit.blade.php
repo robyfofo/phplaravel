@@ -100,13 +100,12 @@
 			</div>
 
 			<hr>
-			<div class="row mb-3">
-				<div class="col-md-12 col-xs-12 text-center">
+			<div class="form-group row">
+				<div class="col-md-6 col-xs-12 text-center">
 					<button data-color="red" data-size="s" data-style="expand-right" id="submitFormID" type="submit" name="submitForm" value="submit" class="btn btn-primary submittheform">Invia</button>
 				</div>
-
-				<div class="col-md-6 col-xs-12 text-right">
-					<a href="{{ route('projects.index') }}" title="Torna alla lista" class="btn btn-success">Indietro</a>
+				<div class="col-md-6 col-xs-12 text-sm-center text-xl-end">
+					<a href="{{ route('modules.index') }}" title="Torna alla lista" class="btn btn-success">Indietro</a>
 				</div>
 			</div>
 
