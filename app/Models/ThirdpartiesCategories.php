@@ -13,11 +13,17 @@ class ThirdpartiesCategories extends Model
   use HasFactory;
 
   protected $appends = ['level'];
+  public $orderType;
+
+  public function __construct()
+  {
+    $this->orderType = 'ASC';
+  }
 
   public static function tree() 
   {
     $level = 0;
-    $allCategories = ThirdpartiesCategories::get();
+    $allCategories = ThirdpartiesCategories::orderBy('ordering','ASC')->get();
     $rootCategories = $allCategories->whereNull('parent_id');
    
     self::formatTree($rootCategories,$allCategories,$level);

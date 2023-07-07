@@ -46,15 +46,25 @@
               {{ Form::label('parent_id', 'Padre', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
               <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                 <select name="parent_id" id="parent_id" class="form-select form-select-sm">
-                  <option value="NULL">-----------------------------------------------</option>
+                  <option value=""></option>
 
                   @php 
                   $level = 0; 
                   $levelstr = '';
+
+                  $selectedcategory = $thirdpartiesCategory->id;
+                  $selectedparent = $thirdpartiesCategory->parent_id;
                   @endphp
                   
                   @foreach ($categories as $category)
-                    @include('layouts.subcategoriesselect', ['category' => $category,'level'=>$level,'levelstr'=>$levelstr])
+                    @include('layouts.subcategoriesselect', [
+                      'category' => $category,
+             
+                    'level' => $level,
+                    'levelstr' => $levelstr,
+                    'selectedcategory' => $selectedcategory,
+                    'selectedparent'  =>  $selectedparent
+                    ])
                   @endforeach
 
 
@@ -71,8 +81,13 @@
         <div class="tab-pane fade" id="navs-pills-top-altro" role="tabpanel">
           <fieldset>
 
+            <div class="row mb-3">
+              {{ Form::label('ordering', 'Ordinamento', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label']) }}
+              <div id="orderingID" class="col-sm-12 col-md-12 col-lg-2 col-xl-1">
+                {{ Form::text('ordering', $thirdpartiesCategory->ordering, array('class' => 'form-control form-control-sm','length' => 10)) }}
+              </div>
+            </div>
 
-            <br>
             <div class="row mb-3">
               {{ Form::label('active', 'Attiva', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label']) }}
               <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3'">

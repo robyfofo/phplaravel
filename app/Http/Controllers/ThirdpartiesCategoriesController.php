@@ -49,7 +49,25 @@ class ThirdpartiesCategoriesController extends Controller
 
   public function create()
   {
+    $thirdpartiesCategory = new ThirdpartiesCategories;
+    $ordering = getLastOrdering('thirdparties_categories', 'ordering', array());
+    return view('thirdpartiescategories.create')
+    ->with('ordering', $ordering)
+    ->with('categories',$this->categories);
+  }
 
+  public function store(ThirdpartiesCategoryRequest $request)
+  {
+
+    if (!$request->has('active')) $request->merge(['active' => 0]);
+
+    $thirdpartiesCategory = new ThirdpartiesCategories;
+    $thirdpartiesCategory->title = $request->input('title');
+    $thirdpartiesCategory->active = $request->input('active');
+    $thirdpartiesCategory->ordering = $request->input('ordering');
+    $thirdpartiesCategory->save();
+
+    return to_route('thirdpartiescategories.index')->with('success', 'Categoria inserita!');
   }
 
   public function edit($id)
@@ -58,7 +76,6 @@ class ThirdpartiesCategoriesController extends Controller
     return view('thirdpartiescategories.edit', ['thirdpartiesCategory' => $thirdpartiesCategory])
     ->with('categories',$this->categories);
   }
-
 
   public function update(ThirdpartiesCategoryRequest $request, $id)
   {
@@ -71,7 +88,7 @@ class ThirdpartiesCategoriesController extends Controller
     $thirdpartiesCategory->title = $request->input('title');
     $thirdpartiesCategory->parent_id = $request->input('parent_id');
     $thirdpartiesCategory->active = $request->input('active');
-    //$thirdpartiesCategory->ordering = $request->input('ordering');
+    $thirdpartiesCategory->ordering = $request->input('ordering');
     $thirdpartiesCategory->save();
 
     return to_route('thirdpartiescategories.index')->with('success', 'Categoria modificata!');
@@ -84,11 +101,48 @@ class ThirdpartiesCategoriesController extends Controller
     if (ThirdpartiesCategories::isfreetodelete($id) == false) {
       return to_route('thirdpartiescategories.index')->with('error', 'Non è possibile cancellare la categoria!');
     }
-
+    
     $thirdpartiesCategories = ThirdpartiesCategories::findOrFail($id);
     $thirdpartiesCategories->delete();
-    //optimizeFieldOrdering($table = 'projects', $fieldOrder = 'ordering', $fieldParent = array(), $fieldParentValue = array());
+
+    // sistema ordering
+    optimizeFieldOrdering($table = 'thirdparties_categories', $fieldOrder = 'ordering', $fieldParent = array('parent_id'), $fieldParentValue = array($thirdpartiesCategories->parent_id));
     return to_route('thirdpartiescategories.index')->with('success', 'Categoria cancellata!');
+  }
+
+  public function lessordering($id, $foo)
+  {
+    $thirdpartiesCategories = ThirdpartiesCategories::findOrFail($id);
+    $result = lessorder($id,$table = 'thirdparties_categories', 
+      $opt = array(
+        'fieldParent' => array('parent_id'), 
+        'fieldParentValue' => array($thirdpartiesCategories->parent_id)
+      )
+    );
+
+    if ($result == false) {
+      return to_route('thirdpartiescategories.index')->with('error', 'Categoria NON spostata.');
+    }
+    return to_route('thirdpartiescategories.index')->with('success', 'Categoria spostata.');
+  }
+
+
+  public function moreordering($id, $foo)
+  {
+    $thirdpartiesCategories = ThirdpartiesCategories::findOrFail($id);
+    $result = moreorder(
+      $id, 
+      $table = 'thirdparties_categories', 
+      $opt = array(
+        'fieldParent' => array('parent_id'), 
+        'fieldParentValue' => array($thirdpartiesCategories->parent_id)
+      )
+    );
+
+    if ($result == false) {
+      return to_route('thirdpartiescategories.index')->with('error', 'Categoria NON spostata.');
+    }
+    return to_route('thirdpartiescategories.index')->with('success', 'Categoria spostata.');
   }
 
 }

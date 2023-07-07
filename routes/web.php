@@ -57,7 +57,11 @@ Route::middleware('auth')->group(function () {
   Route::get('/projects.lessordering/{id}/{foo}', [ProjectsController::class, 'lessordering'])->name('projects.lessordering');
   
   Route::resource('/thirdparties', ThirdpartiesController::class);
+
   Route::resource('/thirdpartiescategories', ThirdpartiesCategoriesController::class);
+  Route::get('/thirdpartiescategories.moreordering/{id}/{foo}', [ThirdpartiesCategoriesController::class, 'moreordering'])->name('thirdpartiescategories.moreordering');
+  Route::get('/thirdpartiescategories.lessordering/{id}/{foo}', [ThirdpartiesCategoriesController::class, 'lessordering'])->name('thirdpartiescategories.lessordering');
+  
 
 
   Route::resource('/categories', CategoriesController::class);

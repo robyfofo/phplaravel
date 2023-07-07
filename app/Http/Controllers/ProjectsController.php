@@ -198,4 +198,5 @@ class ProjectsController extends Controller
     }
     return to_route('projects.index')->with('success', 'Progetto spostato.');
   }
+
 }

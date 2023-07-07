@@ -23,14 +23,17 @@ class ThirdpartiesCategoryRequest extends FormRequest
      */
     public function rules()
     {
-       return [
-       ];
+      return
+      [
+      'title' => 'required'
+      ];
     }
 
     public function messages()
     {
       return [
-      ];
+        'title.required' => 'Il campo nome è richiesto.',
+        ];
     }
 
 }

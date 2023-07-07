@@ -1,8 +1,7 @@
 @php
 for ($i = 0; $i < $level; $i++) {
   $levelstr .= '-->';
-}
-    
+} 
 @endphp
 
 
@@ -11,7 +10,9 @@ for ($i = 0; $i < $level; $i++) {
   <td class="tree-simbol"></td>
   <td>{{ $category->id }}/{{ $category->parent_id }}/{{ $level }}</td>
 
-  <td></td>
+  <td>
+    <a class="" href="{{ route('thirdpartiescategories.moreordering',[$category->id,'ASC']) }}" title="sposta giu"><i class='bx bx-down-arrow-alt' ></i></a><a class="" href="{{ route('thirdpartiescategories.lessordering',[$category->id,'ASC']) }}" title="sposta su"><i class='bx bx-up-arrow-alt' ></i></a> <small>{{ $category->ordering }}</small>
+  </td>
  
 
   <td>{{ $levelstr }}{{ $category->title }}</td>

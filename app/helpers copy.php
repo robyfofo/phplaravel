@@ -103,11 +103,13 @@ function leftmenu($allModulesActive)
 
 function lessorder($id, $table = '', $opt = array())
 {
+
   $fieldParent = ($opt['fieldParent'] ?? array());
   $fieldParentValue = ($opt['fieldParentValue'] ?? array());
 
   $orderingFieldRif = 'ordering';
   if ($table == '') return false;
+  // trovo l'ordering della voce indicata 
 
   // setto il where
   $opwhere = array();
@@ -117,41 +119,31 @@ function lessorder($id, $table = '', $opt = array())
     }
   }
 
-    
-  // trovo l'ordering della voce indicata 
-
-  $where = array();
   $where[] = array('id', '=', $id);
   $where = array_merge($where,$opwhere);
 
   $item = DB::table($table)->where($where)->get()->first();
+
+  dd($item)
   if (!isset($item->$orderingFieldRif) || (isset($item->$orderingFieldRif) && $item->$orderingFieldRif == 0)) {
     return false;
   }
-
   // controlla se vi sono voci con ordinamento inferiore
-
-  $where = array();
   $where[] = array($orderingFieldRif, '<', $item->$orderingFieldRif);
-  $where = array_merge($where,$opwhere);
 
   $items = DB::table($table)->where($where)->get();
   if (count($items) == 0) return false;
 
   // aumento +1 le voci con ordine superiore
   $foo = $item->$orderingFieldRif;
-
-  $where = array();
   $where[] = array($orderingFieldRif, '=', $item->$orderingFieldRif - 1);
-  $where = array_merge($where,$opwhere);
 
   DB::table($table)->where($where)->update([$orderingFieldRif => $foo]);
 
   // diminuisco -1 la voce selezionata
   $foo = $item->$orderingFieldRif - 1;
-  $where = array();
   $where[] = array('id', '=', $id);
-  $where = array_merge($where,$opwhere);
+
   DB::table($table)->where($where)->update([$orderingFieldRif => $foo]);
 
   return true;
@@ -159,12 +151,11 @@ function lessorder($id, $table = '', $opt = array())
 
 function moreorder($id, $table = '', $opt = array())
 {
+  $orderingFieldRif = 'ordering';
+  if ($table == '') return false;
 
   $fieldParent = ($opt['fieldParent'] ?? array());
   $fieldParentValue = ($opt['fieldParentValue'] ?? array());
-
-  $orderingFieldRif = 'ordering';
-  if ($table == '') return false;
 
   // setto il where
   $opwhere = array();
@@ -175,33 +166,39 @@ function moreorder($id, $table = '', $opt = array())
   }
 
   // trovo l'ordering della voce indicata 
-  $where = array();
+
   $where[] = array('id', '=', $id);
-  $where = array_merge($where,$opwhere);
+
+  //$where = array_merge($where,$opwhere);
+  
   $item = DB::table($table)->where($where)->get()->first();
+
   if (!isset($item->$orderingFieldRif) || (isset($item->$orderingFieldRif) && $item->$orderingFieldRif == 0)) {
     return false;
   }
-
   // controlla se vi sono voci con ordinamento superiore
-  $where = array();
   $where[] = array($orderingFieldRif, '>', $item->$orderingFieldRif);
-  $where = array_merge($where,$opwhere);
+
+  //$where = array_merge($where,$opwhere);
+
   $items = DB::table($table)->where($where)->get();
   if (count($items) == 0) return false;
 
   // dimuniusco -1 le voci con ordine superiore
   $foo = $item->$orderingFieldRif;
-  $where = array();
+
   $where[] = array($orderingFieldRif, '=', $item->$orderingFieldRif + 1);
-  $where = array_merge($where,$opwhere);
+
+  //$where = array_merge($where,$opwhere);
+
   DB::table($table)->where($where)->update([$orderingFieldRif => $foo]);
 
   // aumento +1 la voce selezionata
   $foo = $item->$orderingFieldRif + 1;
-  $where = array();
+
   $where[] = array('id', '=', $id);
-  $where = array_merge($where,$opwhere);
+  //$where = array_merge($where,$opwhere);
+
   DB::table($table)->where($where)->update([$orderingFieldRif => $foo]);
   return true;
 }
