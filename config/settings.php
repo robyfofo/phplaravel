@@ -15,7 +15,7 @@ return [
     '9' => 'Chiuso'
   ],
 
- 'lista_giorni' => ['N.D.','lunedì','martedì','mercoledì','giovedì','venerdì','sabato','domenica'],
+ 'lista_giorni' => ['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'],
  'lista_mesi' => ['N.D.','gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'],
 
 ];
