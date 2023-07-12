@@ -46,9 +46,7 @@
 
         @if ($timecards_total[$day['value']] != '00:00:00')
         <span style="font-size: 1.1rem !important;" class="float-right pt-2 pe-2">
-
-          {{ $timecards_total[$day['value']] }}
-
+          {{ $timecards_total[$day['value']] }}aaaa
         </span>
         @endif
 
