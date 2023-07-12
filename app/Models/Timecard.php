@@ -11,13 +11,11 @@ class Timecard extends Model
 
   protected $appends = ['level'];
 
-  public static function getCalendar()
+  public static function getCalendar($datatimecard)
   {
-
-
     $lista_giorni = config('settings.lista_giorni');
+    //die($datatimecard);
 
-    $datatimecard = date('Y-m-d');
     $data = \DateTime::createFromFormat('Y-m-d', $datatimecard);
     $month = $data->format('m');
     $year = $data->format('Y');
