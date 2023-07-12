@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Timecard extends Model
 {
   use HasFactory;
-
+  public $timestamps = false;
   protected $appends = ['level'];
 
   public static function getCalendar($datatimecard)

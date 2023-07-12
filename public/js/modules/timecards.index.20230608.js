@@ -58,11 +58,49 @@ new tempusDominus.TempusDominus(document.getElementById('newtimecarddata'),
 
 new tempusDominus.TempusDominus(document.getElementById('newtimecardstarttime'),
   {
-    defaultDate: defaultnewtimecardstartitme,
+    defaultDate: defaultnewtimecardstarttime,
+
+    localization: {
+      locale: 'en-EN',
+      format: 'HH:mm',
+    },
+    display: {
+      viewMode: 'clock',
+      components: {
+        decades: false,
+        year: false,
+        month: false,
+        date: false,
+        hours: true,
+        minutes: true,
+        seconds: false
+      },
+
+      icons: {
+        type: 'icons',
+        time: 'far fas-clock',
+        date: 'fas fa-calendar',
+        up: 'fas fa-arrow-up',
+        down: 'fas fa-arrow-down',
+        previous: 'fas fa-chevron-left',
+        next: 'fas fa-chevron-right',
+        today: 'fas fa-calendar-check',
+        clear: 'fas fa-trash',
+        close: 'fas fa-xmark'
+      },
+
+
+    }
+  }
+);
+
+new tempusDominus.TempusDominus(document.getElementById('newtimecardendtime'),
+  {
+    defaultDate: defaultnewtimecardendtime,
 
     localization: {
       locale: 'it-IT',
-      format: 'LT',
+      format: 'HH:mm',
     },
     display: {
       viewMode: 'clock',

@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\TimecardRequest;
 
 
 use App\Models\Timecard;
@@ -46,7 +46,8 @@ class TimecardsController extends Controller
 
     $appJavascriptBodyCode = "defaultdatatimecard ='".$datatimecardIta."';";
     $appJavascriptBodyCode .= "defaultnewtimecarddata ='".$datatimecardIta."';";
-    $appJavascriptBodyCode .= "defaultnewtimecardstartitme ='09:00:00';";
+    $appJavascriptBodyCode .= "defaultnewtimecardstarttime ='09:00';";
+    $appJavascriptBodyCode .= "defaultnewtimecardendtime ='18:00';";
 
 
     return view('timecards.index', ['timecards' => $timecards])
@@ -63,4 +64,44 @@ class TimecardsController extends Controller
   
    
   }
+
+  public function store(TimecardRequest $request)
+  {
+    $timecard = new Timecard;
+    /*
+    $timecard->title = $request->input('title');
+    $timecard->active = $request->input('active');
+    $timecard->ordering = $request->input('ordering');
+    $timecard->status = $request->input('status');
+    */
+    
+    $dateins = Carbon::createFromFormat('d/m/Y', $request->input('newtimecarddata'))->format('Y-m-d');
+    $timecard->dateins = $dateins;
+    
+    $starttime = $request->input('newtimecardstarttime').':00';
+    $timecard->starttime = $starttime;
+
+    $endtime = $request->input('newtimecardendtime').':00';
+    $timecard->endtime = $endtime;
+
+
+    $ts = Carbon::parse($starttime);
+    $te = Carbon::parse($endtime);
+    $worktime = $te->diff($ts)->format('%H:%I:%S');
+    $timecard->worktime = $worktime;
+
+
+    $timecard->user_id = auth()->user()->id;
+    $timecard->project_id = $request->input('project_id');
+    $timecard->content = $request->input('content');
+
+
+
+    //dd($timecard);
+
+    $timecard->save();
+
+    return to_route('timecards.index')->with('success', 'Timecard inserita!');
+  }
+
 }

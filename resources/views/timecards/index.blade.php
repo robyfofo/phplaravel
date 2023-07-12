@@ -23,12 +23,12 @@
     <div class="card mt-3 mb-4">
       <div class="card-body">
 
-        {!! Form::open(['route' => 'projects.store']) !!}
+        {!! Form::open(['route' => 'timecards.store']) !!}
 
 
         
         <div class="mb-3 row">
-          <label for="newtimecarddataInput" class="col-md-2 col-form-label">Data</label>
+          <label for="newtimecarddataInput" class="col-md-3 col-form-label">Data</label>
           <div class="col-md-6">
 
             <div class="input-group" id="newtimecarddata" data-td-target-input="nearest" data-td-target-toggle="nearest">
@@ -43,9 +43,9 @@
 
 
         <div class="mb-3 row">
-          <label for="progettoID" class="col-md-2">Progetto</label>
+          <label for="progettoID" class="col-md-3 col-form-label">Progetto</label>
           <div class="col-md-8">
-            <select name="projects_id" id="projects_idID" class="form-select" title="Seleziona un progetto">
+            <select name="project_id" id="project_idID" class="form-select" title="Seleziona un progetto">
               @isset($projects)
                 @foreach ($projects AS $p)
                   <option value="{{ $p->id }}">{{ $p->title }}</option>														
@@ -57,11 +57,11 @@
 
 
         <div class="mb-3 row">
-          <label for="newtimecardstarttimeInput" class="col-md-2 col-form-label">Inizio</label>
+          <label for="newtimecardstarttimeInput" class="col-md-3 col-form-label">Inizio</label>
           <div class="col-md-6">
 
             <div class="input-group" id="newtimecardstarttime" data-td-target-input="nearest" data-td-target-toggle="nearest">
-              <input name="newtimecardstarttime" id="newtimecardstarttimeInput" type="text" class="form-control" data-td-target="#newtimecardstarttime">
+              <input value="" name="newtimecardstarttime" id="newtimecardstarttimeInput" type="text" class="form-control" data-td-target="#newtimecardstarttime">
               <span class="input-group-text" data-td-target="#newtimecardstarttime" data-td-toggle="datetimepicker">
                 <span class="fas fa-clock"></span>
               </span>
@@ -71,8 +71,29 @@
         </div>
 
         <div class="mb-3 row">
+          <label for="newtimecardendtimeInput" class="col-md-3 col-form-label">Fine</label>
+          <div class="col-md-6">
 
-          <div class="col-md-12">
+            <div class="input-group" id="newtimecardendtime" data-td-target-input="nearest" data-td-target-toggle="nearest">
+              <input value="" name="newtimecardendtime" id="newtimecardendtimeInput" type="text" class="form-control" data-td-target="#newtimecardendtime">
+              <span class="input-group-text" data-td-target="#newtimecardendtime" data-td-toggle="datetimepicker">
+                <span class="fas fa-clock"></span>
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="md-3 row">
+						<label for="contentID" class="col-md-3">Contenuto</label>
+						<div class="col-md-8">
+							<textarea name="content" class="form-control" id="contentID" rows="5"></textarea>
+						</div>
+					</div>	
+
+        <div class="mt-3 row">
+
+          <div class="col-md-12 text-center">
             <button type="submit" class="btn btn-sm btn-primary mt-1">Invia</button>
           </div>
 
