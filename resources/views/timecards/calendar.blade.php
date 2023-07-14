@@ -61,19 +61,29 @@
               @foreach ($timecards[$day['value']]['timecards'] AS $d)
 
               <tr>
+              <td class="actions text-start">
+                 
+                 <a class="float-start" href="{{ route('timecards.edit', [$d->id]) }}" title="Modifica timecard"><i class='bx bx-edit'></i></a>
+                 {!! Form::open(['style'=>'','class'=>'','method' => 'DELETE','route' => ['timecards.destroy', $d->id]]) !!}
+                 <a class="deleteitemformbutton" href="#" title="Cancella Progetto"><i class='bx bx-trash'></i></a>
+                 {!! Form::close() !!}
+   
+   
+                   </td>
+   
                 <td data-toggle="tooltip" data-placement="top" title="{{ $d->project }}">{{ $d->project }}</td>
                 <td data-toggle="tooltip" data-placement="top" title="{{ $d->content }}">{{ $d->content }}</td>
                 <td style="width:55px;">IOw: {{ $d->user_id }}</td>
                 <td class="hours text-end">{{ \Illuminate\Support\Str::limit($d->starttime, 5, '') }}-{{ \Illuminate\Support\Str::limit($d->endtime,5,'') }}</td>
                 <td class="tothours text-end">
-                  <a class="" href="" title="Modifica">{{ \Illuminate\Support\Str::limit($d->worktime,5,'') }}</a>
+                  <a class="" href="{{ route('timecards.edit', [$d->id]) }}" title="Modifica timecard">{{ \Illuminate\Support\Str::limit($d->worktime,5,'') }}</a>
                 </td>
-
+             
 
               </tr>
 
               <tr class="">
-                <td colspan="4">&nbsp;</td>
+                <td colspan="5">&nbsp;</td>
                 <td style="font-size: 1.3rem !important;" class="hours text-end success">{{ \Illuminate\Support\Str::limit($timecards_total[$day['value']],5,'') }}</td>
               </tr>
 

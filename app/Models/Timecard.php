@@ -66,11 +66,11 @@ class Timecard extends Model
 
     /*
     $user_id = 1;
-    $project_id = 1;
-    $dateins = '2023-07-13';
-    $starttime = '07:00:00';
-    $endtime = '08:59:00';
-    $id='';
+    $project_id = 2;
+    $dateins = '2023-07-05';
+    $starttime = '16:00:00';
+    $endtime = '18:00:00';
+    $id='3';
 
     echo '<br>user_id: '.$user_id;
     echo '<br>project_id: '.$project_id;
@@ -83,7 +83,7 @@ class Timecard extends Model
     $timecard = Timecard::where('dateins','=',$dateins)
     ->where('user_id','=',$user_id)
     ->when($id,function ($query, $id) {
-      $query->where('id','=',$id);
+      $query->where('id','><',$id);
     })
     ->where(function($query) use($starttime,$endtime) {
       $query->whereRaw('? BETWEEN starttime AND endtime', [$starttime]);
@@ -92,6 +92,8 @@ class Timecard extends Model
       $query->orwhereBetween('endtime', [$starttime,$endtime]);
     })
     ->first();
+
+    //dd($timecard);
     
     $match = 1;
     if (isset($timecard->id) && $timecard->id > 0) {
