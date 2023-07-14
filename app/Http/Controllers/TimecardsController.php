@@ -45,9 +45,9 @@ class TimecardsController extends Controller
     );
 
     $appJavascriptBodyCode = "defaultdatatimecard ='".$datatimecardIta."';";
-    $appJavascriptBodyCode .= "defaultnewtimecarddata ='".$datatimecardIta."';";
-    $appJavascriptBodyCode .= "defaultnewtimecardstarttime ='09:00';";
-    $appJavascriptBodyCode .= "defaultnewtimecardendtime ='18:00';";
+    $appJavascriptBodyCode .= "defaultdateins ='".$datatimecardIta."';";
+    $appJavascriptBodyCode .= "defaultstarttime ='09:00';";
+    $appJavascriptBodyCode .= "defaultendtime ='10:00';";
 
 
     return view('timecards.index', ['timecards' => $timecards])
@@ -68,34 +68,31 @@ class TimecardsController extends Controller
   public function store(TimecardRequest $request)
   {
     $timecard = new Timecard;
-    /*
-    $timecard->title = $request->input('title');
-    $timecard->active = $request->input('active');
-    $timecard->ordering = $request->input('ordering');
-    $timecard->status = $request->input('status');
-    */
-    
-    $dateins = Carbon::createFromFormat('d/m/Y', $request->input('newtimecarddata'))->format('Y-m-d');
-    $timecard->dateins = $dateins;
-    
-    $starttime = $request->input('newtimecardstarttime').':00';
-    $timecard->starttime = $starttime;
-
-    $endtime = $request->input('newtimecardendtime').':00';
-    $timecard->endtime = $endtime;
-
-
-    $ts = Carbon::parse($starttime);
-    $te = Carbon::parse($endtime);
-    $worktime = $te->diff($ts)->format('%H:%I:%S');
-    $timecard->worktime = $worktime;
-
 
     $timecard->user_id = auth()->user()->id;
     $timecard->project_id = $request->input('project_id');
     $timecard->content = $request->input('content');
 
+    $timecard->dateins = Carbon::createFromFormat('d/m/Y', $request->input('dateins'))->format('Y-m-d');
+    $timecard->starttime = $request->input('starttime').':00';
+    $timecard->endtime = $request->input('endtime').':00';
 
+    // controlla esisteza timecard
+    $res = Timecard::checkIfTimecardExist($timecard->user_id,$timecard->project_id,$timecard->dateins,$timecard->starttime,$timecard->endtime,0);
+    if ($res == true) {
+      return to_route('timecards.index')->with('error', 'Il tempo inserito è gia presente');
+    }
+
+    $ts = Carbon::parse($timecard->starttime);
+    $te = Carbon::parse($timecard->endtime);
+    // controlla intervallo di tempo
+    if ($ts > $te) {
+      return to_route('timecards.index')->with('error', 'Il tempo inizio e superiore al tempo di fine');
+    }
+    $worktime = $te->diff($ts)->format('%H:%I:%S');
+
+    die($worktime);
+    $timecard->worktime = $worktime;
 
     //dd($timecard);
 
@@ -104,4 +101,8 @@ class TimecardsController extends Controller
     return to_route('timecards.index')->with('success', 'Timecard inserita!');
   }
 
+
+
+
+  
 }

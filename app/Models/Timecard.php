@@ -9,7 +9,6 @@ class Timecard extends Model
 {
   use HasFactory;
   public $timestamps = false;
-  protected $appends = ['level'];
 
   public static function getCalendar($datatimecard)
   {
@@ -33,14 +32,7 @@ class Timecard extends Model
       $numberday = $data1->format('w');
       $nameday = $lista_giorni[$numberday];
       $nameabbday = ucfirst((strlen($nameday) > 3 ? mb_strcut($nameday,0,3) : $nameday));
-/*
-      echo $dateL.' - ';
-      echo $dateV.' - ';
-      echo $numberday.' - ';
-      echo $nameday.' - ';
 
-      echo '<br>';
-*/
       
       $dates_month[$i] = array('label'=>$dateL,'value'=>$dateV,'numberday'=>$numberday,'nameabbday'=>$nameabbday,'nameday'=>$nameday);	
       
@@ -69,11 +61,49 @@ class Timecard extends Model
 
   }
 
-
-
-
-  public function getLevelAttribute()
+  public static function checkIfTimecardExist($user_id,$project_id,$dateins,$starttime,$endtime,$id)
   {
-    return 'aaaaa';
+
+    /*
+    $user_id = 1;
+    $project_id = 1;
+    $dateins = '2023-07-13';
+    $starttime = '07:00:00';
+    $endtime = '08:59:00';
+    $id='';
+
+    echo '<br>user_id: '.$user_id;
+    echo '<br>project_id: '.$project_id;
+    echo 'dateins: '.$dateins;
+    echo 'starttime: '.$starttime;
+    echo 'endtime: '.$endtime;
+    echo '<br>id '.$id;
+    */
+
+    $timecard = Timecard::where('dateins','=',$dateins)
+    ->where('user_id','=',$user_id)
+    ->when($id,function ($query, $id) {
+      $query->where('id','=',$id);
+    })
+    ->where(function($query) use($starttime,$endtime) {
+      $query->whereRaw('? BETWEEN starttime AND endtime', [$starttime]);
+      $query->orwhereRaw('? BETWEEN starttime AND endtime', [$endtime]);
+      $query->orwhereBetween('starttime', [$starttime,$endtime]);
+      $query->orwhereBetween('endtime', [$starttime,$endtime]);
+    })
+    ->first();
+    
+    $match = 1;
+    if (isset($timecard->id) && $timecard->id > 0) {
+			if ($starttime == $timecard->endtime && $endtime > $timecard->endtime) {
+				$match = 0;
+			}
+			if ($endtime == $timecard->starttime && $endtime < $timecard->endtime) {
+				$match = 0;
+			}
+    return ($match == 1 ? true : false);
+		}
+    
   }
+
 }

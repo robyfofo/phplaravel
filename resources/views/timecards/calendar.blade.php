@@ -46,7 +46,7 @@
 
         @if ($timecards_total[$day['value']] != '00:00:00')
         <span style="font-size: 1.1rem !important;" class="float-right pt-2 pe-2">
-          {{ $timecards_total[$day['value']] }}aaaa
+          {{ \Illuminate\Support\Str::limit($timecards_total[$day['value']],5,'') }}
         </span>
         @endif
 
