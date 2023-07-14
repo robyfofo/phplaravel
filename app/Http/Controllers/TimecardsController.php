@@ -9,6 +9,7 @@ use App\Http\Requests\TimecardRequest;
 
 use App\Models\Timecard;
 use App\Models\Project;
+use App\Models\User;
 
 
 
@@ -19,6 +20,11 @@ use Carbon\Carbon;
 
 class TimecardsController extends Controller
 {
+
+  private $itemsforpage = 10;
+  private $page = 1;
+
+
   function index(Request $request)
   {
 
@@ -176,14 +182,37 @@ class TimecardsController extends Controller
     return to_route('timecards.index')->with('success', 'Timecard modificata!');
   }
 
-
-
   public function destroy($id)
   {
     $timecard = Timecard::findOrFail($id);
-    //$timecard->delete();
+    $timecard->delete();
     return to_route('timecards.index')->with('success', 'Timecard cancellata!');
   }
+
+  public function list(Request $request)
+  {
+    // numero pagine
+    if ($request->session()->missing('timecards itemsforpage')) $request->session()->put('timecards itemsforpage', 10);
+    if (request()->input('itemsforpage')) $request->session()->put('timecards itemsforpage', request()->input('itemsforpage'));
+
+    // paginazione
+    if ($request->session()->missing('timecards page')) $request->session()->put('timecards page', 1);
+    if (request()->input('page')) $request->session()->put('timecards page', request()->input('page'));
+
+    if ($request->session()->has('timecards itemsforpage')) $this->itemsforpage = $request->session()->get('timecards itemsforpage');
+    if ($request->session()->has('timecards page')) $this->page = $request->session()->get('timecards page');
+
+    // preleva tutti i progetti
+    $projects = Project::orderBy('ordering', 'DESC')->get();
+
+    $timecards = Timecard::getAllWithKeys($this->itemsforpage);
+    return view('timecards.list', ['timecards' => $timecards])
+    ->with('itemsforpage', $this->itemsforpage)
+    ->with('projects', $projects)
+    ;
+    
+  }
+
 
 
 

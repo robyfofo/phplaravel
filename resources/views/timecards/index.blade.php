@@ -13,6 +13,7 @@
 
 
 <div class="row">
+
   <div class="col-md-7 calendar">
     @include('timecards.calendar')
   </div>
@@ -26,7 +27,7 @@
         {!! Form::open(['route' => 'timecards.store','id'=>'newForm']) !!}
 
 
-        
+
         <div class="mb-3 row">
           <label for="dateinsInput" class="col-md-3 col-form-label">Data</label>
           <div class="col-md-6">
@@ -41,26 +42,26 @@
           </div>
         </div>
 
-        
-        
+
+
         <div class="mb-3 row">
           <label for="progettoID" class="col-md-3 col-form-label">Progetto</label>
           <div class="col-md-8">
             <select name="project_id" id="project_idID" class="form-select" title="Seleziona un progetto">
               @isset($projects)
-                @foreach ($projects AS $p)
-                  <option value="{{ $p->id }}">{{ $p->title }}</option>														
-                @endforeach
+              @foreach ($projects AS $p)
+              <option value="{{ $p->id }}">{{ $p->title }}</option>
+              @endforeach
               @endisset
-            </select>										
+            </select>
           </div>
         </div>
-        
-        
+
+
         <div class="mb-3 row">
           <label for="starttimeInput" class="col-md-3 col-form-label">Inizio</label>
           <div class="col-md-6">
-            
+
             <div class="input-group" id="starttime" data-td-target-input="nearest" data-td-target-toggle="nearest">
               <input value="" name="starttime" id="starttimeInput" type="text" class="form-control" data-td-target="#starttime">
               <span class="input-group-text" data-td-target="#starttime" data-td-toggle="datetimepicker">
@@ -71,7 +72,7 @@
           </div>
         </div>
 
-        
+
         <div class="mb-3 row">
           <label for="endtimeInput" class="col-md-3 col-form-label">Fine</label>
           <div class="col-md-6">
@@ -87,11 +88,11 @@
         </div>
 
         <div class="md-3 row">
-						<label for="contentID" class="col-md-3">Contenuto</label>
-						<div class="col-md-8">
-							<textarea name="content" class="form-control" id="contentID" rows="5"></textarea>
-						</div>
-					</div>	
+          <label for="contentID" class="col-md-3">Contenuto</label>
+          <div class="col-md-8">
+            <textarea name="content" class="form-control" id="contentID" rows="5"></textarea>
+          </div>
+        </div>
 
         <div class="mt-3 row">
 
@@ -110,9 +111,18 @@
       {{ Form::close() }}
 
     </div>
-  </div>
 
-</div>
+
+
+    <div class="card mt-3 mb-4">
+      <div class="card-body text-center">
+
+        <a href="{{ route('timecards.list') }}" title="Archivio timecards" class="btn btn-primary">Archivio timecard</a>
+
+      </div>
+    </div>
+
+  </div>
 </div>
 
 @stop

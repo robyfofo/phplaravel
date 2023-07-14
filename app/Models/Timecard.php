@@ -108,4 +108,13 @@ class Timecard extends Model
     
   }
 
+  public static function getAllWithKeys($itemsforpage)
+  {
+
+    $timecards = Timecard::select('timecards.*','projects.title AS project','users.name AS name','users.surname as surname')
+    ->orderBy('dateins', 'DESC')
+    ->join('projects', 'timecards.project_id', '=', 'projects.id')
+    ->join('users', 'timecards.user_id', '=', 'users.id')->paginate($itemsforpage);
+    return $timecards;
+  }
 }

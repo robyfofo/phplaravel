@@ -64,6 +64,7 @@ Route::middleware('auth')->group(function () {
   Route::get('/thirdpartiescategories.lessordering/{id}/{foo}', [ThirdpartiesCategoriesController::class, 'lessordering'])->name('thirdpartiescategories.lessordering');
   
   Route::resource('/timecards', TimecardsController::class);
+  Route::get('/timecards', [TimecardsController::class,'list'])->name('timecards.list');
 
 
   Route::resource('/categories', CategoriesController::class);
