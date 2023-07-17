@@ -195,19 +195,25 @@ class TimecardsController extends Controller
     if ($request->session()->missing('timecards itemsforpage')) $request->session()->put('timecards itemsforpage', 10);
     if (request()->input('itemsforpage')) $request->session()->put('timecards itemsforpage', request()->input('itemsforpage'));
 
-    // paginazione
-    if ($request->session()->missing('timecards page')) $request->session()->put('timecards page', 1);
-    if (request()->input('page')) $request->session()->put('timecards page', request()->input('page'));
+    $request->session()->put('timecards project_id', '');
+    if (request()->input('project_id') != '') $request->session()->put('timecards project_id', request()->input('project_id'));
 
-    if ($request->session()->has('timecards itemsforpage')) $this->itemsforpage = $request->session()->get('timecards itemsforpage');
-    if ($request->session()->has('timecards page')) $this->page = $request->session()->get('timecards page');
+    $request->session()->put('timecards dateins', '');
+    if (request()->input('dateins') != '') $request->session()->put('timecards dateins', request()->input('dateins'));
+
+    $request->session()->put('timecards keyword', '');
+    if (request()->input('keyword') != '') $request->session()->put('timecards keyword', request()->input('keyword'));
 
     // preleva tutti i progetti
     $projects = Project::orderBy('ordering', 'DESC')->get();
 
-    $timecards = Timecard::getAllWithKeys($this->itemsforpage);
+    $timecards = Timecard::getAllWithForeign(
+      $request->session()->get('timecards itemsforpage'),
+      $request->session()->get('timecards project_id'),
+      $request->session()->get('timecards dateins'),
+      $request->session()->get('timecards keyword')
+    );
     return view('timecards.list', ['timecards' => $timecards])
-    ->with('itemsforpage', $this->itemsforpage)
     ->with('projects', $projects)
     ;
     

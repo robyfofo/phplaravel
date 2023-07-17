@@ -13,28 +13,50 @@
 <div class="card">
 	<div class="card-body">
 
-  <form name="searchForm" id="searchFormID" role="form" method="GET" action="{{ route('timecards.list') }}">
+ 	 	<form name="searchForm" id="searchFormID" role="form" method="GET" action="{{ route('timecards.list') }}">
 			@csrf
 			<div class="form-group row">
 				<div class="col-md-1">
 					<select name="itemsforpage" id="itemsforpage" class="form-select form-select-sm" onchange="this.form.submit();">
-						<option @if ($itemsforpage==1) selected @endif value="1">1</option>
-						<option @if ($itemsforpage==5) selected @endif value="5">5</option>
-						<option @if ($itemsforpage==10) selected @endif value="10">10</option>
-						<option @if ($itemsforpage==25) selected @endif value="25">25</option>
-						<option @if ($itemsforpage==50) selected @endif value="50">50</option>
-						<option @if ($itemsforpage==100) selected @endif value="100">100</option>
+						<option @if (request()->session()->get('timecards itemsforpage') ==1) selected @endif value="1">1</option>
+						<option @if (request()->session()->get('timecards itemsforpage')==5) selected @endif value="5">5</option>
+						<option @if (request()->session()->get('timecards itemsforpage')==10) selected @endif value="10">10</option>
+						<option @if (request()->session()->get('timecards itemsforpage')==25) selected @endif value="25">25</option>
+						<option @if (request()->session()->get('timecards itemsforpage')==50) selected @endif value="50">50</option>
+						<option @if (request()->session()->get('timecards itemsforpage')==100) selected @endif value="100">100</option>
 					</select>
 				</div>
 				<label for="itemsforpageID" class="col-md-2 col-form-label form-control-sm">Voci per pagina</label>
 
-				<label for="searchFromTableID" class="offset-md-6 col-md-1 col-form-label form-control-sm" style="text-align:right;">Cerca</label>
+
+				<label for="searchFromTableID" class="col-md-1 col-form-label form-control-sm">Progetti</label>
 				<div class="col-md-2">
-					<input type="search" name="searchFromTable" id="searchFromTableID" class="form-control form-control-sm" value="@isset($searchFromTable){{ $searchFromTable }}@endisset" onchange="this.form.submit();">
+					<select name="project_id" id="project_idID" class="form-select form-select-sm" onchange="this.form.submit();">
+						<option value=""></option>
+						@foreach($projects as $project)
+							<option value="{{ $project->id }}"@if (request()->session()->get('timecards project_id') == $project->id) selected @endif>{{ $project->title }}</option>
+						@endforeach
+
+					</select>
 				</div>
+
+				<label for="dateinsInput" class="col-md-1 col-form-label">Data</label>
+				<div class="col-md-2">
+
+					<select name="dateins" id="dateinsID" class="form-select form-select-sm" onchange="this.form.submit();">
+						<option value=""></option>
+						<option value="mc"@if (request()->session()->get('timecards dateins') == 'mc') selected @endif>Mese corrente</option>
+						<option value="mp"@if (request()->session()->get('timecards dateins') == 'mp') selected @endif>Mese precedente</option>
+					</select>
+				</div>
+
+				<label for="searchFromTableID" class="col-md-1 col-form-label form-control-sm">Contenuto</label>
+				<div class="col-md-2">
+						<input class="form-control form-control-sm" value="{{ request()->session()->get('timecards keyword') }}" name="keyword" id="keywordID">
+				</div>
+
 			</div>
 		</form>
-
 
   <div class="table-responsive text-nowrap my-2">
       <table class="table table-sm table-bordered listData">
@@ -52,7 +74,10 @@
 					</tr>
 				</thead>
 
+			
+
 				<tbody>
+					@php  $worktimes = array(); @endphp
 					@foreach($timecards as $timecard)
 					<tr>
 						<td>{{ $timecard->id }}</td>
@@ -71,8 +96,19 @@
 						</td>
 					</tr>
 
+					@php  $worktimes[] = $timecard->worktime; @endphp
+
 					@endforeach
 				</tbody>
+
+				<tfoot>
+					<tr>
+						<td colspan="6" class="text-end fw-bolder">Totale ore</td>
+						<td colspan="" class="text-end fw-bolder">@php  echo sumTheTime($worktimes); @endphp</td>
+						<td colspan="2"></td>
+					</tr>
+				</tfoot>
+
 			</table>
 
 		</div>
@@ -81,5 +117,6 @@
 
 
   </div>
+
 </div>
 @stop

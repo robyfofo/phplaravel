@@ -2,8 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Http\Request;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
+use Carbon\Carbon;
+
 
 class Timecard extends Model
 {
@@ -108,13 +113,41 @@ class Timecard extends Model
     
   }
 
-  public static function getAllWithKeys($itemsforpage)
+  public static function getAllWithForeign($itemsforpage,$project_id,$dateins,$keyword)
   {
-
     $timecards = Timecard::select('timecards.*','projects.title AS project','users.name AS name','users.surname as surname')
     ->orderBy('dateins', 'DESC')
     ->join('projects', 'timecards.project_id', '=', 'projects.id')
-    ->join('users', 'timecards.user_id', '=', 'users.id')->paginate($itemsforpage);
+    ->join('users', 'timecards.user_id', '=', 'users.id')
+
+    ->when($project_id,function ($query, $project_id) {
+      $query->where('project_id','=',$project_id);
+    })
+
+    ->when($dateins,function ($query, $dateins) {
+
+      if ($dateins == 'mc') {
+
+        $date = date('Y-m');
+        $query->where('timecards.dateins','LIKE',$date.'%');
+        
+        
+      }
+      if ($dateins == 'mp') {
+
+        $date = Carbon::parse(date('Y-m-d'));
+        $date = $date->subMonth()->format('Y-m');
+        $query->where('timecards.dateins','LIKE',$date.'%');
+        
+      }
+
+    })
+
+    ->when($keyword,function ($query, $keyword) {
+      $query->where('timecards.content','LIKE','%'.$keyword.'%');
+    })
+    ->paginate($itemsforpage);
+
     return $timecards;
   }
 }

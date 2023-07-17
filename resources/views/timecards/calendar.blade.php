@@ -82,12 +82,14 @@
 
               </tr>
 
+             
+
+              @endforeach
+
               <tr class="">
                 <td colspan="5">&nbsp;</td>
                 <td style="font-size: 1.3rem !important;" class="hours text-end success">{{ \Illuminate\Support\Str::limit($timecards_total[$day['value']],5,'') }}</td>
               </tr>
-
-              @endforeach
 
 
             </tbody>
