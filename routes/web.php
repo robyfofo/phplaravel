@@ -63,14 +63,17 @@ Route::middleware('auth')->group(function () {
   Route::get('/thirdpartiescategories.moreordering/{id}/{foo}', [ThirdpartiesCategoriesController::class, 'moreordering'])->name('thirdpartiescategories.moreordering');
   Route::get('/thirdpartiescategories.lessordering/{id}/{foo}', [ThirdpartiesCategoriesController::class, 'lessordering'])->name('thirdpartiescategories.lessordering');
   
-
-  
-  Route::resource('timecards', TimecardsController::class, [
-      'except' => [ 'show' ]
-  ]);
-  Route::get('/timecards/listpdf', [TimecardsController::class, 'listpdf'])->name('timecards.listpdf');
+  // timecards
+  Route::get('/timecards', [TimecardsController::class, 'index'])->name('timecards.index');
+  Route::post('/timecards/store', [TimecardsController::class, 'store'])->name('timecards.store');
+  Route::put('/timecards/{timecard}', [TimecardsController::class, 'update'])->name('timecards.update');
+  Route::delete('/timecards/{timecard}', [TimecardsController::class, 'destroy'])->name('timecards.destroy');
+  Route::get('/timecards/{timecard}/edit', [TimecardsController::class, 'edit'])->name('timecards.edit');
   Route::get('/timecards/list', [TimecardsController::class, 'list'])->name('timecards.list');
-
+  Route::get('/timecards/listpdf', [TimecardsController::class, 'listpdf'])->name('timecards.listpdf');
+  Route::get('timecards/{any}', function () {
+    return abort('404');
+  })->where('any', '.*');
 
   Route::resource('/categories', CategoriesController::class);
 

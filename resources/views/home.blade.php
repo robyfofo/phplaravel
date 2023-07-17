@@ -46,6 +46,8 @@
                 <li>Funzione ordinamento dinamico nella lista voci in tabella</li>
                 <li>Gestione di un flag attivazione per tutte le voci con switch ajax nelle tabella</li>
                 <li>Gestione categoria multilivello con ordinamento e vista tebell ad albero (jquery)</li>
+                <li>Gestione tempi lavorativi (timecard) con uso di query custom</li>
+                <li>Creazione di documenti pdf per esporazioni dati</li>
 
 
               </ul>

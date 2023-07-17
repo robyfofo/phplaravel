@@ -192,7 +192,7 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">aa{{ auth()->user()->name }} {{ auth()->user()->surname }}</span>
+                            <span class="fw-semibold d-block">{{ auth()->user()->name }} {{ auth()->user()->surname }}</span>
                             <small class="text-muted">Admin</small>
                           </div>
                         </div>
