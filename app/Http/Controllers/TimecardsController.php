@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\TimecardRequest;
@@ -16,6 +17,7 @@ use App\Models\User;
 use App\Http\Requests\TimecarsRequest;
 
 use Carbon\Carbon;
+use PDF;
 
 
 class TimecardsController extends Controller
@@ -218,6 +220,46 @@ class TimecardsController extends Controller
     ;
     
   }
+
+  public function listpdf(Request $request)
+  {
+    $timecards = Timecard::getAllWithForeign(
+      '',
+      $request->session()->get('timecards project_id'),
+      $request->session()->get('timecards dateins'),
+      $request->session()->get('timecards keyword')
+    );
+    
+    $filename = 'lista-timecards-'.date('Ymd');
+    $title = 'Lista Timecards '.date('Y-m-d');
+    if ($request->session()->get('timecards project_id') != '') {
+      $project = Project::findOrFail($request->session()->get('timecards project_id'));
+      $filename .= '-'.Str::slug($project->title, '-');
+      $title .= ' '.$project->title;
+    }
+    
+    if ($request->session()->get('timecards dateins') == 'mc') {
+      $filename .= '-mesecorrente';
+      $title .= ' Mese corrente';
+    }
+    if ($request->session()->get('timecards dateins') == 'mp') {
+      $filename .= '-meseprecedente';
+      $title .= ' Mese precedente';
+    }
+    
+    $data = [
+      'title' => $title,
+      'date' => date('m/d/Y'),
+      'timecards' => $timecards
+    ]; 
+    /*
+    $pdf = PDF::loadView('timecards.listpdf', $data);
+    return $pdf->download($filename.'.pdf');
+    */
+
+    return view('timecards.listpdf', ['timecards' => $timecards])->with('title',$title);
+  }
+
 
 
 

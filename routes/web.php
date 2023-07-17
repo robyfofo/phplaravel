@@ -63,8 +63,13 @@ Route::middleware('auth')->group(function () {
   Route::get('/thirdpartiescategories.moreordering/{id}/{foo}', [ThirdpartiesCategoriesController::class, 'moreordering'])->name('thirdpartiescategories.moreordering');
   Route::get('/thirdpartiescategories.lessordering/{id}/{foo}', [ThirdpartiesCategoriesController::class, 'lessordering'])->name('thirdpartiescategories.lessordering');
   
-  Route::resource('/timecards', TimecardsController::class);
-  Route::get('/timecardslist', [TimecardsController::class, 'list'])->name('timecards.list');
+
+  
+  Route::resource('timecards', TimecardsController::class, [
+      'except' => [ 'show' ]
+  ]);
+  Route::get('/timecards/listpdf', [TimecardsController::class, 'listpdf'])->name('timecards.listpdf');
+  Route::get('/timecards/list', [TimecardsController::class, 'list'])->name('timecards.list');
 
 
   Route::resource('/categories', CategoriesController::class);
@@ -74,6 +79,6 @@ Route::middleware('auth')->group(function () {
 
 use App\Http\Controllers\AjaxrequestsController;
 Route::controller(AjaxrequestsController::class)->group(function () {
-    Route::post('ajaxrequests/setdbrowactive', 'setdbrowactive');
+    Route::post('/ajaxrequests/setdbrowactive', 'setdbrowactive');
     Route::put('/ajaxrequests/getcitiesjsonfromdb', 'getcitiesjsonfromdb');
 });
