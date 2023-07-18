@@ -17,7 +17,7 @@ class ThirdpartiesCategoriesController extends Controller
 
   private $itemsforpage = 2;
   private $page = 1;
-  private $searchFromTable = '';
+  private $searchfromtable = '';
   private $orderType = 'ASC';
 
   private  $categories;

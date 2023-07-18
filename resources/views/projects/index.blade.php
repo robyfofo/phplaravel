@@ -18,19 +18,20 @@
 			<div class="form-group row">
 				<div class="col-md-1">
 					<select name="itemsforpage" id="itemsforpage" class="form-select form-select-sm" onchange="this.form.submit();">
-						<option @if ($itemsforpage==1) selected @endif value="1">1</option>
-						<option @if ($itemsforpage==5) selected @endif value="5">5</option>
-						<option @if ($itemsforpage==10) selected @endif value="10">10</option>
-						<option @if ($itemsforpage==25) selected @endif value="25">25</option>
-						<option @if ($itemsforpage==50) selected @endif value="50">50</option>
-						<option @if ($itemsforpage==100) selected @endif value="100">100</option>
+						<option @if (request()->session()->get('projects itemsforpage') ==1) selected @endif value="1">1</option>
+						<option @if (request()->session()->get('projects itemsforpage')==5) selected @endif value="5">5</option>
+						<option @if (request()->session()->get('projects itemsforpage')==10) selected @endif value="10">10</option>
+						<option @if (request()->session()->get('projects itemsforpage')==25) selected @endif value="25">25</option>
+						<option @if (request()->session()->get('projects itemsforpage')==50) selected @endif value="50">50</option>
+						<option @if (request()->session()->get('projects itemsforpage')==100) selected @endif value="100">100</option>
 					</select>
 				</div>
 				<label for="itemsforpageID" class="col-md-2 col-form-label form-control-sm">Voci per pagina</label>
 
-				<label for="searchFromTableID" class="offset-md-6 col-md-1 col-form-label form-control-sm" style="text-align:right;">Cerca</label>
+				<label for="searchfromtableID" class="offset-md-6 col-md-1 col-form-label form-control-sm" style="text-align:right;">Cerca</label>
 				<div class="col-md-2">
-					<input type="search" name="searchFromTable" id="searchFromTableID" class="form-control form-control-sm" value="@isset($searchFromTable){{ $searchFromTable }}@endisset" onchange="this.form.submit();">
+					<input type="search" name="searchfromtable" id="searchfromtableID" class="form-control form-control-sm" 
+					value="{{ request()->session()->get('projects searchfromtable') }}" onchange="this.form.submit();">
 				</div>
 			</div>
 		</form>

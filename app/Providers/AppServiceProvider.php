@@ -12,6 +12,7 @@ use App\Models\Module;
 
 class AppServiceProvider extends ServiceProvider
 {
+
     /**
      * Register any application services.
      */

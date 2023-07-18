@@ -164,7 +164,13 @@
               <!-- Search -->
               <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
-                  
+
+
+@auth
+Ultimo accesso: {{ auth()->user()->last_login_at }}
+@endauth
+
+
                 </div>
               </div>
               <!-- /Search -->

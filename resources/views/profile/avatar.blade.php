@@ -9,15 +9,15 @@
 
 			<div class="row mb-3">
 
-				<div class="col-md-9">
+				<div class="col-md-12">
 
 					<div class="row mb-3">
 
 						<label for="avatarID" class="col-md-3 col-form-label">Avatar</label>
-						<div class="col-md-9">
-							<input type="file" name="avatar" id="avatarID" class="form-control">		
+						<div class="col-md-7">
+							<input type="file" name="avatar" id="avatarID" class="form-control">
 						</div>
-					
+
 					</div>
 
 					<div class="row mb-3">
@@ -32,6 +32,18 @@
 							</div>
 						</div>
 
+						<div class="col-md-10 text-end">
+
+							@if ($profile->avatar != '')
+							<img alt="{{ auth()->user()->name }}" src="@php echo getImageUserAvatar(auth()->user()->id) @endphp" style="max-width:120px;" class="h-auto rounded-circle">
+							@else
+							<img alt="{{ $profile->name}} avatar" src="/assets/img/avatars/user.png" style="max-height:100px;">
+							@endif
+
+						</div>
+
+
+
 					</div>
 
 
@@ -40,16 +52,7 @@
 
 
 
-				<div class="col-md-3">
 
-					<?php
-					if ($profile->avatar != '') {
-						echo showImageUserAvatar(auth()->user()->id, $alt = auth()->user()->name, $class = 'w-px-80 h-auto rounded-circle');
-					} else {
-						echo '<img alt="' . $profile->name . ' avatar" src="/assets/img/avatars/user.png"  style="max-height:100px;">';
-					}
-					?>
-				</div>
 
 			</div>
 
@@ -59,7 +62,7 @@
 			<div class="col-md-12 col-xs-12 text-center">
 				<button data-color="red" data-size="s" data-style="expand-right" id="submitFormID" type="submit" name="submitForm" value="submit" class="btn btn-primary submittheform">Invia</button>
 			</div>
-		
+
 
 		</div>
 		{{ Form::close() }}

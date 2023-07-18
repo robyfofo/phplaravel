@@ -16,7 +16,7 @@ class UsersController extends Controller
 
   private $itemsforpage = 2;
   private $page = 1;
-  private $searchFromTable = '';
+  private $searchfromtable = '';
   private $orderType = 'ASC';
   private $levels;
 
@@ -43,13 +43,13 @@ class UsersController extends Controller
     if ($request->session()->has('users page')) $this->page = $request->session()->get('users page');
 
     // ricerca 
-    if ($request->session()->missing('users searchFromTable')) $request->session()->put('users searchFromTable', '');
-    if (request()->input('searchFromTable')) {
-      $request->session()->put('users searchFromTable', request()->input('searchFromTable'));
+    if ($request->session()->missing('users searchfromtable')) $request->session()->put('users searchfromtable', '');
+    if (request()->input('searchfromtable')) {
+      $request->session()->put('users searchfromtable', request()->input('searchfromtable'));
     } else {
-      $request->session()->put('users searchFromTable', '');
+      $request->session()->put('users searchfromtable', '');
     }
-    if ($request->session()->has('users searchFromTable')) $this->searchFromTable = $request->session()->get('users searchFromTable');
+    if ($request->session()->has('users searchfromtable')) $this->searchfromtable = $request->session()->get('users searchfromtable');
 
   
     $appJavascriptLinks = array('<script src="js/modules/users.index.20230612.js"></script>');
@@ -58,16 +58,16 @@ class UsersController extends Controller
 
       ->where('is_root', '=', 0)
       ->where(function($query) {
-        $query->where('name', 'like', '%' . $this->searchFromTable . '%')
-        ->orWhere('surname', 'like', '%' . $this->searchFromTable . '%')
-        ->orWhere('email', 'like', '%' . $this->searchFromTable . '%');
+        $query->where('name', 'like', '%' . $this->searchfromtable . '%')
+        ->orWhere('surname', 'like', '%' . $this->searchfromtable . '%')
+        ->orWhere('email', 'like', '%' . $this->searchfromtable . '%');
       })
       
       ->paginate($this->itemsforpage);
 
     return view('users.index', ['users' => $users])
     ->with('itemsforpage', $this->itemsforpage)
-    ->with('searchFromTable', $this->searchFromTable)
+    ->with('searchfromtable', $this->searchfromtable)
     ->with('orderType', $this->orderType)
     ->with('appJavascriptLinks', $appJavascriptLinks)
     ->with('levels',$this->levels);

@@ -19,9 +19,7 @@ class ProjectsController extends Controller
    * @return \Illuminate\Contracts\View\View
    */
 
-  private $itemsforpage = 2;
-  private $page = 1;
-  private $searchFromTable = '';
+  private $searchfromtable = '';
   private $orderType = 'ASC';
 
   public function index(Request $request)
@@ -30,52 +28,20 @@ class ProjectsController extends Controller
     if ($request->session()->missing('projects itemsforpage')) $request->session()->put('projects itemsforpage', 10);
     if (request()->input('itemsforpage')) $request->session()->put('projects itemsforpage', request()->input('itemsforpage'));
 
-    // paginazione
-    if ($request->session()->missing('projects page')) $request->session()->put('projects page', 1);
-    if (request()->input('page')) $request->session()->put('projects page', request()->input('page'));
-
-    if ($request->session()->has('projects itemsforpage')) $this->itemsforpage = $request->session()->get('projects itemsforpage');
-    if ($request->session()->has('projects page')) $this->page = $request->session()->get('projects page');
-
     // ricerca 
-    if ($request->session()->missing('projeks searchFromTable')) $request->session()->put('projeks searchFromTable', '');
-    if (request()->input('searchFromTable')) {
-      $request->session()->put('projeks searchFromTable', request()->input('searchFromTable'));
-    } else {
-      $request->session()->put('projeks searchFromTable', '');
-    }
-    if ($request->session()->has('projeks searchFromTable')) $this->searchFromTable = $request->session()->get('projeks searchFromTable');
+    $request->session()->put('projects searchfromtable', '');
+    if (request()->input('searchfromtable')) $request->session()->put('projects searchfromtable', request()->input('searchfromtable'));
 
-
-    /*
-    $searchwhere = array();
-    $fieldsSearch = array('title', 'content');
-    if ($this->searchFromTable != '') {
-      $words = explode(',', $this->searchFromTable);
-      if (count($fieldsSearch) > 0) {
-        foreach ($fieldsSearch as $key => $value) {
-          if (count($words) > 0) {
-            foreach ($words as $value1) {
-              $searchwhere[] = array($value, 'LIKE', '%' . $value1 . '%');
-            }
-          }
-        }
-      }
-    }
-    */
-  
     $appJavascriptLinks = array('<script src="js/modules/projects.index.20230608.js"></script>');
 
     $projects = Project::orderBy('ordering', $this->orderType)
     ->where(function($query) {
-      $query->where('title', 'like', '%' . $this->searchFromTable . '%')
-      ->orWhere('content', 'like', '%' . $this->searchFromTable . '%');
+      $query->where('title', 'like', '%' . request()->session()->get('projects searchfromtable'). '%')
+      ->orWhere('content', 'like', '%' . request()->session()->get('projects searchfromtable') . '%');
     })
-    ->paginate($this->itemsforpage);
+    ->paginate(request()->session()->get('projects itemsforpage'));
 
     return view('projects.index', ['projects' => $projects])
-      ->with('itemsforpage', $this->itemsforpage)
-      ->with('searchFromTable', $this->searchFromTable)
       ->with('orderType', $this->orderType)
       ->with('appJavascriptLinks', $appJavascriptLinks);
   }

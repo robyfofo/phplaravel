@@ -229,8 +229,6 @@ function optimizeFieldOrdering($table = '', $fieldOrder = 'ordering', $fieldPare
   return true;
 }
 
-
-
 function getLastOrdering($table, $field = 'ordering', $clause = '')
 {
   if ($table == '') return false;

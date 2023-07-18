@@ -17,7 +17,7 @@ class ThirdpartiesController extends Controller
 
   private $itemsforpage = 2;
   private $page = 1;
-  private $searchFromTable = '';
+  private $searchfromtable = '';
   private $orderType = 'ASC';
   private $location_nations;
   private $location_province;
@@ -51,13 +51,13 @@ class ThirdpartiesController extends Controller
     if ($request->session()->has('thirdparty page')) $this->page = $request->session()->get('thirdparty page');
 
     // ricerca 
-    if ($request->session()->missing('thirdparty searchFromTable')) $request->session()->put('thirdparty searchFromTable', '');
-    if (request()->input('searchFromTable')) {
-      $request->session()->put('thirdparty searchFromTable', request()->input('searchFromTable'));
+    if ($request->session()->missing('thirdparty searchfromtable')) $request->session()->put('thirdparty searchfromtable', '');
+    if (request()->input('searchfromtable')) {
+      $request->session()->put('thirdparty searchfromtable', request()->input('searchfromtable'));
     } else {
-      $request->session()->put('thirdparty searchFromTable', '');
+      $request->session()->put('thirdparty searchfromtable', '');
     }
-    if ($request->session()->has('thirdparty searchFromTable')) $this->searchFromTable = $request->session()->get('thirdparty searchFromTable');
+    if ($request->session()->has('thirdparty searchfromtable')) $this->searchfromtable = $request->session()->get('thirdparty searchfromtable');
 
   
     $appJavascriptLinks = array('<script src="js/modules/thirdparties.index.20230612.js"></script>');
@@ -65,16 +65,16 @@ class ThirdpartiesController extends Controller
     $thirdparties = Thirdparty::orderBy('id', $this->orderType)
 
       ->where(function($query) {
-        $query->where('name', 'like', '%' . $this->searchFromTable . '%')
-        ->orWhere('surname', 'like', '%' . $this->searchFromTable . '%')
-        ->orWhere('email', 'like', '%' . $this->searchFromTable . '%');
+        $query->where('name', 'like', '%' . $this->searchfromtable . '%')
+        ->orWhere('surname', 'like', '%' . $this->searchfromtable . '%')
+        ->orWhere('email', 'like', '%' . $this->searchfromtable . '%');
       })
       
       ->paginate($this->itemsforpage);
 
     return view('thirdparties.index', ['thirdparties' => $thirdparties])
     ->with('itemsforpage', $this->itemsforpage)
-    ->with('searchFromTable', $this->searchFromTable)
+    ->with('searchfromtable', $this->searchfromtable)
     ->with('orderType', $this->orderType)
     ->with('appJavascriptLinks', $appJavascriptLinks);
   }

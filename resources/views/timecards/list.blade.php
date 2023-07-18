@@ -29,7 +29,7 @@
 				<label for="itemsforpageID" class="col-md-2 col-form-label form-control-sm">Voci per pagina</label>
 
 
-				<label for="searchFromTableID" class="col-md-1 col-form-label form-control-sm">Progetti</label>
+				<label for="searchfromtableID" class="col-md-1 col-form-label form-control-sm">Progetti</label>
 				<div class="col-md-2">
 					<select name="project_id" id="project_idID" class="form-select form-select-sm" onchange="this.form.submit();">
 						<option value=""></option>
@@ -50,7 +50,7 @@
 					</select>
 				</div>
 
-				<label for="searchFromTableID" class="col-md-1 col-form-label form-control-sm">Contenuto</label>
+				<label for="searchfromtableID" class="col-md-1 col-form-label form-control-sm">Contenuto</label>
 				<div class="col-md-2">
 						<input class="form-control form-control-sm" value="{{ request()->session()->get('timecards keyword') }}" name="keyword" id="keywordID">
 				</div>

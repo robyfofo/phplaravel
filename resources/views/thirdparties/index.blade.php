@@ -28,9 +28,9 @@
 				</div>
 				<label for="itemsforpageID" class="col-md-2 col-form-label form-control-sm">Voci per pagina</label>
 		
-				<label for="searchFromTableID" class="offset-md-6 col-md-1 col-form-label form-control-sm" style="text-align:right;">Cerca</label>
+				<label for="searchfromtableID" class="offset-md-6 col-md-1 col-form-label form-control-sm" style="text-align:right;">Cerca</label>
 				<div class="col-md-2">
-					<input type="search" name="searchFromTable" id="searchFromTableID" class="form-control form-control-sm" value="@isset($searchFromTable){{ $searchFromTable }}@endisset" onchange="this.form.submit();">
+					<input type="search" name="searchfromtable" id="searchfromtableID" class="form-control form-control-sm" value="@isset($searchfromtable){{ $searchfromtable }}@endisset" onchange="this.form.submit();">
 				</div>
 			</div>
 		</form>

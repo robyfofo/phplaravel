@@ -21,7 +21,7 @@ class LevelsController extends Controller
 
   private $itemsforpage = 2;
   private $page = 1;
-  private $searchFromTable = '';
+  private $searchfromtable = '';
   private $orderType = 'ASC';
 
   public function index(Request $request)
@@ -39,18 +39,18 @@ class LevelsController extends Controller
     if ( $request->session()->has('levels page') ) $this->page = $request->session()->get('levels page');
 
     // ricerca 
-    if ( $request->session()->missing('levels searchFromTable') ) $request->session()->put('levels searchFromTable','');  
-    if (request()->input('searchFromTable')) {
-        $request->session()->put('levels searchFromTable',request()->input('searchFromTable'));  
+    if ( $request->session()->missing('levels searchfromtable') ) $request->session()->put('levels searchfromtable','');  
+    if (request()->input('searchfromtable')) {
+        $request->session()->put('levels searchfromtable',request()->input('searchfromtable'));  
     } else {
-        $request->session()->put('levels searchFromTable','');   
+        $request->session()->put('levels searchfromtable','');   
     }
-    if ( $request->session()->has('levels searchFromTable') ) $this->searchFromTable = $request->session()->get('levels searchFromTable');
+    if ( $request->session()->has('levels searchfromtable') ) $this->searchfromtable = $request->session()->get('levels searchfromtable');
 
     $where = array();
     $fieldsSearch = array('title');
-    if ($this->searchFromTable != '') {
-      $words = explode(',', $this->searchFromTable);
+    if ($this->searchfromtable != '') {
+      $words = explode(',', $this->searchfromtable);
       if (count($fieldsSearch) > 0) {
         foreach ($fieldsSearch as $key => $value) {
           if (count($words) > 0) {
@@ -88,7 +88,7 @@ class LevelsController extends Controller
 
     return view('levels.index', ['levels' => $levels])
       ->with('itemsforpage', $this->itemsforpage)
-      ->with('searchFromTable', $this->searchFromTable)
+      ->with('searchfromtable', $this->searchfromtable)
       ->with('orderType', $this->orderType)
       ->with('appJavascriptLinks', $appJavascriptLinks);
   }
