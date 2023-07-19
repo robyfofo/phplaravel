@@ -68,53 +68,60 @@
 <!-- nuovi inserimenti -->
 <div class="row">
 
-  <div class="col-lg-3 mb-4 order-1">
-    <div class="card">
-      <div class="card-body">
-        <div class="card-title d-flex align-items-start justify-content-between">
-          <div class="avatar flex-shrink-0">
-            <h3 class="card-title text-nowrap mb-2">
-              <i class="menu-icon tf-icons bx bx-lg bx-pyramid"></i>
-              {{ $lastprojects }}
-            </h3>
+  @if ($lastprojects > 0)
+    <div class="col-lg-3 mb-4 order-1">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title d-flex align-items-start justify-content-between">
+            <div class="avatar flex-shrink-0">
+              <h3 class="card-title text-nowrap mb-2">
+                <i class="menu-icon tf-icons bx bx-lg bx-pyramid"></i>
+                {{ $lastprojects }}
+              </h3>
+            </div>
           </div>
+          <span class="d-block mb-1">Nuovi progetti</span>
         </div>
-        <span class="d-block mb-1">Nuovi progetti</span>
       </div>
     </div>
-  </div>
+  @endif
 
-  <div class="col-lg-3 mb-4 order-1">
-    <div class="card">
-      <div class="card-body">
-        <div class="card-title d-flex align-items-start justify-content-between">
-          <div class="avatar flex-shrink-0">
-            <h3 class="card-title text-nowrap mb-2">
-              <i class="menu-icon tf-icons bx bx-lg bx-alarm"></i>
-              {{ $lasttimecards }}
-            </h3>
+  @if ($lasttimecards > 0)
+    <div class="col-lg-3 mb-4 order-1">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title d-flex align-items-start justify-content-between">
+            <div class="avatar flex-shrink-0">
+              <h3 class="card-title text-nowrap mb-2">
+                <i class="menu-icon tf-icons bx bx-lg bx-alarm"></i>
+                {{ $lasttimecards }}
+              </h3>
+            </div>
           </div>
+          <span class="d-block mb-1">Nuove timecard</span>
         </div>
-        <span class="d-block mb-1">Nuove timecard</span>
       </div>
     </div>
-  </div>
+  @endif
 
-  <div class="col-lg-3 mb-4 order-1">
-    <div class="card">
-      <div class="card-body">
-        <div class="card-title d-flex align-items-start justify-content-between">
-          <div class="avatar flex-shrink-0">
-            <h3 class="card-title text-nowrap mb-2">
-              <i class="menu-icon tf-icons bx bx-lg bx-group"></i>
-              {{ $lastthirdparty }}
-            </h3>
+  @if ($lastthirdparty > 0)
+    <div class="col-lg-3 mb-4 order-1">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title d-flex align-items-start justify-content-between">
+            <div class="avatar flex-shrink-0">
+              <h3 class="card-title text-nowrap mb-2">
+                <i class="menu-icon tf-icons bx bx-lg bx-group"></i>
+                {{ $lastthirdparty }}
+              </h3>
+            </div>
           </div>
+          <span class="d-block mb-1">Nuovi clienti</span>
         </div>
-        <span class="d-block mb-1">Nuovi clienti</span>
       </div>
     </div>
-  </div>
+  @endif
+
 </div>
 <!-- nuovi inserimenti -->
 

@@ -32,7 +32,7 @@ class HomeController extends Controller
 
     $lastlogin = auth()->user()->last_login_at;
 
-    $lastlogin = '2023-01-01 12:00:00';
+    //$lastlogin = '2023-01-01 12:00:00';
 
     // prelevo ultimi progetti
     $lastprojects = Project::whereDate('created_at', '>',  $lastlogin)->count();

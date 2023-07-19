@@ -46,7 +46,7 @@
 						<th>Contenuto</th>
 						<th>Status</th>
 						<th>Completato</th>
-						<th>Attivo</th>
+						<th>Worktime</th>
 
 						<th>Action</th>
 					</tr>
@@ -75,7 +75,13 @@
 						{{ $project->status }}
 						</td>
 						<td>{{ $project->completato }}</td>
-						<td>{{ $project->active }}</td>
+						<td>
+							
+						{{ $project->worktime }} 
+
+					
+					
+						</td>
 
 						<td class="actions text-end">
 							<a href="javascript:void(0);" data-id="{{ $project->id }}" data-table="projects" data-label="Progetto" data-labelsex="o" data-token="{{ csrf_token() }}" class="setactive" title=""><i class="bx bx-{{ $project->active == 1 ? 'lock-open-alt' : 'lock-alt' }}{{ $project->active == 1 ? ' text-success' : ' text-danger' }}"></i></a><a class="" href="{{ route('projects.edit', [$project->id]) }}" title="Modifica progetto"><i class='bx bx-edit'></i></a>

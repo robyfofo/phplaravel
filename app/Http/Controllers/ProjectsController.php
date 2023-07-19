@@ -41,6 +41,8 @@ class ProjectsController extends Controller
     })
     ->paginate(request()->session()->get('projects itemsforpage'));
 
+    //dd($projects);
+
     return view('projects.index', ['projects' => $projects])
       ->with('orderType', $this->orderType)
       ->with('appJavascriptLinks', $appJavascriptLinks);
