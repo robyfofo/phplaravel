@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->text('content')->nullable();
 
-            $table->mediumInteger('status')->default(0);
+            
             $table->mediumInteger('completato')->default(0);
             
             $table->float('costo_orario')->nullable();

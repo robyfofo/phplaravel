@@ -70,7 +70,7 @@ class ProjectsController extends Controller
   {
 
     if (!$request->has('active')) $request->merge(['active' => 0]);
-
+    
     $project = new Project;
     $project->title = $request->input('title');
     $project->content = $request->input('content');
@@ -78,6 +78,8 @@ class ProjectsController extends Controller
     $project->ordering = $request->input('ordering');
     $project->status = $request->input('status');
     $project->completato = $request->input('completato');
+    $project->costo_orario = $request->input('costo_orario');
+    $project->ore_preventivo = $request->input('ore_preventivo');
     $project->save();
 
     return to_route('projects.index')->with('success', 'Progetto inserito!');
@@ -128,8 +130,10 @@ class ProjectsController extends Controller
     $project->ordering = $request->input('ordering');
     $project->status = $request->input('status');
     $project->completato = $request->input('completato');
+    $project->costo_orario = $request->input('costo_orario');
+    $project->ore_preventivo = $request->input('ore_preventivo');
     $project->save();
-
+    
     return to_route('projects.index')->with('success', 'Progetto modificato!');
   }
 
@@ -150,13 +154,13 @@ class ProjectsController extends Controller
   public function moreordering($id, $foo)
   {
     $result = moreorder($id, $table = 'projects', $opt = array());
-
+    
     if ($result == false) {
       return to_route('projects.index')->with('error', 'Progetto NON spostato.');
     }
     return to_route('projects.index')->with('success', 'Progetto spostato.');
   }
-
+  
   public function lessordering($id, $foo)
   {
     $result = lessorder($id, $table = 'projects', $opt = array());
@@ -166,5 +170,5 @@ class ProjectsController extends Controller
     }
     return to_route('projects.index')->with('success', 'Progetto spostato.');
   }
-
+  
 }

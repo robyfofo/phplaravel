@@ -30,14 +30,13 @@
 
 				<label for="searchfromtableID" class="offset-md-6 col-md-1 col-form-label form-control-sm" style="text-align:right;">Cerca</label>
 				<div class="col-md-2">
-					<input type="search" name="searchfromtable" id="searchfromtableID" class="form-control form-control-sm" 
-					value="{{ request()->session()->get('projects searchfromtable') }}" onchange="this.form.submit();">
+					<input type="search" name="searchfromtable" id="searchfromtableID" class="form-control form-control-sm" value="{{ request()->session()->get('projects searchfromtable') }}" onchange="this.form.submit();">
 				</div>
 			</div>
 		</form>
 
 		<div class="table-responsive text-nowrap my-2">
-      <table class="table table-sm table-bordered listData">
+			<table class="table table-sm table-bordered listData">
 				<thead>
 					<tr>
 						<th>id</th>
@@ -58,9 +57,9 @@
 						<td>{{ $project->id }}</td>
 						<td>
 							@if ($project->ordering == 'DESC')
-								<a class="" href={{ route('projects.lessordering',[$project->id,$orderType]) }}" title="sposta giu"><i class='bx bx-down-arrow-alt' ></i></a><a class="" href="{{ route('projects.moreordering',[$project->id,$orderType]) }}" title="sposta su"><i class='bx bx-up-arrow-alt' ></i></a>
+							<a class="" href={{ route('projects.lessordering',[$project->id,$orderType]) }}" title="sposta giu"><i class='bx bx-down-arrow-alt'></i></a><a class="" href="{{ route('projects.moreordering',[$project->id,$orderType]) }}" title="sposta su"><i class='bx bx-up-arrow-alt'></i></a>
 							@else
-								<a class="" href="{{ route('projects.moreordering',[$project->id,$orderType]) }}" title="sposta giu"><i class='bx bx-down-arrow-alt' ></i></a><a class="" href="{{ route('projects.lessordering',[$project->id,$orderType]) }}" title="sposta su"><i class='bx bx-up-arrow-alt' ></i></a>
+							<a class="" href="{{ route('projects.moreordering',[$project->id,$orderType]) }}" title="sposta giu"><i class='bx bx-down-arrow-alt'></i></a><a class="" href="{{ route('projects.lessordering',[$project->id,$orderType]) }}" title="sposta su"><i class='bx bx-up-arrow-alt'></i></a>
 							@endif
 
 							({{ $project->ordering }})
@@ -70,17 +69,48 @@
 						<td>{{ $project->content }}</td>
 						<td>
 							<?php
-								echo Config::get('settings.project_status.'.$project->status);
+							echo Config::get('settings.project_status.' . $project->status);
 							?>
-						{{ $project->status }}
+							{{ $project->status }}
 						</td>
-						<td>{{ $project->completato }}</td>
+						<td>{{ $project->completato }} %</td>
 						<td>
-							
-						{{ $project->worktime }} 
+							@php
+							$strore = $project->ore_preventivo;
 
-					
-					
+							if ($project->worktime != '') {
+							$rapporto_minuti_preventivo_lavorate = 0;
+							$minutipreventivati = $project->ore_preventivo * 60;
+							$foo = explode(':', $project->worktime);
+							$ore = (isset($foo[0]) ? $foo[0] : 0);
+							$min = (isset($foo[1]) ? $foo[1] : 0);
+							$minutilavorati = floor($ore * 60) + $min;
+							if ($minutilavorati > 0 && $minutipreventivati > 0) $rapporto_minuti_preventivo_lavorate = ($minutilavorati * 100 ) / $minutipreventivati;
+							$class = '';
+							if ( $minutilavorati > $minutipreventivati) $class="text-alert";
+							$strore .= ' <small class="'.$class.'">(lavorate: <b>'.substr($project->worktime,0,5).' - '.$rapporto_minuti_preventivo_lavorate.'%</b></small>)';
+
+							}
+							@endphp
+
+
+							{!! $strore !!}
+
+
+
+							<button type="button" href="javascript:void(0)" data-remote="false" data-target="#largeModal" data-toggle="modal" title="Mostra tempo lavorato al progetto" class="btn btn-sm btn-default float-end openmodal"><i class='bx bx-alarm'></i></button>
+
+
+
+							<button
+                          type="button"
+                          class="btn btn-primary"
+                          data-bs-toggle="modal"
+                          data-bs-target="#largeModal"
+                        >
+
+
+
 						</td>
 
 						<td class="actions text-end">
@@ -101,4 +131,30 @@
 
 	</div>
 </div>
+
+
+
+<!-- Large Modal -->
+<div class="modal fade" id="largeModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel3">Tempo lavorato al progetto</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+					Chiudi
+				</button>
+				
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Extra Large Modal -->
 @stop

@@ -50,6 +50,13 @@
 					</div>
 
 					<div class="row mb-3">
+						{{ Form::label('costo_orario', 'Costo orario', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+						<div class="col-sm-12 col-md-12 col-lg-3 col-xl-2">
+							{{ Form::text('costo_orario', null, array('class' => 'form-control form-control-sm')) }}
+						</div>
+					</div>
+
+					<div class="row mb-3">
 						{{ Form::label('status', 'Status', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
 						<div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
 							{{ Form::select('status',Config::get('settings.project_status'),$project->status,array('class' => 'form-select form-select-sm')); }}
@@ -62,6 +69,14 @@
 							{{ Form::number('completato', null, array('class' => 'form-control form-control-sm')) }}
 						</div>
 					</div>
+
+					<div class="row mb-3">
+						{{ Form::label('ore_preventivo', 'Ore preventivo', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+						<div class="col-sm-12 col-md-12 col-lg-3 col-xl-2">
+							{{ Form::number('ore_preventivo',null, array('class' => 'form-control form-control-sm')) }}
+						</div>
+					</div>
+					
 
 				</fieldset>	
 			</div>
