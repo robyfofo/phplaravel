@@ -40,71 +40,71 @@
 			{!! Form::open(['route' => 'thirdparties.store','enctype' => 'multipart/form-data']) !!}
 
 			<div class="tab-content">
-				
+
 				<!-- datibase -->
 				<div class="tab-pane fade show active" id="navs-pills-top-datibase" role="tabpanel">
 					<fieldset>
 
 						<div class="row mb-3">
-							{{ Form::label('name', 'Nome', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-							<div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+
+							{{ Form::label('name', 'Nome', ['class'=>'col-sm-12 col-md-2 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							<div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
 								{{ Form::text('name', null, array('class' => 'form-control form-control-sm')) }}
 							</div>
-						</div>
 
-						<div class="row mb-3">
-							{{ Form::label('surname', 'Cognome', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-							<div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+							{{ Form::label('surname', 'Cognome', ['class'=>'col-sm-12 col-md-2 col-lg-2 col-xl-2 col-form-label col-form-label-sm responsive-text-right']) }}
+							<div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
 								{{ Form::text('surname', null, array('class' => 'form-control form-control-sm')) }}
 							</div>
+
 						</div>
 
 						<hr>
 
 						<div class="row mb-3">
-							{{ Form::label('location_nations_id', 'Nazione', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-							<div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
-							<select class="form-select form-select-sm" name="location_nations_id">
-								@foreach($location_nations as $item)
+							{{ Form::label('location_nations_id', 'Nazione', ['class'=>'col-sm-12 col-md-2 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							<div class="col-sm-12 col-md-6 col-lg-5 col-xl-5">
+								<select class="form-select form-select-sm" name="location_nations_id">
+									@foreach($location_nations as $item)
 									<option value="{{ $item->id }}">{{ $item->title_it }}</option>
-								@endforeach
-							</select>
+									@endforeach
+								</select>
 							</div>
 						</div>
 
 						<hr>
 
 						<div class="row mb-3">
-							
-							{{ Form::label('location_province_id', 'Provincia', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-							<div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
-							<select class="form-select form-select-sm" name="location_province_id" id="location_province_id">
-							
-								@foreach($location_province as $item)
+
+							{{ Form::label('location_province_id', 'Provincia', ['class'=>'col-sm-12 col-md-2 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							<div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+								<select class="form-select form-select-sm" name="location_province_id" id="location_province_id">
+
+									@foreach($location_province as $item)
 									<option value="{{ $item->id }}">{{ $item->nome }}</option>
-								@endforeach
-							</select>
+									@endforeach
+								</select>
 							</div>
 
-							{{ Form::label('provincia_alt', 'Altra provincia', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-							<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+							{{ Form::label('provincia_alt', 'Altra provincia', ['class'=>'col-sm-12 col-md-3 col-lg-2 col-xl-2 col-form-label col-form-label-sm responsive-text-right']) }}
+							<div class="col-sm-12 col-md-3 col-lg-4 col-xl-4">
 								{{ Form::text('provincia_alt', null, array('class' => 'form-control form-control-sm')) }}
 							</div>
 
 						</div>
 
 						<hr>
-						
+
 						<div class="row mb-3">
-							
-							{{ Form::label('location_cities_id', 'Città', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-							<div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
-							<select class="form-select form-select-sm" name="location_province_id" id="location_cities_id">
-							</select>
+
+							{{ Form::label('location_cities_id', 'Città', ['class'=>'col-sm-12 col-md-2 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							<div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+								<select class="form-select form-select-sm" name="location_province_id" id="location_cities_id">
+								</select>
 							</div>
 
-							{{ Form::label('city_alt', 'Altra città', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-							<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+							{{ Form::label('city_alt', 'Altra città', ['class'=>'col-sm-12 col-md-3 col-lg-2 col-xl-2 col-form-label col-form-label-sm responsive-text-right']) }}
+							<div class="col-sm-12 col-md-3 col-lg-4 col-xl-4">
 								{{ Form::text('city_alt', null, array('class' => 'form-control form-control-sm')) }}
 							</div>
 
@@ -113,27 +113,25 @@
 						<br>
 
 						<div class="row mb-3">
-							{{ Form::label('zip_code', 'CAP', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-							<div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+							{{ Form::label('zip_code', 'CAP', ['class'=>'col-sm-12 col-md-2 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							<div class="col-sm-12 col-md-2 col-lg-2 col-xl-2">
 								{{ Form::text('zip_code', null, array('class' => 'form-control form-control-sm')) }}
 							</div>
-						</div>
 
-						<div class="row mb-3">
-							{{ Form::label('street', 'Via', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-							<div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+							{{ Form::label('street', 'Via', ['class'=>'col-sm-12 col-md-2 col-lg-1 col-xl-1 col-form-label col-form-label-sm responsive-text-right']) }}
+							<div class="col-sm-12 col-md-7 col-lg-7 col-xl-7">
 								{{ Form::text('street', null, array('class' => 'form-control form-control-sm')) }}
 							</div>
 						</div>
 
-					</fieldset>	
+					</fieldset>
 				</div>
 				<!-- datibase -->
 
 				<!-- contatti -->
 				<div class="tab-pane fade" id="navs-pills-top-contatti" role="tabpanel">
 					<fieldset>
-						
+
 						<div class="row mb-3">
 							{{ Form::label('email', 'Email', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
 							<div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
@@ -142,12 +140,12 @@
 						</div>
 
 						<div class="row mb-3">
-							
+
 							{{ Form::label('telephone', 'Telefono', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
 							<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
 								{{ Form::text('telephone', null, array('class' => 'form-control form-control-sm')) }}
 							</div>
-					
+
 							{{ Form::label('mobile', 'Mobile', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
 							<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
 								{{ Form::text('mobile', null, array('class' => 'form-control form-control-sm')) }}
@@ -155,7 +153,7 @@
 
 						</div>
 
-					</fieldset>	
+					</fieldset>
 				</div>
 				<!-- contatti -->
 
@@ -176,34 +174,34 @@
 							<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
 								{{ Form::text('codice_fiscale', null, array('class' => 'form-control form-control-sm')) }}
 							</div>
-						
+
 
 							{{ Form::label('partita_iva', 'Partita IVA', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
 							<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
 								{{ Form::text('partita_iva', null, array('class' => 'form-control form-control-sm')) }}
 							</div>
 						</div>
-						
+
 						<div class="row mb-3">
 
 							{{ Form::label('pec', 'PEC', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
 							<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
 								{{ Form::text('pec', null, array('class' => 'form-control form-control-sm')) }}
 							</div>
-						
+
 
 							{{ Form::label('sid', 'SID', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
 							<div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
 								{{ Form::text('sid', null, array('class' => 'form-control form-control-sm')) }}
 							</div>
-							
+
 						</div>
 
 					</fieldset>
 				</div>
 				<!-- fiscale -->
 
-		
+
 				<!-- altro -->
 				<div class="tab-pane fade" id="navs-pills-top-altro" role="tabpanel">
 					<fieldset>

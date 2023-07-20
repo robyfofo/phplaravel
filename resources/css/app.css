@@ -1,0 +1,32 @@
+.responsive-text-right {
+	text-align: left;
+}
+
+@media (min-width: 576px) 
+{ 
+	.responsive-text-right {
+		text-align: left !important;
+	}
+}
+
+@media (min-width: 768px) 
+{ 
+	.responsive-text-right {
+		text-align: left !important;
+	}
+}
+
+@media (min-width: 992px)
+{
+	.responsive-text-right {
+		text-align: right !important;
+	}
+
+}
+
+@media (min-width: 1200px) {
+
+	.responsive-text-right {
+		text-align: right !important;
+	}
+}
