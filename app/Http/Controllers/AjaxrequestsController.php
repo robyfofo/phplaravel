@@ -5,8 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\Project;
+
 class AjaxrequestsController extends Controller
 {
+
+  public function getprojecttimecards(Request $request) {
+    $token = $request->input('_token', '');
+    $id = $request->input('id', 0);
+
+
+    if (csrf_token() !== $token) {
+      return 'Non hai passato il token corretto!';
+    }
+
+    $totaltime = Project::getprojecttimecardsum($id);
+    $totaltimemc = Project::getprojecttimecardsummc($id);
+    $totaltimemp = Project::getprojecttimecardsummp($id);
+
+    $output = '<table class="table table-striped table-condensed"><tbody><tr><td>Tempo lavorato totale:</td><td class="text-end">'.$totaltime.'</td></tr><tr><td><strong>Tempo lavorato mese corrente:</strong></td><td class="text-end"><strong>'.$totaltimemc.'</strong></td></tr><tr><td>Tempo lavorato mese precedente:</td><td class="text-end">'.$totaltimemp.'</td></tr></tbody></table>';
+    return $output;
+  }
 
   public function getcitiesjsonfromdb(Request $request)
   {
@@ -28,7 +47,6 @@ class AjaxrequestsController extends Controller
     echo json_encode($comuniArray);
     die();
   }
-
 
   public function setdbrowactive(Request $request)
   {

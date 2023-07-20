@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Project;
 use App\Http\Requests\ProjectRequest;
+use App\Http\Requests\AjaxRequest;
 
 class ProjectsController extends Controller
 {
@@ -170,5 +171,5 @@ class ProjectsController extends Controller
     }
     return to_route('projects.index')->with('success', 'Progetto spostato.');
   }
-  
+
 }

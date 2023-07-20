@@ -96,18 +96,8 @@
 
 							{!! $strore !!}
 
-
-
-							<button type="button" href="javascript:void(0)" data-remote="false" data-target="#largeModal" data-toggle="modal" title="Mostra tempo lavorato al progetto" class="btn btn-sm btn-default float-end openmodal"><i class='bx bx-alarm'></i></button>
-
-
-
-							<button
-                          type="button"
-                          class="btn btn-primary"
-                          data-bs-toggle="modal"
-                          data-bs-target="#largeModal"
-                        >
+							<button ref="javascript:void(0)" type="button" class="btn btn-sm btn-primary openmodal float-end" data-id="{{ $project->id }}" data-token="{{ csrf_token() }}" title="Mostra tempo lavorato al progetto">
+								<i class='bx bx-alarm'></i></button>
 
 
 
@@ -144,14 +134,14 @@
 			</div>
 			<div class="modal-body">
 				<div class="row">
-					
+
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
 					Chiudi
 				</button>
-				
+
 			</div>
 		</div>
 	</div>

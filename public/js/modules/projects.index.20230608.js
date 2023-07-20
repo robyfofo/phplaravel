@@ -1,7 +1,7 @@
 
 $(document).ready(function () {
   setDbRowActive();
-  //openmodal();
+  openmodal();
 });
 
 
@@ -56,26 +56,37 @@ function setDbRowActive() {
 function openmodal() {
 
   $('.openmodal').bind("click", function () {
+    var elem = $(this);
+    let id = elem.attr('data-id');
+    let token = elem.attr('data-token');
+    $.ajax({
+      url: "ajaxrequest/getprojecttimecards",
+      method: "PUT",
+      async: false,
+      cache: false,
+      global: false,
+      data: {
+        'id': id,
+        '_token': token
+      },
+      success: function (response) {
 
-    console.log('open');
+        console.log(response);
 
-    openmodal
-    /*
-    $("#largeModal").on("show.bs.modal", function (e) {
-
-
-
-
-
-      let output = 'aaaaaaaaaaaaaaaaaa';
-      $("#largeModal").on("show.bs.modal", function (e) {
-        $(this).find(".modal-body").html(output);
-      });
-      
-      
-    });
-    */
+        var myModal = new bootstrap.Modal(document.getElementById('largeModal'));
+        $("#largeModal").find(".modal-body").html(response);
+        myModal.show();
+      },
+      error: function () {
+        showJavascriptAlert("Si sono verificati degli errori");
+      },
+      fail: function () {
+        showJavascriptAlert("Ajax failed to fetch data");
+      }
+    })
 
   });
 
 };
+
+

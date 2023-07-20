@@ -84,4 +84,5 @@ use App\Http\Controllers\AjaxrequestsController;
 Route::controller(AjaxrequestsController::class)->group(function () {
     Route::post('/ajaxrequests/setdbrowactive', 'setdbrowactive');
     Route::put('/ajaxrequests/getcitiesjsonfromdb', 'getcitiesjsonfromdb');
+    Route::put('/ajaxrequest/getprojecttimecards','getprojecttimecards');
 });
