@@ -13,16 +13,12 @@ class AjaxrequestsController extends Controller
   public function getprojecttimecards(Request $request) {
     $token = $request->input('_token', '');
     $id = $request->input('id', 0);
-
-
     if (csrf_token() !== $token) {
       return 'Non hai passato il token corretto!';
     }
-
     $totaltime = Project::getprojecttimecardsum($id);
     $totaltimemc = Project::getprojecttimecardsummc($id);
     $totaltimemp = Project::getprojecttimecardsummp($id);
-
     $output = '<table class="table table-striped table-condensed"><tbody><tr><td>Tempo lavorato totale:</td><td class="text-end">'.$totaltime.'</td></tr><tr><td><strong>Tempo lavorato mese corrente:</strong></td><td class="text-end"><strong>'.$totaltimemc.'</strong></td></tr><tr><td>Tempo lavorato mese precedente:</td><td class="text-end">'.$totaltimemp.'</td></tr></tbody></table>';
     return $output;
   }
@@ -45,6 +41,32 @@ class AjaxrequestsController extends Controller
       
     }
     echo json_encode($comuniArray);
+    die();
+  }
+
+  public function getcityjsonfromdb(Request $request)
+  {
+    $cities_id = $request->input('location_cities_id', 0);
+    $token = $request->input('_token', '');
+    if (csrf_token() !== $token) {
+      echo json_encode( array('error' => 1,'message' => 'Non hai passato il token corretto!') );
+      die();
+    }
+    if ($cities_id == 0) {
+      echo json_encode( array('error' => 1,'message' => 'Non hai passato la citta!') );
+      die();
+    }
+
+
+    $foo = DB::table('location_cities')
+    ->where('active','=',1)->findOrFail($cities_id);
+
+
+    dd($foo);
+
+    
+
+    echo json_encode( array('error' => 0,'message' => 'aaaaaaa') );
     die();
   }
 

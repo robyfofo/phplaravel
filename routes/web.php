@@ -83,6 +83,9 @@ Route::middleware('auth')->group(function () {
 use App\Http\Controllers\AjaxrequestsController;
 Route::controller(AjaxrequestsController::class)->group(function () {
     Route::post('/ajaxrequests/setdbrowactive', 'setdbrowactive');
+
     Route::put('/ajaxrequests/getcitiesjsonfromdb', 'getcitiesjsonfromdb');
+    Route::put('/ajaxrequests/getcityjsonfromdb', 'getcityjsonfromdb');
+
     Route::put('/ajaxrequest/getprojecttimecards','getprojecttimecards');
 });
