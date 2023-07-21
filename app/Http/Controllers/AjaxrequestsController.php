@@ -58,15 +58,9 @@ class AjaxrequestsController extends Controller
     }
 
 
-    $foo = DB::table('location_cities')
-    ->where('active','=',1)->findOrFail($cities_id);
+    $foo = DB::table('location_cities')->where('id','=',$cities_id)->where('active','=',1)->first();
 
-
-    dd($foo);
-
-    
-
-    echo json_encode( array('error' => 0,'message' => 'aaaaaaa') );
+    echo json_encode( array('error' => 0,'message' => '','data' => $foo) );
     die();
   }
 

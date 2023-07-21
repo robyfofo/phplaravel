@@ -99,7 +99,7 @@
 
 							{{ Form::label('location_cities_id', 'Città', ['class'=>'col-sm-12 col-md-2 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
 							<div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-								<select class="form-select form-select-sm" name="location_province_id" id="location_cities_id">
+								<select class="form-select form-select-sm" name="location_cities_id" id="location_cities_id">
 								</select>
 							</div>
 

@@ -181,8 +181,10 @@ class ThirdpartiesController extends Controller
 
     $thirdparty->location_nations_id = $request->input('location_nations_id');
     $thirdparty->location_province_id = $request->input('location_province_id');
+    $thirdparty->location_cities_id = $request->input('location_cities_id');
     
     $thirdparty->provincia_alt = $request->input('provincia_alt');
+    $thirdparty->city_alt = $request->input('city_alt');
 
     $thirdparty->telephone = $request->input('telephone');
     $thirdparty->mobile = $request->input('mobile');

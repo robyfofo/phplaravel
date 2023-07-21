@@ -44,7 +44,7 @@ function createSelectCities() {
 			});
 			$('#location_cities_id').find('option').remove().end().append(selectOptions);
 			$('#location_cities_id').val(location_cities_id);
-			//$('#location_comuni_idID').selectpicker('refresh');      
+			//$('#location_cities_id').selectpicker('refresh');      
 		})
 		.fail(function () {
 			showJavascriptAlert("Errore ajax lettura comuni");
@@ -67,10 +67,11 @@ $('#location_cities_id').on('change', function () {
 		},
 		dataType: 'json'
 	})
-	.done(function (data) {
-			//$('#zip_codeID').val(data.cap);
-			//$('#location_comuni_idID').selectpicker('refresh');
-			//manageComuni();
+	.done(function (response) {
+		if (response.error == 0) {
+			console.log(response.data.cap)
+			$('#zip_code').val(response.data.cap);
+		}
 	})
 	.fail(function () {
 			alert("Ajax failed to fetch data article for comuni cap");
