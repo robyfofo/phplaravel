@@ -1,18 +1,10 @@
 {"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bx-cog\"><\/i>","label":"%LABEL%"}
-
 {"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bx-pyramid\"><\/i>","label":"%LABEL%"}
-
 {"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bx-users\"><\/i>","label":"%LABEL%"}
-
 {"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"%LABEL%"}
-
-
 <i class='bx bxs-user-detail'></i>
-
+{"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-bullseye\"><\/i>","label":"%LABEL%"}
 {"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-clock\"><\/i>","label":"%LABEL%"}
-
-{"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-clock\"><\/i>","label":"%LABEL%"}
-
 {
 	"action":"thirdparties","name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"%LABEL%","submenus":
 		[

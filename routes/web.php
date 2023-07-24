@@ -9,6 +9,7 @@ use App\Http\Controllers\ThirdpartiesController;
 use App\Http\Controllers\ThirdpartiesCategoriesController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\TimecardsController;
+use App\Http\Controllers\EstimatesController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -72,6 +73,18 @@ Route::middleware('auth')->group(function () {
   Route::get('/timecards/list', [TimecardsController::class, 'list'])->name('timecards.list');
   Route::get('/timecards/listpdf', [TimecardsController::class, 'listpdf'])->name('timecards.listpdf');
   Route::get('timecards/{any}', function () {
+    return abort('404');
+  })->where('any', '.*');
+
+
+  // timecards
+  Route::get('/estimates', [EstimatesController::class, 'index'])->name('estimates.index');
+  Route::get('/estimates/create', [EstimatesController::class, 'create'])->name('estimates.create');
+  Route::post('/estimates/store', [EstimatesController::class, 'store'])->name('estimates.store');
+  Route::get('/estimates/{estimate}/edit', [EstimatesController::class, 'edit'])->name('estimates.edit');
+  Route::put('/estimates/{estimate}', [EstimatesController::class, 'update'])->name('estimates.update');
+  Route::delete('/estimates/{estimate}', [EstimatesController::class, 'destroy'])->name('estimates.destroy');
+  Route::get('estimates/{any}', function () {
     return abort('404');
   })->where('any', '.*');
 
