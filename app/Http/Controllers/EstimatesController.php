@@ -9,7 +9,13 @@ use Illuminate\Http\Request;
 
 
 use App\Models\Estimate;
+use App\Models\Project;
+use App\Models\Thirdparty;
+use App\Models\Estimatesarticle;
+
 use App\Http\Requests\EstimateRequest;
+
+use Carbon\Carbon;
 
 class EstimatesController extends Controller
 {
@@ -21,7 +27,20 @@ class EstimatesController extends Controller
 
   private $searchfromtable = '';
   private $orderType = 'ASC';
+  private $projects;
+  private $thirdies;
 
+  public function __construct()
+  {
+    // preleva i progetti
+    $this->projects = Project::where('active', '=', '1')->orderBy('ordering', 'ASC')->get();
+    //dd($this->projects);
+
+    // preleva le terze parti
+    $this->thirdies = Thirdparty::where('active', '=', '1')->orderBy('surname', 'ASC')->get();
+    //dd($this->thirdies);
+
+  }
   public function index(Request $request)
   {
     // numero pagine
@@ -60,81 +79,66 @@ class EstimatesController extends Controller
     return view('estimates.create');
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  ProjectRequest  $request
-   * @return \Illuminate\Http\RedirectResponse
-   */
-  public function store(ProjectRequest $request)
+  public function store(EstimateRequest $request)
   {
 
     if (!$request->has('active')) $request->merge(['active' => 0]);
     
-    $project = new Project;
-    $project->title = $request->input('title');
-    $project->content = $request->input('content');
-    $project->active = $request->input('active');
-    $project->ordering = $request->input('ordering');
-    $project->status = $request->input('status');
-    $project->completato = $request->input('completato');
-    $project->costo_orario = $request->input('costo_orario');
-    $project->ore_preventivo = $request->input('ore_preventivo');
-    $project->save();
+    $estmate = new Estimate;
 
-    return to_route('projects.index')->with('success', 'Progetto inserito!');
+    $estmate->note = $request->input('note');
+    $estmate->content = $request->input('content');
+    $estmate->active = $request->input('active');
+    $estmate->save();
+
+    return to_route('estimates.index')->with('success', 'Preventivo inserito!');
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Contracts\View\View
-   */
-  public function show($id)
-  {
-    $project = Project::findOrFail($id);
-    return view('projects.show', ['project' => $project]);
-  }
-
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Contracts\View\View
-   */
   public function edit($id)
   {
-    $project = Project::findOrFail($id);
-    return view('projects.edit', ['project' => $project]);
+    $estimate = Estimate::findOrFail($id);
+    
+    $articles = Estimatesarticle::where('estimate_id','=',$id)->get();
+
+    $appCssLinks = array('<link rel="stylesheet" href="/plugins/tempus-dominus/css/tempus-dominus.min.css"/>');
+
+    $appJavascriptLinks = array(
+      '<script src="/plugins/moment/js/moment-with-locales.min.js"></script>',
+      '<script src="/plugins/tempus-dominus/js/tempus-dominus.min.js"></script>',
+      '<script src="/js/modules/estimates.edit.20230608.js"></script>'
+    );
+
+    $dateins = Carbon::createFromFormat('Y-m-d', $estimate->dateins)->format('d/m/Y');
+    $appJavascriptBodyCode = "defaultdateins ='".$dateins."';";
+    $datesca = Carbon::createFromFormat('Y-m-d', $estimate->datesca)->format('d/m/Y');
+    $appJavascriptBodyCode .= "defaultdatesca ='".$datesca."';";
+
+    return view('estimates.edit', ['estimate' => $estimate])
+    ->with('projects',$this->projects)
+    ->with('articles',$articles)
+    ->with('thirdies',$this->thirdies)
+    ->with('appCssLinks', $appCssLinks)
+    ->with('appJavascriptBodyCode', $appJavascriptBodyCode)
+    ->with('appJavascriptLinks',$appJavascriptLinks);
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  ProjectRequest  $request
-   * @param  int  $id
-   * @return \Illuminate\Http\RedirectResponse
-   */
-  public function update(ProjectRequest $request, $id)
+  public function update(EstimateRequest $request, $id)
   {
 
     if (!$request->has('active')) {
       $request->merge(['active' => 0]);
     }
 
-    $project = Project::findOrFail($id);
-    $project->title = $request->input('title');
-    $project->content = $request->input('content');
-    $project->active = $request->input('active');
-    $project->ordering = $request->input('ordering');
-    $project->status = $request->input('status');
-    $project->completato = $request->input('completato');
-    $project->costo_orario = $request->input('costo_orario');
-    $project->ore_preventivo = $request->input('ore_preventivo');
-    $project->save();
+    $estimate = Estimate::findOrFail($id);
+    $estimate->user_id = auth()->user()->id;
+    $estimate->thirdparty_id = $request->input('thirdparty_id'); 
+    $estimate->note = $request->input('note');
+    $estimate->content = $request->input('content');
+    $estimate->alt_thirdparty = $request->input('alt_thirdparty');
+    $estimate->active = $request->input('active');
+    $estimate->save();
     
-    return to_route('projects.index')->with('success', 'Progetto modificato!');
+    return to_route('estimates.index')->with('success', 'Preventivo modificato!');
   }
 
   /**
