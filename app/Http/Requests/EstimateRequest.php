@@ -24,7 +24,9 @@ class EstimateRequest extends FormRequest
   public function rules()
   {
     return
-      [
+    [
+        'dateins' => 'required|date_format:d/m/Y',
+        'datesca' => 'required|date_format:d/m/Y',
         'note' => 'required',
         'content' => 'required',
         /*
@@ -39,6 +41,13 @@ class EstimateRequest extends FormRequest
   public function messages()
   {
     return [
+
+      'dateins.required' => 'La data è richiesta.',
+      'dateins.date_format' => 'La data è in formato errato.',
+
+      'datesca.required' => 'La scadenza è richiesta.',
+      'datesca.date_format' => 'La scadenza è in formato errato.',
+
       'note.required' => 'Il campo note è richiesto.',
       'content.required' => 'Il campo contenuto è richiesto.',
       /*

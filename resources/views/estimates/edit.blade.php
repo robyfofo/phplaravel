@@ -126,10 +126,39 @@
 						@foreach($articles as $article)
 
 						<div class="card mt-3 mb-4">
-							<div class="card-header">
-								{{ $article->note }}
-							</div>
 							<div class="card-body">
+
+								<div class="row">
+
+									<div class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+										<label class="col-form-label col-form-label-sm" for="art_noteID">Note</label>
+										<input class="form-control form-control-sm" name="art_note" id="art_noteIT" value="{{ $article->note }}">
+									</div>
+
+									<div class="col-3 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+										<label class="col-form-label col-form-label-sm" for="art_quantityID">Quantità</label>
+										<input class="form-control form-control-sm" name="art_quantity" id="art_quantityIT" value="{{ $article->quantity }}">
+									</div>
+
+									<div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-2">
+										<label class="col-form-label col-form-label-sm" for="art_valueID">Prezzo</label>
+										<input class="form-control form-control-sm text-end" name="art_value" id="art_valueIT" value="{{ $article->value }}">
+									</div>
+
+								</div>
+
+								<div class="row">
+
+									<div class="col-12 col-sm-3 col-md-3 col-lg-2 col-xl-2">
+										<label class="col-form-label col-form-label-sm" for="art_contentID">Contenuto</label>
+										<textarea class="form-control form-control-sm" name="art_content" id="art_contentIT">{{ $article->content }}</textarea>
+									</div>
+
+								</div>
+
+
+
+							</div>
 
 								{{ $article->id }}
 
