@@ -78,12 +78,16 @@ Route::middleware('auth')->group(function () {
 
 
   // timecards
+  Route::put('/estimates/ajaxgetarticleslist', [EstimatesController::class, 'ajaxgetarticleslist'])->name('estimates.ajaxgetarticleslist');
+  
   Route::get('/estimates', [EstimatesController::class, 'index'])->name('estimates.index');
   Route::get('/estimates/create', [EstimatesController::class, 'create'])->name('estimates.create');
   Route::post('/estimates/store', [EstimatesController::class, 'store'])->name('estimates.store');
   Route::get('/estimates/{estimate}/edit', [EstimatesController::class, 'edit'])->name('estimates.edit');
   Route::put('/estimates/{estimate}', [EstimatesController::class, 'update'])->name('estimates.update');
   Route::delete('/estimates/{estimate}', [EstimatesController::class, 'destroy'])->name('estimates.destroy');
+
+
   Route::get('estimates/{any}', function () {
     return abort('404');
   })->where('any', '.*');

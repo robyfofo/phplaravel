@@ -123,99 +123,47 @@
 				<div class="tab-pane fade show active" id="navs-pills-top-articoli" role="tabpanel">
 					<fieldset>
 
-						@foreach($articles as $article)
+						<div id="articleslistID"></div>
 
+
+					
 						<div class="card mt-3 mb-4">
 							<div class="card-body">
 
 								<div class="row">
 
-									<div class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+									<div class="col-12 col-sm-7 col-md-7 col-lg-8 col-xl-9">
 										<label class="col-form-label col-form-label-sm" for="art_noteID">Note</label>
-										<input class="form-control form-control-sm" name="art_note" id="art_noteIT" value="{{ $article->note }}">
+										<input class="form-control form-control-sm" name="art_note" id="art_noteIT" value="">
 									</div>
 
-									<div class="col-3 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+									<div class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1">
 										<label class="col-form-label col-form-label-sm" for="art_quantityID">Quantità</label>
-										<input class="form-control form-control-sm" name="art_quantity" id="art_quantityIT" value="{{ $article->quantity }}">
+										<input class="form-control form-control-sm" name="art_quantity" id="art_quantityIT" value="">
 									</div>
 
 									<div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-2">
 										<label class="col-form-label col-form-label-sm" for="art_valueID">Prezzo</label>
-										<input class="form-control form-control-sm text-end" name="art_value" id="art_valueIT" value="{{ $article->value }}">
+										<input class="form-control form-control-sm text-end" name="art_value" id="art_valueIT" value="">
 									</div>
 
 								</div>
 
 								<div class="row">
 
-									<div class="col-12 col-sm-3 col-md-3 col-lg-2 col-xl-2">
+									<div class="col-12 col-sm-7 col-md-7 col-lg-7 col-xl-8">
 										<label class="col-form-label col-form-label-sm" for="art_contentID">Contenuto</label>
-										<textarea class="form-control form-control-sm" name="art_content" id="art_contentIT">{{ $article->content }}</textarea>
+										<textarea class="form-control form-control-sm" name="art_content" id="art_contentIT"></textarea>
+									</div>
+
+									<div class="col-12 col-sm-5 col-md-5 col-lg-5 col-xl-4">
+									
 									</div>
 
 								</div>
 
-
-
-							</div>
-
-								{{ $article->id }}
-
-								{{ $article->content }}
-
-
-								{{ $article->quantity }}
-								{{ $article->value }}
-
-							</div>
-
-							<div class="card-footer">
-
 							</div>
 						</div>
-
-
-						@endforeach
-
-
-						<div>
-
-
-
-							<div class="row mb-3">
-								{{ Form::label('art_note', 'Note', ['class'=>'col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-								<div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
-									{{ Form::text('note', null, array('class' => 'form-control form-control-sm')) }}
-								</div>
-							</div>
-
-							<div class="row mb-3">
-								{{ Form::label('art_content', 'Content', ['class'=>'col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-								<div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-9">
-									{{ Form::textarea('content', null, array('class' => 'form-control form-control-sm')) }}
-								</div>
-							</div>
-
-
-							<div class="row mb-3">
-								{{ Form::label('art_value', 'Valore', ['class'=>'col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
-								<div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
-									{{ Form::text('art_value', null, array('class' => 'form-control form-control-sm')) }}
-								</div>
-							</div>
-
-
-							<div class="col-6 text-center">
-								<button id="art_submitFormID" type="submit" name="art_submitForm" value="submit" class="btn btn-primary">Invia</button>
-							</div>
-
-
-
-
-
-						</div>
-
 
 					</fieldset>
 				</div>
@@ -226,21 +174,11 @@
 					<fieldset>
 
 						<div class="row mb-3">
-							<div class="form-check">
-
-								{{ Form::checkbox('active', 1,  $estimate->active ,array('class' => 'form-check-input')) }}
-
-								{{ Form::label('active', 'Attiva', ['class'=>'form-check-label']) }}
-
+							{{ Form::label('active', 'Attiva', ['class'=>'col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							<div class="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+								{{ Form::checkbox('active', 1,  $estimate->active,array('class' => 'form-check-input')) }}
 							</div>
-
-
 						</div>
-
-
-
-
-
 
 					</fieldset>
 				</div>
@@ -260,6 +198,9 @@
 				</div>
 
 			</div>
+
+
+			<input type="hidden" name="estimate_id" id="estimate_idID" value="{{ $estimate->id }}">
 
 			{{ Form::close() }}
 

@@ -40,6 +40,8 @@
 				<thead>
 					<tr>
 						<th>id</th>
+						<th>Data</th>
+						<th>Scadenza</th>
 						<th>Note</th>
 						<th>Content</th>
 						<th>Action</th>
@@ -50,6 +52,8 @@
 					@foreach($estimates as $estimate)
 					<tr>
 						<td>{{ $estimate->id }}</td>
+						<td>{{ Carbon\Carbon::createFromFormat('Y-m-d', $estimate->dateins)->format('d/m/Y'); }}</td>
+						<td>{{ Carbon\Carbon::createFromFormat('Y-m-d', $estimate->datesca)->format('d/m/Y'); }}</td>
 						<td>{{ $estimate->note }}</td>
 						<td>{{ $estimate->content }}</td>
 						<td class="actions text-end">

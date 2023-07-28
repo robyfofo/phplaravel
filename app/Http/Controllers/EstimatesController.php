@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
+use Illuminate\Http\Request;
 
 use App\Models\Estimate;
 use App\Models\Project;
@@ -76,7 +77,26 @@ class EstimatesController extends Controller
   public function create()
   {
     $estimate = new Estimate;
-    return view('estimates.create');
+
+    $appCssLinks = array('<link rel="stylesheet" href="/plugins/tempus-dominus/css/tempus-dominus.min.css"/>');
+
+    $appJavascriptLinks = array(
+      '<script src="/plugins/moment/js/moment-with-locales.min.js"></script>',
+      '<script src="/plugins/tempus-dominus/js/tempus-dominus.min.js"></script>',
+      '<script src="/js/modules/estimates.create.20230608.js"></script>'
+    );
+
+    $dateins = Carbon::createFromFormat('Y-m-d', date('Y-m-d'))->format('d/m/Y');
+    $appJavascriptBodyCode = "defaultdateins ='".$dateins."';";
+    $datesca = Carbon::createFromFormat('Y-m-d', date('Y-m-d'))->format('d/m/Y');
+    $appJavascriptBodyCode .= "defaultdatesca ='".$datesca."';";
+
+
+    return view('estimates.create')
+    ->with('thirdies',$this->thirdies)
+    ->with('appCssLinks', $appCssLinks)
+    ->with('appJavascriptBodyCode', $appJavascriptBodyCode)
+    ->with('appJavascriptLinks',$appJavascriptLinks);
   }
 
   public function store(EstimateRequest $request)
@@ -84,15 +104,39 @@ class EstimatesController extends Controller
 
     if (!$request->has('active')) $request->merge(['active' => 0]);
     
-    $estmate = new Estimate;
+    $estimate = new Estimate;
 
-    $estmate->note = $request->input('note');
-    $estmate->content = $request->input('content');
-    $estmate->active = $request->input('active');
-    $estmate->save();
+    $estimate->user_id = auth()->user()->id;
+    $estimate->thirdparty_id = $request->input('thirdparty_id'); 
+    $estimate->alt_thirdparty = $request->input('alt_thirdparty');
 
+    $estimate->dateins = Carbon::createFromFormat('d/m/Y', $request->input('dateins'))->format('Y-m-d');
+    $estimate->datesca = Carbon::createFromFormat('d/m/Y', $request->input('datesca'))->format('Y-m-d');
+
+    $estimate->note = $request->input('note');
+    $estimate->content = $request->input('content');
+    $estimate->active = $request->input('active');
+    $estimate->save();
+
+    $savearticles = true;
+    
+  
+    if ($savearticles == true) {
+
+      $article = new Estimatesarticle;
+      $article->estimate_id = $estimate->id;
+      $article->note = $request->input('art_note');
+      $article->content = $request->input('art_content');
+      $article->quantity = $request->input('art_quantity');
+      $article->value = $request->input('art_value');
+      $article->save();
+
+      return to_route('estimates.edit', [$estimate->id]);
+    }
+    
+    
     return to_route('estimates.index')->with('success', 'Preventivo inserito!');
-  }
+  }  
 
   public function edit($id)
   {
@@ -132,11 +176,36 @@ class EstimatesController extends Controller
     $estimate = Estimate::findOrFail($id);
     $estimate->user_id = auth()->user()->id;
     $estimate->thirdparty_id = $request->input('thirdparty_id'); 
+    $estimate->alt_thirdparty = $request->input('alt_thirdparty');
+
+    $estimate->dateins = Carbon::createFromFormat('d/m/Y', $request->input('dateins'))->format('Y-m-d');
+    $estimate->datesca = Carbon::createFromFormat('d/m/Y', $request->input('datesca'))->format('Y-m-d');
+
     $estimate->note = $request->input('note');
     $estimate->content = $request->input('content');
-    $estimate->alt_thirdparty = $request->input('alt_thirdparty');
     $estimate->active = $request->input('active');
     $estimate->save();
+
+    $savearticles = true;
+
+    if ($request->input('art_value') == '')   $savearticles = false;
+
+
+    if ($savearticles == true) {
+
+      $article = new Estimatesarticle;
+      $article->estimate_id = $estimate->id;
+      $article->note = $request->input('art_note');
+      $article->content = $request->input('art_content');
+      $article->quantity = $request->input('art_quantity');
+      $article->value = $request->input('art_value');
+      $article->save();
+
+      return to_route('estimates.edit', [$estimate->id]);
+    }
+    
+
+
     
     return to_route('estimates.index')->with('success', 'Preventivo modificato!');
   }
@@ -149,9 +218,26 @@ class EstimatesController extends Controller
    */
   public function destroy($id)
   {
+
+    $res = Estimatesarticle::where('estimate_id','=',$id)->delete();
+   
     $estimate = Estimate::findOrFail($id);
     $estimate->delete();
     return to_route('estimates.index')->with('success', 'Preventivo cancellato!');
   }
+
+  public function ajaxgetarticleslist(Request $request) 
+  {
+    $token = $request->input('_token', '');
+    $id = $request->input('id', 0);
+    if (csrf_token() !== $token) {
+      return 'Non hai passato il token corretto!';
+    }
+    $articles = Estimatesarticle::where('estimate_id','=',$id)->get();
+    return view('estimates.articleslist')
+    ->with('articles',$articles);
+
+  }
+
 
 }
