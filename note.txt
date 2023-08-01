@@ -3,8 +3,16 @@
 {"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bx-users\"><\/i>","label":"%LABEL%"}
 {"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"%LABEL%"}
 <i class='bx bxs-user-detail'></i>
+<<<<<<< Updated upstream
 {"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-bullseye\"><\/i>","label":"%LABEL%"}
 {"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-clock\"><\/i>","label":"%LABEL%"}
+=======
+
+{"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-clock\"><\/i>","label":"%LABEL%"}
+
+{"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-bulleye\"><\/i>","label":"%LABEL%"}
+
+>>>>>>> Stashed changes
 {
 	"action":"thirdparties","name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"%LABEL%","submenus":
 		[
