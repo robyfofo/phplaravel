@@ -56,7 +56,7 @@ window.dateins = new tempusDominus.TempusDominus(document.getElementById('datesc
 
 
 $(document).ready(function () {
-  getArticleslist();
+  //getArticleslist();
 });
 
 function getArticleslist()

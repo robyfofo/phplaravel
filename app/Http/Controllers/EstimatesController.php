@@ -83,7 +83,8 @@ class EstimatesController extends Controller
     $appJavascriptLinks = array(
       '<script src="/plugins/moment/js/moment-with-locales.min.js"></script>',
       '<script src="/plugins/tempus-dominus/js/tempus-dominus.min.js"></script>',
-      '<script src="/js/modules/estimates.create.20230608.js"></script>'
+      '<script src="/js/modules/estimates.create.20230608.js"></script>',
+      '<script src="/js/modules/estimates.form.20230608.js"></script>'
     );
 
     $dateins = Carbon::createFromFormat('Y-m-d', date('Y-m-d'))->format('d/m/Y');
@@ -149,7 +150,8 @@ class EstimatesController extends Controller
     $appJavascriptLinks = array(
       '<script src="/plugins/moment/js/moment-with-locales.min.js"></script>',
       '<script src="/plugins/tempus-dominus/js/tempus-dominus.min.js"></script>',
-      '<script src="/js/modules/estimates.edit.20230608.js"></script>'
+      '<script src="/js/modules/estimates.edit.20230608.js"></script>',
+      '<script src="/js/modules/estimates.form.20230608.js"></script>'
     );
 
     $dateins = Carbon::createFromFormat('Y-m-d', $estimate->dateins)->format('d/m/Y');
