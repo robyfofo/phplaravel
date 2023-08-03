@@ -121,7 +121,8 @@ class EstimatesController extends Controller
 
     $savearticles = true;
     
-  
+    if ($request->input('art_price_unity') == '')   $savearticles = false;
+
     if ($savearticles == true) {
 
       $article = new Estimatesarticle;
@@ -129,7 +130,7 @@ class EstimatesController extends Controller
       $article->note = $request->input('art_note');
       $article->content = $request->input('art_content');
       $article->quantity = $request->input('art_quantity');
-      $article->value = $request->input('art_value');
+      $article->price_unity = $request->input('art_price_unity');
       $article->save();
 
       return to_route('estimates.edit', [$estimate->id]);
@@ -190,7 +191,7 @@ class EstimatesController extends Controller
 
     $savearticles = true;
 
-    if ($request->input('art_value') == '')   $savearticles = false;
+    if ($request->input('art_price_unity') == '')   $savearticles = false;
 
 
     if ($savearticles == true) {
@@ -200,7 +201,7 @@ class EstimatesController extends Controller
       $article->note = $request->input('art_note');
       $article->content = $request->input('art_content');
       $article->quantity = $request->input('art_quantity');
-      $article->value = $request->input('art_value');
+      $article->price_unity = $request->input('art_price_unity');
       $article->save();
 
       return to_route('estimates.edit', [$estimate->id]);
@@ -238,6 +239,41 @@ class EstimatesController extends Controller
     $articles = Estimatesarticle::where('estimate_id','=',$id)->get();
     return view('estimates.articleslist')
     ->with('articles',$articles);
+
+  }
+
+  public function ajaxdeletearticle(Request $request)
+  {
+    $token = $request->input('_token', '');
+    $id = $request->input('id', 0);
+    if (csrf_token() !== $token) {
+      return 'Non hai passato il token corretto!';
+    }
+    $article = Estimatesarticle::findOrFail($id);
+    $article->delete();
+
+  }
+
+  public function ajaxeditarticle(Request $request)
+  {
+    $token = $request->input('_token', '');
+    $id = $request->input('id', 0);
+    if (csrf_token() !== $token) {
+      return 'Non hai passato il token corretto!';
+    }
+
+    $article = Estimatesarticle::findOrFail($id);
+
+    $old_art_price_total = $article->quantity * $article->price_unity;
+    $art_price_total = $request->input('quantity') *  $request->input('price_unity');
+
+    // salva
+    $article->note = $request->input('note');
+    $article->content = $request->input('content');
+    $article->quantity = $request->input('quantity');
+    $article->price_unity = $request->input('price_unity');
+    $article->save();
+    echo json_encode(array('error'=>1,'message'=>'Ok','data'=>array('old_art_price_total'=>$old_art_price_total,'art_price_total'=>$art_price_total)));
 
   }
 

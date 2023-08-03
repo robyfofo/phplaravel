@@ -12,14 +12,14 @@ class Estimatesarticle extends Model
   use HasFactory;
   public $timestamps = false;
   protected $table = 'estimates_articles';
-  protected $appends = ['total'];
+  protected $appends = ['price_total'];
 
 
 
 
 
-  public function getTotalAttribute(){
-    $foo = ($this->value * $this->quantity);
+  public function getPriceTotalAttribute(){
+    $foo = ($this->price_unity * $this->quantity);
     return $foo;
   }
 

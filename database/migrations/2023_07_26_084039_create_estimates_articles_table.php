@@ -26,7 +26,7 @@ return new class extends Migration
                 $table->string('note')->nullable();
                 $table->text('content')->nullable();
                 $table->smallInteger('quantity')->default(0);
-                $table->float('value')->nullable();
+                $table->float('price_unity')->nullable();
 
            
         });
