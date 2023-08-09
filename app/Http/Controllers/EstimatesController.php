@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Config;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -18,6 +19,7 @@ use App\Http\Requests\EstimateRequest;
 
 use Carbon\Carbon;
 
+
 class EstimatesController extends Controller
 {
   /**
@@ -31,6 +33,8 @@ class EstimatesController extends Controller
   private $projects;
   private $thirdies;
 
+  
+
   public function __construct()
   {
     // preleva i progetti
@@ -40,6 +44,9 @@ class EstimatesController extends Controller
     // preleva le terze parti
     $this->thirdies = Thirdparty::where('active', '=', '1')->orderBy('surname', 'ASC')->get();
     //dd($this->thirdies);
+
+
+  
 
   }
   public function index(Request $request)
@@ -76,15 +83,28 @@ class EstimatesController extends Controller
    */
   public function create()
   {
-    $estimate = new Estimate;
+    /*
+    request()->session()->put('estimates articles', 
+      [
+        '1'=>['id'=>1,'note' => 'sess articolo 1'],
+        '2'=>['id'=>2,'note' => 'sess articolo 2']
+      ]
+    );
+    */
+  
+    $estimate = Estimate::findOrNew(0);
+    $estimate->thirdparty_id = 0;
+    $estimate->id = 0;
+    $estimate_tax = 5;
+    $articles_total = 0;
 
     $appCssLinks = array('<link rel="stylesheet" href="/plugins/tempus-dominus/css/tempus-dominus.min.css"/>');
 
     $appJavascriptLinks = array(
       '<script src="/plugins/moment/js/moment-with-locales.min.js"></script>',
       '<script src="/plugins/tempus-dominus/js/tempus-dominus.min.js"></script>',
-      '<script src="/js/modules/estimates.create.20230608.js"></script>',
-      '<script src="/js/modules/estimates.form.20230608.js"></script>'
+      '<script src="/js/modules/estimates.form.20230608.js"></script>',
+      '<script src="/js/modules/estimates.ajaxform.20230608.js"></script>',
     );
 
     $dateins = Carbon::createFromFormat('Y-m-d', date('Y-m-d'))->format('d/m/Y');
@@ -93,7 +113,10 @@ class EstimatesController extends Controller
     $appJavascriptBodyCode .= "defaultdatesca ='".$datesca."';";
 
 
-    return view('estimates.create')
+    return view('estimates.form')
+    ->with('estimate',$estimate)
+    ->with('estimate_tax',$estimate_tax)
+    ->with('articles_total',$articles_total)
     ->with('thirdies',$this->thirdies)
     ->with('appCssLinks', $appCssLinks)
     ->with('appJavascriptBodyCode', $appJavascriptBodyCode)
@@ -119,7 +142,7 @@ class EstimatesController extends Controller
     $estimate->active = $request->input('active');
     $estimate->save();
 
-    $savearticles = true;
+    $savearticles = false;
     
     if ($request->input('art_price_unity') == '')   $savearticles = false;
 
@@ -143,16 +166,22 @@ class EstimatesController extends Controller
   public function edit($id)
   {
     $estimate = Estimate::findOrFail($id);
+    $estimate_tax = 5;
     
     $articles = Estimatesarticle::where('estimate_id','=',$id)->get();
+    $articles_total = 0;
+
+
+
+    //foreach($articles AS $value) { $estimate_total += $value->article_total; }
 
     $appCssLinks = array('<link rel="stylesheet" href="/plugins/tempus-dominus/css/tempus-dominus.min.css"/>');
 
     $appJavascriptLinks = array(
       '<script src="/plugins/moment/js/moment-with-locales.min.js"></script>',
       '<script src="/plugins/tempus-dominus/js/tempus-dominus.min.js"></script>',
-      '<script src="/js/modules/estimates.edit.20230608.js"></script>',
-      '<script src="/js/modules/estimates.form.20230608.js"></script>'
+      '<script src="/js/modules/estimates.form.20230608.js"></script>',
+      '<script src="/js/modules/estimates.ajaxform.20230608.js"></script>'
     );
 
     $dateins = Carbon::createFromFormat('Y-m-d', $estimate->dateins)->format('d/m/Y');
@@ -160,9 +189,11 @@ class EstimatesController extends Controller
     $datesca = Carbon::createFromFormat('Y-m-d', $estimate->datesca)->format('d/m/Y');
     $appJavascriptBodyCode .= "defaultdatesca ='".$datesca."';";
 
-    return view('estimates.edit', ['estimate' => $estimate])
+    return view('estimates.form', ['estimate' => $estimate])
     ->with('projects',$this->projects)
     ->with('articles',$articles)
+    ->with('estimate_tax',$estimate_tax)
+    ->with('estimate_total',$articles_total)
     ->with('thirdies',$this->thirdies)
     ->with('appCssLinks', $appCssLinks)
     ->with('appJavascriptBodyCode', $appJavascriptBodyCode)
@@ -189,7 +220,7 @@ class EstimatesController extends Controller
     $estimate->active = $request->input('active');
     $estimate->save();
 
-    $savearticles = true;
+    $savearticles = false;
 
     if ($request->input('art_price_unity') == '')   $savearticles = false;
 
@@ -237,8 +268,15 @@ class EstimatesController extends Controller
       return 'Non hai passato il token corretto!';
     }
     $articles = Estimatesarticle::where('estimate_id','=',$id)->get();
+
+    $foo = request()->session()->get('estimates articles');
+    //dd($foo);
+
+    $articles_total = 0.00;
+
     return view('estimates.articleslist')
-    ->with('articles',$articles);
+    ->with('articles',$articles)
+    ->with('articles_total',$articles_total);
 
   }
 
@@ -277,5 +315,54 @@ class EstimatesController extends Controller
 
   }
 
+  public function ajaxinsertsessarticle(Request $request)
+  {
+    $token = $request->input('_token', '');
+    if (csrf_token() !== $token) {
+      return 'Non hai passato il token corretto!';
+    }
+    $foo = $request->session()->get('estimates articles');
+
+
+    $x = 1;
+    if (is_array($foo)) {
+      $x = count($foo);
+    }
+    $x++;
+
+    $note = $request->input('note');
+    $content = $request->input('content');
+    $quantity = $request->input('quantity');
+    $price_unity = $request->input('price_unity');
+    $tax = Config::get('estimate_article_tax');
+
+
+    echo 'tax: '.$tax;die();
+
+    if ($quantity > 0 && $price_unity > 0) {
+      $price_total = $price_unity * $quantity;
+      $price_tax = ($price_total * $tax) / 100;
+      $total = $price_total + $price_tax;
+      $foo[$x] = [
+        'id' => $x,
+        'note' => $note,
+        'content' => $content,
+
+        'price_unity' => $price_unity,
+        'quantity' => $quantity,
+        'price_total' => $price_total,
+        'tax' => $tax,
+        'price_tax' => $price_tax,
+        'total' => $total,
+      ];
+      
+      request()->session()->put('estimates articles',$foo);
+      return true;
+
+    } else {
+      return false;
+    }
+
+  }
 
 }

@@ -18,4 +18,7 @@ return [
  'lista_giorni' => ['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'],
  'lista_mesi' => ['N.D.','gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'],
 
+ 'estimate_tax' => 5,
+ 'estimate_article_tax' => 10
+
 ];

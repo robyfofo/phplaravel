@@ -82,6 +82,9 @@ Route::middleware('auth')->group(function () {
   Route::put('/estimates/ajaxeditarticle', [EstimatesController::class, 'ajaxeditarticle'])->name('estimates.ajaxeditarticle');
   Route::put('/estimates/ajaxdeletearticle', [EstimatesController::class, 'ajaxdeletearticle'])->name('estimates.ajaxdeletearticle');
   
+  
+  Route::put('/estimates/ajaxinsertsessarticle', [EstimatesController::class, 'ajaxinsertsessarticle'])->name('estimates.ajaxinsertsessarticle');
+  
   Route::get('/estimates', [EstimatesController::class, 'index'])->name('estimates.index');
   Route::get('/estimates/create', [EstimatesController::class, 'create'])->name('estimates.create');
   Route::post('/estimates/store', [EstimatesController::class, 'store'])->name('estimates.store');
