@@ -18,7 +18,7 @@
 
 			<div class="col-md-5">
 
-				@if (isset($estimate))
+				@if (isset($estimate) && $estimate->id > 0)
 				{{ Form::model($estimate, array('route' => array('estimates.update', $estimate->id), 'method' => 'PUT')) }}
 				@else
 					{!! Form::open(['route' => 'estimates.store']) !!}

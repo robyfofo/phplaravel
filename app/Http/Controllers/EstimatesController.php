@@ -18,7 +18,7 @@ use App\Models\Estimatesarticle;
 use App\Http\Requests\EstimateRequest;
 
 use Carbon\Carbon;
-
+use Sabberworm\CSS\Settings;
 
 class EstimatesController extends Controller
 {
@@ -44,11 +44,8 @@ class EstimatesController extends Controller
     // preleva le terze parti
     $this->thirdies = Thirdparty::where('active', '=', '1')->orderBy('surname', 'ASC')->get();
     //dd($this->thirdies);
-
-
-  
-
   }
+
   public function index(Request $request)
   {
     // numero pagine
@@ -142,24 +139,26 @@ class EstimatesController extends Controller
     $estimate->active = $request->input('active');
     $estimate->save();
 
-    $savearticles = false;
-    
-    if ($request->input('art_price_unity') == '')   $savearticles = false;
+    /*
 
-    if ($savearticles == true) {
+    // salva gli articoli in sessione
+    $foo = $request->session()->get('estimates articles');
+    if (is_array($foo) && count($foo) > 0) {
+      foreach ($foo AS $value) {
 
-      $article = new Estimatesarticle;
-      $article->estimate_id = $estimate->id;
-      $article->note = $request->input('art_note');
-      $article->content = $request->input('art_content');
-      $article->quantity = $request->input('art_quantity');
-      $article->price_unity = $request->input('art_price_unity');
-      $article->save();
-
-      return to_route('estimates.edit', [$estimate->id]);
+        $article = new Estimatesarticle;
+        $article->estimate_id = $estimate->id;
+        $article->note = $value['note'];
+        $article->content = $value['content'];
+        $article->quantity = $value['quantity'];
+        $article->price_unity = $value['price_unity'];
+        $article->save();
+  
+      }
     }
-    
-    
+    //$foo = array();
+    //request()->session()->put('estimates articles',$foo);
+    */
     return to_route('estimates.index')->with('success', 'Preventivo inserito!');
   }  
 
@@ -268,11 +267,19 @@ class EstimatesController extends Controller
       return 'Non hai passato il token corretto!';
     }
     $articles = Estimatesarticle::where('estimate_id','=',$id)->get();
+    
+    $articles_total = 0.00;
+    $dbarticles_total = 0.00;
+    $sessarticles_total = 0.00;
+
+
 
     $foo = request()->session()->get('estimates articles');
-    //dd($foo);
+    if (is_array($foo) && count($foo) > 0) $sessarticles_total = array_sum(array_column($foo, 'total'));
 
-    $articles_total = 0.00;
+
+    $articles_total = $dbarticles_total + $sessarticles_total;
+
 
     return view('estimates.articleslist')
     ->with('articles',$articles)
@@ -322,22 +329,15 @@ class EstimatesController extends Controller
       return 'Non hai passato il token corretto!';
     }
     $foo = $request->session()->get('estimates articles');
-
-
-    $x = 1;
-    if (is_array($foo)) {
-      $x = count($foo);
-    }
+    $x = 0;
+    if (is_array($foo) && count($foo) > 0) { $x = count($foo); }
     $x++;
 
     $note = $request->input('note');
     $content = $request->input('content');
     $quantity = $request->input('quantity');
     $price_unity = $request->input('price_unity');
-    $tax = Config::get('estimate_article_tax');
-
-
-    echo 'tax: '.$tax;die();
+    $tax = Config::get('settings.estimate_article_tax');
 
     if ($quantity > 0 && $price_unity > 0) {
       $price_total = $price_unity * $quantity;
@@ -355,6 +355,9 @@ class EstimatesController extends Controller
         'price_tax' => $price_tax,
         'total' => $total,
       ];
+
+
+      //dd($foo);
       
       request()->session()->put('estimates articles',$foo);
       return true;
@@ -363,6 +366,61 @@ class EstimatesController extends Controller
       return false;
     }
 
+  }
+
+  public function ajaxdeletesessarticle(Request $request)
+  {
+    $token = $request->input('_token', '');
+    $id = $request->input('id', 0);
+    if (csrf_token() !== $token) {
+      return 'Non hai passato il token corretto!';
+    }
+   
+    $foo = $request->session()->get('estimates articles');
+    unset($foo[$id]);
+    request()->session()->put('estimates articles',$foo);
+  }
+
+  public function ajaxeditsessarticle(Request $request)
+  {
+    $token = $request->input('_token', '');
+    $id = $request->input('id', 0);
+    if (csrf_token() !== $token) {
+      return 'Non hai passato il token corretto!';
+    }
+
+    $note = $request->input('note');
+    $content = $request->input('content');
+    $quantity = $request->input('quantity');
+    $price_unity = $request->input('price_unity');
+    $tax = Config::get('settings.estimate_article_tax');
+    
+    if ($quantity > 0 && $price_unity > 0) {
+      $foo = $request->session()->get('estimates articles');
+
+      $price_total = $price_unity * $quantity;
+      $price_tax = ($price_total * $tax) / 100;
+      $total = $price_total + $price_tax;
+      $foo[$id] = [
+        'id' => $id,
+        'note' => $note,
+        'content' => $content,
+
+        'price_unity' => $price_unity,
+        'quantity' => $quantity,
+        'price_total' => $price_total,
+        'tax' => $tax,
+        'price_tax' => $price_tax,
+        'total' => $total,
+      ];
+      
+      request()->session()->put('estimates articles',$foo);
+
+      echo json_encode(array('error'=>0,'message'=>'Ok','data'=>$foo[$id]));
+      die();
+    }
+
+    return false;
   }
 
 }

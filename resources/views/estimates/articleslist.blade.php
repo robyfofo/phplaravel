@@ -17,7 +17,7 @@
 
       @endforeach
       @endisset
-      <!-- lista articoli sessione -->
+      <!-- lista articoli database -->
 
       <!-- lista articoli sessione -->
       @php
@@ -81,7 +81,7 @@
 
             <div class="row">
               <div class="col text-end">
-                <a href="javascript:void(0);" data-id="{{ $article['id'] }}" class="deletearticle" title="Cancella questo articolo"><i class="bx bx-md bx-trash"></i></a>
+                <a href="javascript:void(0);" data-id="{{ $article['id'] }}" class="deletesessarticle" title="Cancella questo articolo"><i class="bx bx-md bx-trash"></i></a>
               </div>
             </div>
 
