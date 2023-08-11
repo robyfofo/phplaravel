@@ -80,15 +80,7 @@ class EstimatesController extends Controller
    */
   public function create()
   {
-    /*
-    request()->session()->put('estimates articles', 
-      [
-        '1'=>['id'=>1,'note' => 'sess articolo 1'],
-        '2'=>['id'=>2,'note' => 'sess articolo 2']
-      ]
-    );
-    */
-  
+
     $estimate = Estimate::findOrNew(0);
     $estimate->thirdparty_id = 0;
     $estimate->id = 0;
@@ -139,8 +131,6 @@ class EstimatesController extends Controller
     $estimate->active = $request->input('active');
     $estimate->save();
 
-    /*
-
     // salva gli articoli in sessione
     $foo = $request->session()->get('estimates articles');
     if (is_array($foo) && count($foo) > 0) {
@@ -156,9 +146,9 @@ class EstimatesController extends Controller
   
       }
     }
-    //$foo = array();
-    //request()->session()->put('estimates articles',$foo);
-    */
+    $foo = array();
+    request()->session()->put('estimates articles',$foo);
+  
     return to_route('estimates.index')->with('success', 'Preventivo inserito!');
   }  
 
@@ -167,13 +157,6 @@ class EstimatesController extends Controller
     $estimate = Estimate::findOrFail($id);
     $estimate_tax = 5;
     
-    $articles = Estimatesarticle::where('estimate_id','=',$id)->get();
-    $articles_total = 0;
-
-
-
-    //foreach($articles AS $value) { $estimate_total += $value->article_total; }
-
     $appCssLinks = array('<link rel="stylesheet" href="/plugins/tempus-dominus/css/tempus-dominus.min.css"/>');
 
     $appJavascriptLinks = array(
@@ -190,9 +173,7 @@ class EstimatesController extends Controller
 
     return view('estimates.form', ['estimate' => $estimate])
     ->with('projects',$this->projects)
-    ->with('articles',$articles)
     ->with('estimate_tax',$estimate_tax)
-    ->with('estimate_total',$articles_total)
     ->with('thirdies',$this->thirdies)
     ->with('appCssLinks', $appCssLinks)
     ->with('appJavascriptBodyCode', $appJavascriptBodyCode)
@@ -267,17 +248,13 @@ class EstimatesController extends Controller
       return 'Non hai passato il token corretto!';
     }
     $articles = Estimatesarticle::where('estimate_id','=',$id)->get();
-    
+
     $articles_total = 0.00;
     $dbarticles_total = 0.00;
     $sessarticles_total = 0.00;
-
-
-
+    foreach($articles AS $value) { $dbarticles_total += $value->total; }
     $foo = request()->session()->get('estimates articles');
     if (is_array($foo) && count($foo) > 0) $sessarticles_total = array_sum(array_column($foo, 'total'));
-
-
     $articles_total = $dbarticles_total + $sessarticles_total;
 
 

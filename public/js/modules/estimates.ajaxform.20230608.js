@@ -27,6 +27,8 @@ function getArticleslist()
       deletesessarticle();
       editsessarticle();
 
+      deletearticle();
+
       refreshEstimateValues();
 
     },
@@ -154,6 +156,7 @@ function calcolatesessarticletotals(price_unity, quantity) {
   
 }
 
+// aggiorna i totali preventivo
 function refreshEstimateValues()
 {
   //estimate_articles_total = parseFloat($('#articles_totalID').val()) | 0.00;
@@ -215,6 +218,7 @@ function deletesessarticle()
 
 }
 
+// modifica articolo in sessione
 function editsessarticle()
 {
   $('.sessarticles .form-control').on('change', function (event) {
@@ -296,3 +300,45 @@ function editsessarticle()
   });
 }
 
+// cancella articolo in database
+function deletearticle() 
+{
+  $('.deletearticle').bind("click", function () {
+
+    var elem = $(this);
+    let id = elem.attr('data-id');
+    let token = $("input[name=_token]").val();
+
+    bootbox.confirm('Sei sicuro?', function (confirmed) {
+
+      if (confirmed) {
+        
+        // cancello da database
+        $.ajax({
+          url: "/estimates/ajaxdeletearticle",
+          method: "PUT",
+          async: false,
+          cache: false,
+          global: false,
+          data: {
+            'id': id,
+            '_token': token
+          },
+          success: function (response) {
+            getArticleslist();
+          },
+          error: function () {
+            showJavascriptAlert("Si sono verificati degli errori");
+          },
+          fail: function () {
+            showJavascriptAlert("Ajax failed to fetch data");
+          }
+        });
+
+      }
+
+    });
+
+  });
+
+}

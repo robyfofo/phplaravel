@@ -7,10 +7,68 @@
       @isset($articles)
       @foreach($articles as $article)
 
+
+
+
       <div class="card accordion-item articles" id="article{{ $article->id }}">
 
         <div class="accordion-header" id="headingOne">
           <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordion{{ $article->id }}" aria-expanded="true" aria-controls="accordion{{ $article->id }}">{{ $article->note }}</button>
+        </div>
+
+        <div id="accordion{{ $article->id }}" class="accordion-collapse collapse py-3 px-3" data-bs-parent="#accordionArticles">
+
+          <div class="row">
+
+            <div class="col-12 col-sm-7 col-md-7 col-lg-8 col-xl-9">
+              <label class="col-form-label col-form-label-sm" for="art_noteID">Note</label>
+              <input class="form-control form-control-sm" name="art_note[{{ $article->id }}]" id="art_note{{ $article->id }}ID" value="{{ $article->note }}">
+            </div>
+
+            <div class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1">
+              <label class="col-form-label col-form-label-sm" for="art_quantityID">Q.tà</label>
+              <input class="form-control form-control-sm" name="art_quantity[{{ $article->id }}]" id="art_quantity{{ $article->id }}ID" value="{{ $article->quantity }}">
+            </div>
+
+            <div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-2">
+              <label class="col-form-label col-form-label-sm" for="art_price_unityID">Prezzo</label>
+              <input class="form-control form-control-sm text-end" name="art_price_unity{{ $article->id }}" id="art_price_unity{{ $article->id }}ID" value="{{ $article->price_unity }}">
+            </div>
+
+
+          </div>
+
+          <div class="row py-3">
+
+            <div class="col-12 col-sm-7 col-md-7 col-lg-7 col-xl-8">
+              <label class="col-form-label col-form-label-sm" for="art_contentID">Contenuto</label>
+              <textarea rows="5" class="form-control form-control-sm" name="art_content[{{ $article->id }}]" id="art_content{{ $article->id }}ID">{{ $article->content }}</textarea>
+            </div>
+
+            <div class="col-12 col-sm-5 col-md-5 col-lg-5 col-xl-4">
+              <div class="row">
+                <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8 responsive-text-right"> Totale articolo</div>
+                <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 responsive-text-right">€ <span id="art_strprice_total{{ $article->id }}ID">{{ number_format($article->pricetotal,2,',','.') }}</span></div>
+                <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8 responsive-text-right"> Imponibile</div>
+                <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 responsive-text-right">{{ Config::get('settings.estimate_article_tax') }} %</div>
+                <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8 responsive-text-right"> Imponibile</div>
+                <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 responsive-text-right">€ <span id="art_strprice_tax{{ $article->id }}ID">{{ number_format($article->price_tax,2,',','.') }}</span></div>
+                <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8 responsive-text-right"> Totale</div>
+                <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 responsive-text-right">€ <span id="art_strtotal{{ $article->id }}ID">{{ number_format($article->total,2,',','.') }}</span></div>
+
+                <input type="text" id="art_total{{ $article->id }}ID" value="{{ $article->total }}">
+              
+              
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col text-end">
+            <a href="javascript:void(0);" data-id="{{ $article->id }}" class="deletearticle" title="Cancella questo articolo"><i class="bx bx-md bx-trash"></i></a>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -72,7 +130,7 @@
                 <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8 responsive-text-right"> Totale</div>
                 <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 responsive-text-right">€ <span id="sessart_strtotal{{ $article['id'] }}ID">{{ number_format($article['total'],2,',','.') }}</span></div>
 
-                <input type="input" id="sessart_total{{ $article['id'] }}ID" value="{{ $article['total'] }}">
+                <input type="hidden" id="sessart_total{{ $article['id'] }}ID" value="{{ $article['total'] }}">
 
 
               </div>
@@ -149,7 +207,7 @@
         </div>
 
         <input type="hidden" id="art_taxID" value="10">
-        <input type="text" id="art_totalID" value="0">
+        <input type="hidden" id="art_totalID" value="0">
         <div class="row">
           <div class="col text-end">
             <a href="javascript:void(0);" class="btn btn-primary insertsessarticle" title="Aggiungi questo articolo">Aggiungi articolo</a>
