@@ -101,8 +101,8 @@
 					<div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 responsive-text-right">€ <span id="estimate_strtotalID"></span></div>
 
 
-					<input type="input" name="estimate_articles_total" id="estimate_articles_totalID" value="">
-					<input type="input" name="estimate_tax" id="estimate_taxID" value="{{ $estimate_tax }}">
+					<input type="hidden" name="estimate_articles_total" id="estimate_articles_totalID" value="">
+					<input type="hidden" name="estimate_tax" id="estimate_taxID" value="{{ $estimate_tax }}">
 
 				</div>
 
@@ -120,7 +120,7 @@
 				</div>
 
 
-				<input type="input" name="estimate_id" id="estimate_idID" value="{{ $estimate->id }}">
+				<input type="hidden" name="estimate_id" id="estimate_idID" value="{{ $estimate->id }}">
 
 				{{ Form::close() }}
 

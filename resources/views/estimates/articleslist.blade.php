@@ -1,22 +1,44 @@
 <div class="row">
   <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-
+    @php $accordion = 1; @endphp
     <div class="accordion mt-3" id="accordionArticles">
 
       <!-- lista articoli database -->
       @isset($articles)
       @foreach($articles as $article)
 
+      <div class="card accordion-item articles" id="article{{ $accordion }}" data-id="{{ $article->id }}">
+
+        <div class="accordion-header" id="heading{{ $accordion }}">
+          <div class="row roby">
+            <div class="col-md-11" id="articleheader{{ $accordion }}">
+              <div class="row articleheader ps-2">
+
+                <div class="col-12 col-sm-7 col-md-7 col-lg-8 col-xl-9">
+                  <label>Note</label><br>
+                  {{ $article->note }}
+                </div>
+
+                <div class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1">
+                  <label>Q.tà</label><br>
+                  {{ $article->quantity }}
+                </div>
+
+                <div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-2 text-end">
+                  <label>Prezzo</label><br>
+                  {{ number_format($article->price_unity,2,',','.') }}
+                </div>
 
 
-
-      <div class="card accordion-item articles" id="article{{ $article->id }}">
-
-        <div class="accordion-header" id="headingOne">
-          <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordion{{ $article->id }}" aria-expanded="true" aria-controls="accordion{{ $article->id }}">{{ $article->note }}</button>
+              </div>
+            </div>
+            <div class="col-md-1 text-end">
+              <button id="accordionbutton{{ $accordion }}" type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordion{{ $accordion }}" aria-expanded="true" aria-controls="accordion{{ $accordion }}"></button>
+            </div>
+          </div>
         </div>
 
-        <div id="accordion{{ $article->id }}" class="accordion-collapse collapse py-3 px-3" data-bs-parent="#accordionArticles">
+        <div id="accordion{{ $accordion }}" class="accordion-collapse collapse pb-3 px-3" data-bs-parent="#accordionArticles">
 
           <div class="row">
 
@@ -57,8 +79,8 @@
                 <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 responsive-text-right">€ <span id="art_strtotal{{ $article->id }}ID">{{ number_format($article->total,2,',','.') }}</span></div>
 
                 <input type="text" id="art_total{{ $article->id }}ID" value="{{ $article->total }}">
-              
-              
+
+
               </div>
             </div>
 
@@ -66,12 +88,14 @@
 
           <div class="row">
             <div class="col text-end">
-            <a href="javascript:void(0);" data-id="{{ $article->id }}" class="deletearticle" title="Cancella questo articolo"><i class="bx bx-md bx-trash"></i></a>
+              <a href="javascript:void(0);" data-id="{{ $article->id }}" class="deletearticle" title="Cancella questo articolo"><i class="bx bx-md bx-trash"></i></a>
             </div>
           </div>
         </div>
 
       </div>
+
+      @php $accordion++; @endphp
 
       @endforeach
       @endisset
@@ -84,13 +108,37 @@
       @isset($foo)
       @foreach($foo as $article)
 
-      <div class="card accordion-item sessarticles" id="sessarticle{{ $article['id'] }}">
+      <div class="card accordion-item sessarticles" id="article{{ $accordion }}" data-id="{{ $article['id'] }}">
 
-        <div class="accordion-header" id="headingOne">
-          <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#sessaccordion{{ $article['id'] }}" aria-expanded="true" aria-controls="sessaccordion{{ $article['id'] }}">{{ $article['note'] }}</button>
+        <div class="accordion-header" id="heading{{ $accordion }}">
+          <div class="row">
+            <div class="col-md-11" id="articleheader{{ $accordion }}">
+              <div class="row articleheader ps-2">
+              <div class="col-12 col-sm-7 col-md-7 col-lg-8 col-xl-9 ">
+                  <label>Note</label><br>
+                  {{ $article['note'] }}
+                </div>
+
+                <div class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-1">
+                  <label>Q.tà</label><br>
+                  {{ $article['quantity'] }}
+                </div>
+
+                <div class="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-2 text-end">
+                  <label>Prezzo</label><br>
+                  {{ number_format($article['price_unity'],2,',','.') }}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-1 text-end">
+              <button id="accordionbutton{{ $accordion }}" type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordion{{ $accordion }}" aria-expanded="true" aria-controls="accordion{{ $article['id'] }}"></button>
+            </div>
+          </div>
         </div>
 
-        <div id="sessaccordion{{ $article['id'] }}" class="accordion-collapse collapse py-3 px-3" data-bs-parent="#accordionArticles">
+         
+
+        <div id="accordion{{ $accordion }}" class="accordion-collapse collapse pb-3 px-3" data-bs-parent="#accordionArticles">
 
           <div class="row">
 
@@ -149,6 +197,9 @@
         </div>
 
       </div>
+
+      @php $accordion++; @endphp
+
       @endforeach
       @endisset
       <!-- lista articoli sessione -->
@@ -156,9 +207,9 @@
     </div>
 
 
-    <input type="input" id="articles_totalID" name="articles_total" value="{{ $articles_total }}">
+    <input type="hidden" id="articles_totalID" name="articles_total" value="{{ $articles_total }}">
 
-    <hr>
+
 
     <!-- modumo inserimento -->
 

@@ -106,7 +106,7 @@
 						<td colspan="6" class="text-end fw-bolder">Totale ore</td>
 						<td colspan="" class="text-end fw-bolder">@php  echo sumTheTime($worktimes); @endphp</td>
 						<td colspan="2" class="text-end">
-						<a href="{{ route('timecards.listpdf') }}" title="Espporta in pdf"><i class='bx bxs-file-pdf'></i></a>
+						<a href="{{ route('timecards.listpdf') }}" title="Esporta in pdf"><i class='bx bxs-file-pdf'></i></a>
 						</td>
 					</tr>
 				</tfoot>

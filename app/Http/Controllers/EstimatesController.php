@@ -200,27 +200,24 @@ class EstimatesController extends Controller
     $estimate->active = $request->input('active');
     $estimate->save();
 
-    $savearticles = false;
+    // salva gli articoli in sessione
+    $foo = $request->session()->get('estimates articles');
+    if (is_array($foo) && count($foo) > 0) {
+      foreach ($foo AS $value) {
 
-    if ($request->input('art_price_unity') == '')   $savearticles = false;
-
-
-    if ($savearticles == true) {
-
-      $article = new Estimatesarticle;
-      $article->estimate_id = $estimate->id;
-      $article->note = $request->input('art_note');
-      $article->content = $request->input('art_content');
-      $article->quantity = $request->input('art_quantity');
-      $article->price_unity = $request->input('art_price_unity');
-      $article->save();
-
-      return to_route('estimates.edit', [$estimate->id]);
+        $article = new Estimatesarticle;
+        $article->estimate_id = $estimate->id;
+        $article->note = $value['note'];
+        $article->content = $value['content'];
+        $article->quantity = $value['quantity'];
+        $article->price_unity = $value['price_unity'];
+        $article->save();
+  
+      }
     }
-    
+    $foo = array();
+    request()->session()->put('estimates articles',$foo);
 
-
-    
     return to_route('estimates.index')->with('success', 'Preventivo modificato!');
   }
 
@@ -286,8 +283,8 @@ class EstimatesController extends Controller
 
     $article = Estimatesarticle::findOrFail($id);
 
-    $old_art_price_total = $article->quantity * $article->price_unity;
-    $art_price_total = $request->input('quantity') *  $request->input('price_unity');
+    $old_price_total = $article->quantity * $article->price_unity;
+    $tax = Config::get('settings.estimate_article_tax');
 
     // salva
     $article->note = $request->input('note');
@@ -295,7 +292,24 @@ class EstimatesController extends Controller
     $article->quantity = $request->input('quantity');
     $article->price_unity = $request->input('price_unity');
     $article->save();
-    echo json_encode(array('error'=>1,'message'=>'Ok','data'=>array('old_art_price_total'=>$old_art_price_total,'art_price_total'=>$art_price_total)));
+
+    $price_total = $request->input('price_unity') * $request->input('quantity');
+    $price_tax = ($price_total * $tax) / 100;
+    $total = $price_total + $price_tax;
+    $foo = [
+      'id' => $article->id,
+      'note' => $article->note,
+      'content' => $article->content,
+
+      'price_unity' => $request->input('price_unity'),
+      'quantity' => $request->input('quantity'),
+      'price_total' => $price_total,
+      'tax' => $tax,
+      'price_tax' => $price_tax,
+      'total' => $total,
+    ];
+
+    echo json_encode(array('error'=>0,'message'=>'Ok','data'=>$foo));
 
   }
 
@@ -398,6 +412,34 @@ class EstimatesController extends Controller
     }
 
     return false;
+  }
+
+  public function showpdf(Request $request, $id)
+  {
+   
+    $estimate = Estimate::findOrFail($id);
+    $estimate_tax = Config::get('settings.estimate_tax');
+
+    $articles = Estimatesarticle::where('estimate_id','=',$id)->get();
+    $articles_total = 0.00;
+    foreach($articles AS $value) { $articles_total += $value->total; }
+
+
+    /*
+    $data = [
+      'title' => $title,
+      'date' => date('m/d/Y'),
+      'timecards' => $timecards
+    ]; 
+    
+    $pdf = PDF::loadView('timecards.listpdf', $data);
+    return $pdf->download($filename.'.pdf');
+    */
+    return view('estimates.showpdf', ['estimate' => $estimate])
+    ->with('articles',$articles)
+    ->with('articles_total',$articles_total)
+    ->with('title','Preventivo');
+
   }
 
 }

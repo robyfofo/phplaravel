@@ -252,12 +252,10 @@ class TimecardsController extends Controller
       'date' => date('m/d/Y'),
       'timecards' => $timecards
     ]; 
-    /*
+    
     $pdf = PDF::loadView('timecards.listpdf', $data);
     return $pdf->download($filename.'.pdf');
-    */
-
-    return view('timecards.listpdf', ['timecards' => $timecards])->with('title',$title);
+    //return view('timecards.listpdf', ['timecards' => $timecards])->with('title',$title);
   }
 
 

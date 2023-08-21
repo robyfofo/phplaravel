@@ -77,11 +77,12 @@ Route::middleware('auth')->group(function () {
   })->where('any', '.*');
 
 
-  // timecards
+  // estimates
+  Route::get('/estimates/{id}/showpdf', [EstimatesController::class, 'showpdf'])->name('estimates.showpdf');
+  Route::put('/estimates/showxml', [EstimatesController::class, 'showxml'])->name('estimates.showxml');
+
   Route::put('/estimates/ajaxgetarticleslist', [EstimatesController::class, 'ajaxgetarticleslist'])->name('estimates.ajaxgetarticleslist');
   Route::put('/estimates/ajaxeditarticle', [EstimatesController::class, 'ajaxeditarticle'])->name('estimates.ajaxeditarticle');
-  
-  
   Route::put('/estimates/ajaxinsertsessarticle', [EstimatesController::class, 'ajaxinsertsessarticle'])->name('estimates.ajaxinsertsessarticle');
   Route::put('/estimates/ajaxdeletesessarticle', [EstimatesController::class, 'ajaxdeletesessarticle'])->name('estimates.ajaxdeletesessarticle');
   Route::put('/estimates/ajaxeditsessarticle', [EstimatesController::class, 'ajaxeditsessarticle'])->name('estimates.ajaxeditsessarticle');

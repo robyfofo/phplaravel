@@ -44,6 +44,8 @@
 						<th>Scadenza</th>
 						<th>Note</th>
 						<th>Content</th>
+						<th>Totale</th>
+						<th></th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -56,6 +58,18 @@
 						<td>{{ Carbon\Carbon::createFromFormat('Y-m-d', $estimate->datesca)->format('d/m/Y'); }}</td>
 						<td>{{ $estimate->note }}</td>
 						<td>{{ $estimate->content }}</td>
+						<td class="text-end">
+							
+							€ {{ number_format($estimate->articles_total,2,',','.') }}<br>
+							<sup>{{ $estimate->tax }}%</sup> € {{ number_format($estimate->total_tax,2,',','.') }}<br>
+							€ {{ number_format($estimate->total,2,',','.') }}<br>
+
+						</td>
+
+						<td class="text-end">
+							<a href="{{ route('estimates.showpdf',array('id'=>$estimate->id)) }}" title="Esporta in pdf"><i class='bx bx-sm bxs-file-pdf'></i></a>
+							<a href="{{ route('estimates.showxml') }}" title="Esporta in xml"><i class='bx bx-sm bxs-file'></i></a>
+						</td>
 						<td class="actions text-end">
 							<a href="javascript:void(0);" data-id="{{ $estimate->id }}" data-table="estimates" data-label="Preventivo" data-labelsex="o" data-token="{{ csrf_token() }}" class="setactive" title=""><i class="bx bx-{{ $estimate->active == 1 ? 'lock-open-alt' : 'lock-alt' }}{{ $estimate->active == 1 ? ' text-success' : ' text-danger' }}"></i></a><a class="" href="{{ route('estimates.edit', [$estimate->id]) }}" title="Modifica Preventivo"><i class='bx bx-edit'></i></a>
 							{!! Form::open(['style'=>'','class'=>'float-end','method' => 'DELETE','route' => ['estimates.destroy', $estimate->id]]) !!}
