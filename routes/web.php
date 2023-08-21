@@ -79,7 +79,7 @@ Route::middleware('auth')->group(function () {
 
   // estimates
   Route::get('/estimates/{id}/showpdf', [EstimatesController::class, 'showpdf'])->name('estimates.showpdf');
-  Route::put('/estimates/showxml', [EstimatesController::class, 'showxml'])->name('estimates.showxml');
+  Route::get('/estimates/{id}/showxml', [EstimatesController::class, 'showxml'])->name('estimates.showxml');
 
   Route::put('/estimates/ajaxgetarticleslist', [EstimatesController::class, 'ajaxgetarticleslist'])->name('estimates.ajaxgetarticleslist');
   Route::put('/estimates/ajaxeditarticle', [EstimatesController::class, 'ajaxeditarticle'])->name('estimates.ajaxeditarticle');

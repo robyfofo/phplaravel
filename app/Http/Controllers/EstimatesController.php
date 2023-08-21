@@ -19,6 +19,8 @@ use App\Http\Requests\EstimateRequest;
 
 use Carbon\Carbon;
 use Sabberworm\CSS\Settings;
+use PDF;
+use stdClass;
 
 class EstimatesController extends Controller
 {
@@ -418,28 +420,137 @@ class EstimatesController extends Controller
   {
    
     $estimate = Estimate::findOrFail($id);
-    $estimate_tax = Config::get('settings.estimate_tax');
-
+    $estimate->tax = Config::get('settings.estimate_tax');
+    //dd($estimate);
+    
     $articles = Estimatesarticle::where('estimate_id','=',$id)->get();
+    //dd($articles);
     $articles_total = 0.00;
     foreach($articles AS $value) { $articles_total += $value->total; }
 
+    // trova dettagli anagrafica
+    $thirdparty = new stdClass;
+    if ($estimate->thirdparty_id > 0) $thirdparty = Thirdparty::findOrFail($estimate->thirdparty_id);
+    //dd($thirdparty);
 
-    /*
+    // calcola totali
+    $estimate->price_tax = ($articles_total * $estimate->tax) / 100;
+    $estimate->total = $articles_total + $estimate->price_tax;
+ 
+    $title = 'Preventivo numero '.$estimate->id.' del '.$estimate->dateins;
+    $filename = 'Preventivo-'.$estimate->id.'-'.$estimate->dateins;
     $data = [
       'title' => $title,
       'date' => date('m/d/Y'),
-      'timecards' => $timecards
+      'estimate' => $estimate,
+      'thirdparty'=>$thirdparty,
+      'articles_total'=>$articles_total,
+      'articles'=>$articles
     ]; 
     
-    $pdf = PDF::loadView('timecards.listpdf', $data);
-    return $pdf->download($filename.'.pdf');
+    /*
     */
+    $pdf = PDF::loadView('estimates.showpdf', $data);
+    return $pdf->download($filename.'.pdf');
+  
+    /*
     return view('estimates.showpdf', ['estimate' => $estimate])
     ->with('articles',$articles)
+    ->with('thirdparty',$thirdparty)
     ->with('articles_total',$articles_total)
     ->with('title','Preventivo');
+    */
 
   }
+
+  public function showxml(Request $request, $id)
+  {
+   
+    $estimate = Estimate::findOrFail($id);
+    $estimate->tax = Config::get('settings.estimate_tax');
+    //dd($estimate);
+    
+    $articles = Estimatesarticle::where('estimate_id','=',$id)->get();
+    //dd($articles);
+    $articles_total = 0.00;
+    foreach($articles AS $value) { $articles_total += $value->total; }
+
+    // trova dettagli anagrafica
+    $thirdparty = new stdClass;
+    if ($estimate->thirdparty_id > 0) $thirdparty = Thirdparty::findOrFail($estimate->thirdparty_id);
+    //dd($thirdparty);
+
+    // calcola totali
+    $estimate->price_tax = ($articles_total * $estimate->tax) / 100;
+    $estimate->total = $articles_total + $estimate->price_tax;
+
+		$xml = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?> <preventivo></preventivo>');
+		$foo = $xml->addChild('Dati');
+		$foo->addAttribute('Numero',$estimate->id);
+
+		if(isset($estimate->id) && $estimate->id != '')													$foo->addChild('Id',$estimate->id);
+		if(isset($estimate->dateins) && $estimate->dateins != '')								$foo->addChild('Data',$estimate->dateins);
+		if(isset($estimate->datesca) && $estimate->datesca != '')							  $foo->addChild('Scadenza',$estimate->datesca);
+		if(isset($estimate->note) && $estimate->note != '') 										$foo->addChild('Note',$estimate->note);
+		if(isset($estimate->content) && $estimate->content != '') 							$foo->addChild('Contenuto',$estimate->content);
+    /*
+    */
+		
+    /*
+		$foo = $xml->addChild('Fornitore');
+		$foo->addAttribute('id',$dati->ordertoaddress->id);
+		if(isset($dati->ordertoaddress->name) && $dati->ordertoaddress->name != '')																	$foo->addChild('Nome',$dati->ordertoaddress->name);
+		if(isset($dati->ordertoaddress->surname) && $dati->ordertoaddress->surname != '')														$foo->addChild('Cognome',$dati->ordertoaddress->surname);
+		if(isset($dati->ordertoaddress->street) && $dati->ordertoaddress->street != '')															$foo->addChild('Via',$dati->ordertoaddress->street);
+		if(isset($dati->ordertoaddress->comune) && $dati->ordertoaddress->comune != '')															$foo->addChild('Comune',$dati->ordertoaddress->comune);
+		if(isset($dati->ordertoaddress->provincia) && $dati->ordertoaddress->provincia != '')												$foo->addChild('Provincia',$dati->ordertoaddress->provincia);
+		if(isset($dati->ordertoaddress->nations) && $dati->ordertoaddress->nations != '')														$foo->addChild('Nazione',$dati->ordertoaddress->nations);
+		if(isset($dati->ordertoaddress->email) && $dati->ordertoaddress->email != '')																$foo->addChild('Email',$dati->ordertoaddress->email);
+		if(isset($dati->ordertoaddress->telephone) && $dati->ordertoaddress->telephone != '')												$foo->addChild('Telefono',$dati->ordertoaddress->telephone);
+		if(isset($dati->ordertoaddress->partita_iva) && $dati->ordertoaddress->partita_iva != '')										$foo->addChild('PartitaIVA',$dati->ordertoaddress->partita_iva);
+		if(isset($dati->ordertoaddress->codice_fiscale) && $dati->ordertoaddress->codice_fiscale != '')							$foo->addChild('CodiceFiscale',$dati->ordertoaddress->codice_fiscale);
+
+		$foo = $xml->addChild('Cliente');
+		$foo->addAttribute('id',$dati->orderfromaddress->id);
+		if(isset($dati->orderfromaddress->name) && $dati->orderfromaddress->name != '')																	$foo->addChild('Nome',$dati->orderfromaddress->name);
+		if(isset($dati->orderfromaddress->surname) && $dati->orderfromaddress->surname != '')														$foo->addChild('Cognome',$dati->orderfromaddress->surname);
+		if(isset($dati->orderfromaddress->street) && $dati->orderfromaddress->street != '')															$foo->addChild('Via',$dati->orderfromaddress->street);
+		if(isset($dati->orderfromaddress->comune) && $dati->orderfromaddress->comune != '')															$foo->addChild('Comune',$dati->orderfromaddress->comune);
+		if(isset($dati->orderfromaddress->provincia) && $dati->orderfromaddress->provincia != '')												$foo->addChild('Provincia',$dati->orderfromaddress->provincia);
+		if(isset($dati->orderfromaddress->nations) && $dati->orderfromaddress->nations != '')														$foo->addChild('Nazione',$dati->orderfromaddress->nations);
+		if(isset($dati->orderfromaddress->email) && $dati->orderfromaddress->email != '')																$foo->addChild('Email',$dati->orderfromaddress->email);
+		if(isset($dati->orderfromaddress->telephone) && $dati->orderfromaddress->telephone != '')												$foo->addChild('Telefono',$dati->orderfromaddress->telephone);
+		if(isset($dati->orderfromaddress->partita_iva) && $dati->orderfromaddress->partita_iva != '')										$foo->addChild('PartitaIVA',$dati->orderfromaddress->partita_iva);
+		if(isset($dati->orderfromaddress->codice_fiscale) && $dati->orderfromaddress->codice_fiscale != '')							$foo->addChild('CodiceFiscale',$dati->orderfromaddress->codice_fiscale);
+
+		$pro = $xml->addChild('Prodotti');
+		if (is_array($dati->products) && count($dati->products)) {
+			foreach ($dati->products as $value) {
+				$pro1 = $pro->addChild('Prodotto');
+				$pro1->addAttribute('Codice',$value->code);
+				if(isset($value->title) && $value->title != '')																			$pro1->addChild('Titolo',$value->title);
+				if(isset($value->attribute) && $value->attribute != '')															$pro1->addChild('Attributi',$value->attribute);
+				if(isset($value->quantity) && $value->quantity != '')																$pro1->addChild('Quantita',$value->quantity);
+				if(isset($value->price) && $value->price != '')																			$pro1->addChild('Prezzo',number_format($value->price, 2, ',', '.'));
+			}
+		}
+    */
+
+    
+		$output = $xml->asXML();
+		header('Content-Type: text/xml');
+		header('Content-Disposition: attachment;filename="Preventivo-'.$estimate->id.'-'.$estimate->dateins .'.xlm"');
+		header('Cache-Control: max-age=0');
+		header('Cache-Control: max-age=1');
+		header('Expires: Mon, 26 Jul 2050 05:00:00 GMT');
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('Cache-Control: cache, must-revalidate');
+		header('Pragma: public');
+
+		echo $output;
+		die();
+
+  }
+
 
 }

@@ -68,7 +68,7 @@
 
 						<td class="text-end">
 							<a href="{{ route('estimates.showpdf',array('id'=>$estimate->id)) }}" title="Esporta in pdf"><i class='bx bx-sm bxs-file-pdf'></i></a>
-							<a href="{{ route('estimates.showxml') }}" title="Esporta in xml"><i class='bx bx-sm bxs-file'></i></a>
+							<a href="{{ route('estimates.showxml',array('id'=>$estimate->id)) }}" title="Esporta in xml"><i class='bx bx-sm bxs-file'></i></a>
 						</td>
 						<td class="actions text-end">
 							<a href="javascript:void(0);" data-id="{{ $estimate->id }}" data-table="estimates" data-label="Preventivo" data-labelsex="o" data-token="{{ csrf_token() }}" class="setactive" title=""><i class="bx bx-{{ $estimate->active == 1 ? 'lock-open-alt' : 'lock-alt' }}{{ $estimate->active == 1 ? ' text-success' : ' text-danger' }}"></i></a><a class="" href="{{ route('estimates.edit', [$estimate->id]) }}" title="Modifica Preventivo"><i class='bx bx-edit'></i></a>
