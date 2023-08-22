@@ -488,54 +488,50 @@ class EstimatesController extends Controller
 		$foo = $xml->addChild('Dati');
 		$foo->addAttribute('Numero',$estimate->id);
 
-		if(isset($estimate->id) && $estimate->id != '')													$foo->addChild('Id',$estimate->id);
-		if(isset($estimate->dateins) && $estimate->dateins != '')								$foo->addChild('Data',$estimate->dateins);
-		if(isset($estimate->datesca) && $estimate->datesca != '')							  $foo->addChild('Scadenza',$estimate->datesca);
-		if(isset($estimate->note) && $estimate->note != '') 										$foo->addChild('Note',$estimate->note);
-		if(isset($estimate->content) && $estimate->content != '') 							$foo->addChild('Contenuto',$estimate->content);
-    /*
-    */
-		
-    /*
+		if(isset($estimate->id) && $estimate->id != '')													                                    $foo->addChild('Id',$estimate->id);
+		if(isset($estimate->dateins) && $estimate->dateins != '')								                                    $foo->addChild('Data',$estimate->dateins);
+		if(isset($estimate->datesca) && $estimate->datesca != '')							                                      $foo->addChild('Scadenza',$estimate->datesca);
+		if(isset($estimate->note) && $estimate->note != '') 										                                    $foo->addChild('Note',$estimate->note);
+		if(isset($estimate->content) && $estimate->content != '') 							                                    $foo->addChild('Contenuto',$estimate->content);
 		$foo = $xml->addChild('Fornitore');
-		$foo->addAttribute('id',$dati->ordertoaddress->id);
-		if(isset($dati->ordertoaddress->name) && $dati->ordertoaddress->name != '')																	$foo->addChild('Nome',$dati->ordertoaddress->name);
-		if(isset($dati->ordertoaddress->surname) && $dati->ordertoaddress->surname != '')														$foo->addChild('Cognome',$dati->ordertoaddress->surname);
-		if(isset($dati->ordertoaddress->street) && $dati->ordertoaddress->street != '')															$foo->addChild('Via',$dati->ordertoaddress->street);
-		if(isset($dati->ordertoaddress->comune) && $dati->ordertoaddress->comune != '')															$foo->addChild('Comune',$dati->ordertoaddress->comune);
-		if(isset($dati->ordertoaddress->provincia) && $dati->ordertoaddress->provincia != '')												$foo->addChild('Provincia',$dati->ordertoaddress->provincia);
-		if(isset($dati->ordertoaddress->nations) && $dati->ordertoaddress->nations != '')														$foo->addChild('Nazione',$dati->ordertoaddress->nations);
-		if(isset($dati->ordertoaddress->email) && $dati->ordertoaddress->email != '')																$foo->addChild('Email',$dati->ordertoaddress->email);
-		if(isset($dati->ordertoaddress->telephone) && $dati->ordertoaddress->telephone != '')												$foo->addChild('Telefono',$dati->ordertoaddress->telephone);
-		if(isset($dati->ordertoaddress->partita_iva) && $dati->ordertoaddress->partita_iva != '')										$foo->addChild('PartitaIVA',$dati->ordertoaddress->partita_iva);
-		if(isset($dati->ordertoaddress->codice_fiscale) && $dati->ordertoaddress->codice_fiscale != '')							$foo->addChild('CodiceFiscale',$dati->ordertoaddress->codice_fiscale);
+		$foo->addChild('Ragione_sociale',Config::get('settings.company_ragione_sociale'));
+		$foo->addChild('Indirizzo',Config::get('settings.company_address'));
+		$foo->addChild('P.Iva',Config::get('settings.partita_iva'));
 
 		$foo = $xml->addChild('Cliente');
-		$foo->addAttribute('id',$dati->orderfromaddress->id);
-		if(isset($dati->orderfromaddress->name) && $dati->orderfromaddress->name != '')																	$foo->addChild('Nome',$dati->orderfromaddress->name);
-		if(isset($dati->orderfromaddress->surname) && $dati->orderfromaddress->surname != '')														$foo->addChild('Cognome',$dati->orderfromaddress->surname);
-		if(isset($dati->orderfromaddress->street) && $dati->orderfromaddress->street != '')															$foo->addChild('Via',$dati->orderfromaddress->street);
-		if(isset($dati->orderfromaddress->comune) && $dati->orderfromaddress->comune != '')															$foo->addChild('Comune',$dati->orderfromaddress->comune);
-		if(isset($dati->orderfromaddress->provincia) && $dati->orderfromaddress->provincia != '')												$foo->addChild('Provincia',$dati->orderfromaddress->provincia);
-		if(isset($dati->orderfromaddress->nations) && $dati->orderfromaddress->nations != '')														$foo->addChild('Nazione',$dati->orderfromaddress->nations);
-		if(isset($dati->orderfromaddress->email) && $dati->orderfromaddress->email != '')																$foo->addChild('Email',$dati->orderfromaddress->email);
-		if(isset($dati->orderfromaddress->telephone) && $dati->orderfromaddress->telephone != '')												$foo->addChild('Telefono',$dati->orderfromaddress->telephone);
-		if(isset($dati->orderfromaddress->partita_iva) && $dati->orderfromaddress->partita_iva != '')										$foo->addChild('PartitaIVA',$dati->orderfromaddress->partita_iva);
-		if(isset($dati->orderfromaddress->codice_fiscale) && $dati->orderfromaddress->codice_fiscale != '')							$foo->addChild('CodiceFiscale',$dati->orderfromaddress->codice_fiscale);
-
-		$pro = $xml->addChild('Prodotti');
-		if (is_array($dati->products) && count($dati->products)) {
-			foreach ($dati->products as $value) {
-				$pro1 = $pro->addChild('Prodotto');
-				$pro1->addAttribute('Codice',$value->code);
-				if(isset($value->title) && $value->title != '')																			$pro1->addChild('Titolo',$value->title);
-				if(isset($value->attribute) && $value->attribute != '')															$pro1->addChild('Attributi',$value->attribute);
-				if(isset($value->quantity) && $value->quantity != '')																$pro1->addChild('Quantita',$value->quantity);
-				if(isset($value->price) && $value->price != '')																			$pro1->addChild('Prezzo',number_format($value->price, 2, ',', '.'));
-			}
-		}
-    */
-
+    if ($estimate->alt_thirdparty != '') {
+      $foo->addChild('Anagrafica',$estimate->alt_thirdparty);
+    } else {
+      
+      if(isset($thirdparty->id) && $thirdparty->id > 0)																	                        $foo->addChild('Id',$thirdparty->id);
+      if(isset($thirdparty->name) && $thirdparty->name != '')																	                  $foo->addChild('Nome',$thirdparty->name);
+      if(isset($thirdparty->street) && $thirdparty->street != '')															                  $foo->addChild('Via',$thirdparty->street);
+      if(isset($thirdparty->city) && $thirdparty->city != '')															                      $foo->addChild('Città',$thirdparty->city);
+      if(isset($thirdparty->zip_code) && $thirdparty->zip_code != '')														                $foo->addChild('CAP',$thirdparty->zip_code);
+      if(isset($thirdparty->provincia) && $thirdparty->provincia != '')												                  $foo->addChild('Provincia',$thirdparty->provincia);
+      if(isset($thirdparty->nation) && $thirdparty->nation != '')														                    $foo->addChild('Nazione',$thirdparty->nation);
+      if(isset($thirdparty->email) && $thirdparty->email != '')														                      $foo->addChild('Email',$thirdparty->email);
+      if(isset($thirdparty->telephone) && $thirdparty->telephone != '')														              $foo->addChild('Telefono',$thirdparty->telephone);
+      if(isset($thirdparty->partita_iva) && $thirdparty->partita_iva != '')														          $foo->addChild('P.IVA',$thirdparty->partita_iva);
+      if(isset($thirdparty->codice_fiscale) && $thirdparty->codice_fiscale != '')														    $foo->addChild('C.Fiscale',$thirdparty->codice_fiscale);
+    }
+    
+		$pro = $xml->addChild('Articoli');
+	
+    foreach ($articles as $value) {
+      $pro1 = $pro->addChild('Articolo');
+      if(isset($value->id) && $value->id > 0)                                                                   $pro1->addAttribute('Id',$value->id);
+      if(isset($value->note) && $value->note != '')																			                        $pro1->addChild('Note',$value->note);
+      if(isset($value->content) && $value->content != '')															                          $pro1->addChild('Contenuto',$value->content);
+      if(isset($value->price_unity) && $value->price_unity != '')															                  $pro1->addChild('Prezzo_unitario',$value->price_unity);
+      if(isset($value->quantity) && $value->quantity != '')																                      $pro1->addChild('Quantità',$value->quantity);
+      if(isset($value->price_total) && $value->price_total != '')															                  $pro1->addChild('Prezzo_totale',$value->price_total);
+      if(isset($value->tax) && $value->tax != '')															                                  $pro1->addChild('Imponibile',$value->tax);
+      if(isset($value->price_tax) && $value->price_tax != '')															                      $pro1->addChild('Prezzo_imponibile',$value->price_tax);
+      if(isset($value->total) && $value->total != '')															                              $pro1->addChild('Totale',$value->total);
+      
+    }
+  
     
 		$output = $xml->asXML();
 		header('Content-Type: text/xml');
