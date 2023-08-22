@@ -15,11 +15,11 @@ function initMCEall(){
 		relative_urls: false,
 		remove_script_host : false,
 		convert_urls : true,
-		document_base_url: siteUrl,
+		//document_base_url: siteUrl,
 
-		filemanager_title:"Responsive Filemanager",
-		external_filemanager_path: siteUrl+"/filemanager/",
-		external_plugins: { "filemanager" : siteUrl+"/filemanager/plugin.min.js"},
+		//filemanager_title:"Responsive Filemanager",
+		//external_filemanager_path: siteUrl+"/filemanager/",
+		//external_plugins: { "filemanager" : siteUrl+"/filemanager/plugin.min.js"},
 		image_advtab: true,
 
 		table_default_attributes: {
@@ -73,9 +73,9 @@ function initMCEall(){
 		convert_urls : true,
 		document_base_url: siteUrl,
 
-		filemanager_title:"Responsive Filemanager",
-		external_filemanager_path: siteUrl+"/filemanager/",
-		external_plugins: { "filemanager" : siteUrl+"/filemanager/plugin.min.js"},
+		//filemanager_title:"Responsive Filemanager",
+		//external_filemanager_path: siteUrl+"/filemanager/",
+		//external_plugins: { "filemanager" : siteUrl+"/filemanager/plugin.min.js"},
 		image_advtab: true,
 
 		table_default_attributes: {

@@ -43,7 +43,7 @@
 						<th>Data</th>
 						<th>Scadenza</th>
 						<th>Note</th>
-						<th>Content</th>
+					
 						<th>Totale</th>
 						<th></th>
 						<th>Action</th>
@@ -57,7 +57,6 @@
 						<td>{{ Carbon\Carbon::createFromFormat('Y-m-d', $estimate->dateins)->format('d/m/Y'); }}</td>
 						<td>{{ Carbon\Carbon::createFromFormat('Y-m-d', $estimate->datesca)->format('d/m/Y'); }}</td>
 						<td>{{ $estimate->note }}</td>
-						<td>{{ $estimate->content }}</td>
 						<td class="text-end">
 							
 							€ {{ number_format($estimate->articles_total,2,',','.') }}<br>

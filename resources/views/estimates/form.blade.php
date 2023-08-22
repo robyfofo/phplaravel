@@ -61,7 +61,7 @@
 						<div class="row mb-3">
 							{{ Form::label('content', 'Content', ['class'=>'col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 col-form-label col-form-label-sm responsive-text-right']) }}
 							<div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-10">
-								{{ Form::textarea('content', old('content', $estimate->content ?? ''), array('rows'=>3,'class' => 'form-control form-control-sm')) }}
+								{{ Form::textarea('content', old('content', $estimate->content ?? ''), array('rows'=>3,'class' => 'form-control form-control-sm editorHTML')) }}
 							</div>
 						</div>
 

@@ -68,6 +68,14 @@
 
     <!-- Page CSS -->
 
+        <!-- default vars useful for javascript -->
+		<script>
+			var user_lang = 'it';
+			var charset_date_lang = 'it_IT';
+			var charset_lang = "it-IT";	
+		</script>
+
+
     <!-- Helpers -->
     <script src="/assets/vendor/js/helpers.js"></script>
 
@@ -332,13 +340,14 @@ Ultimo accesso: {{ auth()->user()->last_login_at }}
     <script src="/plugins/bootbox/bootbox.min.js"></script>
     <script src="/plugins/lightbox/js/lightbox.min.js"></script>
 
+    <script src="/plugins/tinymce/tinymce.min.js"></script>
+		<script src="/plugins/tinymce/config/tinymce.config.js"></script>	
+
     <!-- Main JS -->
     <script src="/assets/js/main.js"></script>
 
     <script src="/js/functions.js"></script>
     <script src="/js/default.js"></script>
-
-
 
     @isset($appJavascriptLinks)
       @foreach ($appJavascriptLinks as $link)
