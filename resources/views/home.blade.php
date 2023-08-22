@@ -122,6 +122,24 @@
     </div>
   @endif
 
+  @if ($lastestimates > 0)
+    <div class="col-lg-3 mb-4 order-1">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title d-flex align-items-start justify-content-between">
+            <div class="avatar flex-shrink-0">
+              <h3 class="card-title text-nowrap mb-2">
+                <i class="menu-icon tf-icons bx bx-lg bx-bullseye"></i>
+                {{ $lastestimates }}
+              </h3>
+            </div>
+          </div>
+          <span class="d-block mb-1">Nuovi preventivi</span>
+        </div>
+      </div>
+    </div>
+  @endif
+
 </div>
 <!-- nuovi inserimenti -->
 
@@ -171,6 +189,49 @@
     </div>
   </div>
   <!-- ultimi progetti -->
+
+    <!-- ultimi preventivi -->
+    <div class="col-lg-6 mb-2 order-1">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title d-flex">
+          <i class="menu-icon tf-icons bx bx-bullseye"></i> Ultimi preventivi
+        </div>
+      </div>
+      <div class="card-body">
+        <table class="table table-sm table-bordered listData">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Data</th>
+              <th>Scadenza</th>
+              <th>Note</th>
+              <th>Totale</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @foreach($estimates as $estimate)
+            <tr>
+              <td>
+                <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="right" data-bs-html="true" title="Creato il: {{ $estimate->created_at }}<br>Aggiornato il: {{ $estimate->updated_at }}">
+                  <i class="menu-icon tf-icons bx bx-alarm"></i>
+                </a>
+              </td>
+              <td>{{ Carbon\Carbon::createFromFormat('Y-m-d', $estimate->dateins)->format('d/m/Y'); }}</td>
+              <td>{{ Carbon\Carbon::createFromFormat('Y-m-d', $estimate->datesca)->format('d/m/Y'); }}</td>
+              <td>{{ $estimate->note }}</td>
+              <td class="text-end">€ {{ number_format($estimate->total,2,',','.') }}</td>
+            </tr>
+            @endforeach
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- ultimi preventivi -->
+
 
   <!-- ultime tiecards -->
   <div class="col-lg-6 mb-2 order-2">

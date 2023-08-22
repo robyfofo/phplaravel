@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\Timecard;
 use App\Models\Thirdparty;
+use App\Models\Estimate;
 use Carbon\Carbon;
 
 class HomeController extends Controller
@@ -37,29 +38,30 @@ class HomeController extends Controller
     // prelevo ultimi progetti
     $lastprojects = Project::whereDate('created_at', '>',  $lastlogin)->count();
     // prelevo ultimi 1o progetti
-    $projects = Project::orderBy('updated_at','DESC')->where('active', '=', 1)->take(10)->get(); 
-    
+    $projects = Project::orderBy('updated_at', 'DESC')->where('active', '=', 1)->take(10)->get();
+
     // prelevo ultimi clienti
     $lastthirdparty = Thirdparty::whereDate('created_at', '>',   $lastlogin)->count();
     // prelevo ultimi 1o timecards
-    $thirdparties = Thirdparty::orderBy('created_at','DESC')->take(10)->get();
-    
+    $thirdparties = Thirdparty::orderBy('created_at', 'DESC')->take(10)->get();
+
     // prelevo ultime timecards
     $lasttimecards = Timecard::whereDate('dateins', '>',  Carbon::parse($lastlogin)->format('Y-m-d'))->count();
-    $timecards = Timecard::orderBy('dateins','DESC')->take(10)->get();
-    
-    //$lasttimecards = Timecard::whereDate('dateins', '>',  Carbon::parse($lastlogin)->format('Y-m-d'))->count();
+    $timecards = Timecard::orderBy('dateins', 'DESC')->take(10)->get();
 
-
-
+    // prelevo ultimi preventivi
+    $lastestimates = Estimate::whereDate('created_at', '>',  $lastlogin)->count();
+    // prelevo ultimi 1o preventivi
+    $estimates = Estimate::orderBy('updated_at', 'DESC')->where('active', '=', 1)->take(10)->get();
 
     return view('home')
-    ->with('lastprojects',$lastprojects)
-    ->with('projects',$projects)
-    ->with('lastthirdparty',$lastthirdparty)
-    ->with('thirdparties',$thirdparties)
-    ->with('lasttimecards',$lasttimecards)
-    ->with('timecards',$timecards)
-    ;
+      ->with('lastprojects', $lastprojects)
+      ->with('projects', $projects)
+      ->with('lastthirdparty', $lastthirdparty)
+      ->with('thirdparties', $thirdparties)
+      ->with('lasttimecards', $lasttimecards)
+      ->with('timecards', $timecards)
+      ->with('lastestimates', $lastestimates)
+      ->with('estimates', $estimates);
   }
 }
