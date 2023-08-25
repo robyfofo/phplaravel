@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\ThirdpartiesCategories;
+
 class Thirdparty extends Model
 {
   use HasFactory;
-  protected $appends = ['nation','provincia','city'];
+  protected $appends = ['nation','provincia','city','category'];
 
 
   public function getNationAttribute()
@@ -45,6 +47,16 @@ class Thirdparty extends Model
       return 'n.d';
     }
     return false;
+  }
+
+  public function getCategoryAttribute()
+  {
+    if ($this->categories_id != '') {
+      $foo =ThirdpartiesCategories::where('id','=',$this->categories_id)->where('active','=',1)->first();
+      return $foo->title;
+    } else {
+      return false;
+    }
   }
 
 }

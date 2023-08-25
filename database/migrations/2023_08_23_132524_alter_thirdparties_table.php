@@ -11,18 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        
-        Schema::table('thirdparties_categories', function (Blueprint $table) {
-
-            $table->unsignedBigInteger('parent_id')->nullable();
-            $table->index(['parent_id']);
-            $table
-                ->foreign('parent_id')
-                ->references('id')
-                ->on('thirdparties_categories')
-                ->onDelete('set null')
-                ->onUpdate('set null');
+        Schema::table('thirdparties', function (Blueprint $table) {
             
+            $table->unsignedBigInteger('location_province_id')->nullable();
+            $table->index(['location_province_id']);
+            $table
+                ->foreign('location_province_id')
+                ->references('id')
+                ->on('location_province')
+                ->onDelete('set null')
+                ->onUpdate('set null');                    
+         
         });
     }
 

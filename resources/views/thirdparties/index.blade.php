@@ -18,19 +18,19 @@
 			<div class="form-group row">
 				<div class="col-md-1">
 					<select name="itemsforpage" id="itemsforpage" class="form-select form-select-sm" onchange="this.form.submit();">
-						<option @if ($itemsforpage==1) selected @endif value="1">1</option>
-						<option @if ($itemsforpage==5) selected @endif value="5">5</option>
-						<option @if ($itemsforpage==10) selected @endif value="10">10</option>
-						<option @if ($itemsforpage==25) selected @endif value="25">25</option>
-						<option @if ($itemsforpage==50) selected @endif value="50">50</option>
-						<option @if ($itemsforpage==100) selected @endif value="100">100</option>
+						<option @if (request()->session()->get('thirdparties itemsforpage') ==1) selected @endif value="1">1</option>
+						<option @if (request()->session()->get('thirdparties itemsforpage')==5) selected @endif value="5">5</option>
+						<option @if (request()->session()->get('thirdparties itemsforpage')==10) selected @endif value="10">10</option>
+						<option @if (request()->session()->get('thirdparties itemsforpage')==25) selected @endif value="25">25</option>
+						<option @if (request()->session()->get('thirdparties itemsforpage')==50) selected @endif value="50">50</option>
+						<option @if (request()->session()->get('thirdparties itemsforpage')==100) selected @endif value="100">100</option>
 					</select>
 				</div>
 				<label for="itemsforpageID" class="col-md-2 col-form-label form-control-sm">Voci per pagina</label>
 		
 				<label for="searchfromtableID" class="offset-md-6 col-md-1 col-form-label form-control-sm" style="text-align:right;">Cerca</label>
 				<div class="col-md-2">
-					<input type="search" name="searchfromtable" id="searchfromtableID" class="form-control form-control-sm" value="@isset($searchfromtable){{ $searchfromtable }}@endisset" onchange="this.form.submit();">
+					<input type="search" name="searchfromtable" id="searchfromtableID" class="form-control form-control-sm" value="{{ request()->session()->get('thirdparties searchfromtable') }}" onchange="this.form.submit();">
 				</div>
 			</div>
 		</form>
@@ -51,7 +51,7 @@
 					@foreach($thirdparties as $thirdparty)
 						<tr>
 							<td>{{ $thirdparty->id }}</td>
-							<td>{{ $thirdparty->categories_id }}</td>
+							<td>{{ $thirdparty->category }} (<small>{{ $thirdparty->categories_id }}</small>)</td>
 							<td>{{ $thirdparty->ragione_sociale }}</td>
 							<td>{{ $thirdparty->name }}, {{ $thirdparty->surname }}</td>
 							<td>{{ $thirdparty->email }}</td>

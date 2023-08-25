@@ -12,10 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('thirdparties', function (Blueprint $table) {
-
             $table->id();
             
-            $table->integer('categories_id')->default(0);
+            $table->unsignedBigInteger('categories_id')->nullable();
+            $table->index(['categories_id']);
+            $table
+                ->foreign('categories_id')
+                ->references('id')
+                ->on('thirdparties_categories')
+                ->onDelete('set null')
+                ->onUpdate('set null');
+                
             
             $table->string('name')->nullable();
             $table->string('surname')->nullable();
@@ -23,10 +30,6 @@ return new class extends Migration
             $table->string('city_alt')->nullable();
             $table->string('zip_code')->nullable();
             $table->string('provincia_alt')->nullable();
-
-            $table->integer('location_cities_id')->default(0);
-            $table->integer('location_province_id')->default(0);
-            $table->integer('location_nations_id')->default(0);
             
             $table->string('email')->unique();
             $table->string('telephone')->nullable();
@@ -39,7 +42,6 @@ return new class extends Migration
             $table->string('sid')->nullable();
             
             $table->integer('active')->default(0);
-            
             $table->timestamps();
         });
     }
@@ -49,6 +51,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('thirdparty');
+        Schema::dropIfExists('thirdparties');
     }
 };

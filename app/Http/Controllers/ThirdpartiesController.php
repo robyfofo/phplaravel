@@ -8,15 +8,13 @@ use Illuminate\Http\Request;
 
 
 use App\Models\Thirdparty;
+use App\Models\ThirdpartiesCategories;
 
 use App\Http\Requests\ThirdpartyRequest;
 
 
 class ThirdpartiesController extends Controller
 {
-
-  private $itemsforpage = 2;
-  private $page = 1;
   private $searchfromtable = '';
   private $orderType = 'ASC';
   private $location_nations;
@@ -40,24 +38,12 @@ class ThirdpartiesController extends Controller
   public function index(Request $request)
   {
     // numero pagine
-    if ($request->session()->missing('thirdparty itemsforpage')) $request->session()->put('thirdparty itemsforpage', 10);
-    if (request()->input('itemsforpage')) $request->session()->put('thirdparty itemsforpage', request()->input('itemsforpage'));
-
-    // paginazione
-    if ($request->session()->missing('thirdparty page')) $request->session()->put('thirdparty page', 1);
-    if (request()->input('page')) $request->session()->put('thirdparty page', request()->input('page'));
-
-    if ($request->session()->has('thirdparty itemsforpage')) $this->itemsforpage = $request->session()->get('thirdparty itemsforpage');
-    if ($request->session()->has('thirdparty page')) $this->page = $request->session()->get('thirdparty page');
+    if ($request->session()->missing('thirdparties itemsforpage')) $request->session()->put('thirdparties itemsforpage', 10);
+    if (request()->input('itemsforpage')) $request->session()->put('thirdparties itemsforpage', request()->input('itemsforpage'));
 
     // ricerca 
-    if ($request->session()->missing('thirdparty searchfromtable')) $request->session()->put('thirdparty searchfromtable', '');
-    if (request()->input('searchfromtable')) {
-      $request->session()->put('thirdparty searchfromtable', request()->input('searchfromtable'));
-    } else {
-      $request->session()->put('thirdparty searchfromtable', '');
-    }
-    if ($request->session()->has('thirdparty searchfromtable')) $this->searchfromtable = $request->session()->get('thirdparty searchfromtable');
+    $request->session()->put('thirdparties searchfromtable', '');
+    if (request()->input('searchfromtable')) $request->session()->put('thirdparties searchfromtable', request()->input('searchfromtable'));
 
   
     $appJavascriptLinks = array('<script src="js/modules/thirdparties.index.20230612.js"></script>');
@@ -65,16 +51,13 @@ class ThirdpartiesController extends Controller
     $thirdparties = Thirdparty::orderBy('id', $this->orderType)
 
       ->where(function($query) {
-        $query->where('name', 'like', '%' . $this->searchfromtable . '%')
-        ->orWhere('surname', 'like', '%' . $this->searchfromtable . '%')
-        ->orWhere('email', 'like', '%' . $this->searchfromtable . '%');
+        $query->where('name', 'like', '%' . request()->session()->get('thirdparties searchfromtable') . '%')
+        ->orWhere('surname', 'like', '%' . request()->session()->get('thirdparties searchfromtable') . '%')
+        ->orWhere('email', 'like', '%' . request()->session()->get('thirdparties searchfromtable') . '%');
       })
-      
-      ->paginate($this->itemsforpage);
+      ->paginate(request()->session()->get('thirdparties itemsforpage'));
 
     return view('thirdparties.index', ['thirdparties' => $thirdparties])
-    ->with('itemsforpage', $this->itemsforpage)
-    ->with('searchfromtable', $this->searchfromtable)
     ->with('orderType', $this->orderType)
     ->with('appJavascriptLinks', $appJavascriptLinks);
   }
@@ -84,7 +67,12 @@ class ThirdpartiesController extends Controller
    */
   public function create()
   {
-    $thirdparty = new Thirdparty;
+    $thirdparty = Thirdparty::findOrNew(0);
+    $thirdparty->category_id = 0;
+    $thirdparty->location_nations_id = 0;
+		$thirdparty->location_province_id = 0;
+		$thirdparty->location_cities_id = 0;
+		$thirdparty->active = 1;
 
     $appJavascriptBodyCode = "
     let selected_location_nations_id = '0';
@@ -94,9 +82,10 @@ class ThirdpartiesController extends Controller
 		let default_provincia_alt = '';
 		let default_city_alt = '';
     ";
-    $appJavascriptLinks = array('<script src="/js/modules/thirdparties.create.20230612.js"></script>');
+    $appJavascriptLinks = array('<script src="/js/modules/thirdparties.form.20230612.js"></script>');
 
-    return view('thirdparties.create')
+    return view('thirdparties.form')
+    -> with('thirdparty', $thirdparty)
     -> with('location_cities', $this->location_cities)
     -> with('location_province', $this->location_province)
     -> with('location_nations', $this->location_nations)
@@ -121,6 +110,7 @@ class ThirdpartiesController extends Controller
 
     $thirdparty->location_nations_id = $request->input('location_nations_id');
     $thirdparty->location_province_id = $request->input('location_province_id');
+    $thirdparty->location_cities_id = $request->input('location_cities_id');
     
     $thirdparty->telephone = $request->input('telephone');
     $thirdparty->mobile = $request->input('mobile');
@@ -133,6 +123,8 @@ class ThirdpartiesController extends Controller
     $thirdparty->pec = $request->input('pec');
 
     $thirdparty->active = $request->input('active');
+    $thirdparty->categories_id = $request->input('categories_id');
+
 
     $thirdparty->save();
     return to_route('thirdparties.index')->with('success', 'Cliente inserito!');
@@ -144,6 +136,8 @@ class ThirdpartiesController extends Controller
    */
   public function edit(string $id)
   {
+    $categories = ThirdpartiesCategories::tree();
+    //dd($categories);
     $thirdparty = Thirdparty::findOrFail($id);
     
     $appJavascriptBodyCode = "
@@ -154,12 +148,13 @@ class ThirdpartiesController extends Controller
 		let default_provincia_alt = '".$thirdparty->provincia_alt."';
 		let default_city_alt = '".$thirdparty->city_alt."';
     ";
-    $appJavascriptLinks = array('<script src="/js/modules/thirdparties.edit.20230612.js"></script>');
+    $appJavascriptLinks = array('<script src="/js/modules/thirdparties.form.20230612.js"></script>');
     
-    return view('thirdparties.edit', ['thirdparty' => $thirdparty])    
+    return view('thirdparties.form', ['thirdparty' => $thirdparty])    
     -> with('location_cities', $this->location_cities)
     -> with('location_province', $this->location_province)
     -> with('location_nations', $this->location_nations)
+    -> with('categories', $categories)    
     -> with('appJavascriptBodyCode', $appJavascriptBodyCode)
     -> with('appJavascriptLinks', $appJavascriptLinks);
   }
@@ -197,6 +192,8 @@ class ThirdpartiesController extends Controller
     $thirdparty->pec = $request->input('pec');
 
     $thirdparty->active = $request->input('active');
+
+    $thirdparty->categories_id = $request->input('categories_id');
     
     $thirdparty->save();
     return to_route('thirdparties.index')->with('success', 'Cliente modificato!');
