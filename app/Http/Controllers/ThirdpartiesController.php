@@ -37,6 +37,7 @@ class ThirdpartiesController extends Controller
    */
   public function index(Request $request)
   {
+
     // numero pagine
     if ($request->session()->missing('thirdparties itemsforpage')) $request->session()->put('thirdparties itemsforpage', 10);
     if (request()->input('itemsforpage')) $request->session()->put('thirdparties itemsforpage', request()->input('itemsforpage'));
@@ -45,11 +46,19 @@ class ThirdpartiesController extends Controller
     $request->session()->put('thirdparties searchfromtable', '');
     if (request()->input('searchfromtable')) $request->session()->put('thirdparties searchfromtable', request()->input('searchfromtable'));
 
-  
+    // categoria
+    $request->session()->put('thirdparties categories_id', '');
+    if (request()->input('categories_id')) $request->session()->put('thirdparties categories_id', request()->input('categories_id'));
+
+    $categories = ThirdpartiesCategories::tree();
     $appJavascriptLinks = array('<script src="js/modules/thirdparties.index.20230612.js"></script>');
 
     $thirdparties = Thirdparty::orderBy('id', $this->orderType)
-
+      ->where(function($query) { 
+        if (request()->session()->get('thirdparties categories_id') != '') {
+          $query->where('categories_id','=',request()->session()->get('thirdparties categories_id'));
+        }
+      })
       ->where(function($query) {
         $query->where('name', 'like', '%' . request()->session()->get('thirdparties searchfromtable') . '%')
         ->orWhere('surname', 'like', '%' . request()->session()->get('thirdparties searchfromtable') . '%')
@@ -59,6 +68,7 @@ class ThirdpartiesController extends Controller
 
     return view('thirdparties.index', ['thirdparties' => $thirdparties])
     ->with('orderType', $this->orderType)
+    -> with('categories', $categories)
     ->with('appJavascriptLinks', $appJavascriptLinks);
   }
 
@@ -67,6 +77,8 @@ class ThirdpartiesController extends Controller
    */
   public function create()
   {
+    $categories = ThirdpartiesCategories::tree();
+
     $thirdparty = Thirdparty::findOrNew(0);
     $thirdparty->category_id = 0;
     $thirdparty->location_nations_id = 0;
@@ -86,6 +98,7 @@ class ThirdpartiesController extends Controller
 
     return view('thirdparties.form')
     -> with('thirdparty', $thirdparty)
+    -> with('categories', $categories)
     -> with('location_cities', $this->location_cities)
     -> with('location_province', $this->location_province)
     -> with('location_nations', $this->location_nations)

@@ -16,7 +16,7 @@ for ($i = 0; $i < $level; $i++) {
  
 
   <td>{{ $levelstr }}{{ $category->title }}</td>
-  <td>{{ $category->associated }}</td>
+  <td><a href="{{ $associatedulr }}" title="{{ $associatedtitle }}">{{ $associatedtitle }}: {{ $category->associated }}</a></td>
 
   <td class="actions text-end">
     <a href="javascript:void(0);" data-id="{{ $category->id }}" data-table="thirdparties_categories" data-label="Categoria" data-labelsex="a" data-token="{{ csrf_token() }}" class="setactive" title=""><i class="bx bx-{{ $category->active == 1 ? 'lock-open-alt' : 'lock-alt' }}{{ $category->active == 1 ? ' text-success' : ' text-danger' }}"></i></a><a class="" href="{{ route('thirdpartiescategories.edit', [$category->id]) }}" title="Modifica categoria"><i class='bx bx-edit'></i></a>
@@ -28,7 +28,7 @@ for ($i = 0; $i < $level; $i++) {
   @if (count($category->children) > 0)
     @foreach ($category->children as $sub)
       @php $level++; @endphp
-      @include('layouts.subcategoriestable', ['category' => $sub,'level' => $level,'levelstr'=>$levelstr])
+      @include('layouts.subcategoriestable', ['category' => $sub,'level' => $level,'levelstr'=>$levelstr,'associatedulr'=>$associatedulr,'associatedtitle'=>$associatedtitle])
       @php $level-- @endphp
     @endforeach
   @endif

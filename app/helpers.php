@@ -11,7 +11,6 @@ use App\Models\LeftMenu;
 
 function leftmenu($allModulesActive)
 {
-
   Route::get('/')->name('home');
   $outputmenu = ' <!-- Dashboard -->
   <li class="menu-item'.(Route::is('home') ? ' active' : ' noactive').'">
@@ -25,14 +24,16 @@ function leftmenu($allModulesActive)
   foreach ($allModulesActive as $module) {
     $output = '';
 
-
     $menu = json_decode($module->code_menu) or die('Errore nel campo menu. Formato Json non valido!' . $module->code_menu);
     $havesubmenu = 0;
 		if (isset($menu->submenus) && count($menu->submenus)) $havesubmenu = 1;
 
-    
     $classLiMain = 'menu-item';
-    if (Route::is($module->name.'.*')) $classLiMain .= ' active';
+    $mainLink = '';
+    if (Route::is($module->name.'.*')) $mainLink = 'active';
+    if (Route::is($module->name.'*')) $mainLink = 'active';
+    if ($mainLink == 'active') $classLiMain .= ' active';
+
     
     $classAhrefMain = 'menu-link';
     $moduleName = (isset($module->name) ? $module->name : '');
@@ -48,14 +49,14 @@ function leftmenu($allModulesActive)
     if ($havesubmenu == 1) {
       $classAhrefMain = 'menu-link menu-toggle';
       $menuAhref = 'javascript:void(0);';
-      
+
+      if ($mainLink == 'active') $classLiMain .= ' open';
+
     }
+
+
+   
       
-
-
-
-
-
     $output .= '<li class="' . $classLiMain . '">
 
     <a class="' . $classAhrefMain . '" href="' . $menuAhref . '">' . $menuIcon;
@@ -63,31 +64,24 @@ function leftmenu($allModulesActive)
     $output .= '</a>';
 
     // crea submenu
-    
     $suboutput = '';
-    
-    
     if (isset($menu->submenus) && is_array($menu->submenus) && count($menu->submenus) > 0) {
+    
       $suboutput .= '<ul class="menu-sub">';
       foreach ($menu->submenus AS $submenu) {
         //dd($submenu);
-        
         $submanuLabel = $submenu->label;
         $submenuName = (isset($submenu->name) ? $submenu->name : '');
         $submenuIcon = (isset($submenu->icon) ? $submenu->icon : '');
         $submenuAction = (isset($submenu->action) ? $submenu->action : '');
-        
         $submenuUrl = '/'.$moduleName.$submenuAction;
-
         $suboutput .= '
         <li class="menu-item">
           <a href="'.$submenuUrl.'" title="'.$submanuLabel.'" class="menu-link">
             <div data-i18n="Basic Inputs">'.$submanuLabel.'</div>
-          </a>
-        
+          </a>  
         </li>';
       }
-
       $suboutput .= '</ul>';
     }
     $output .= $suboutput.'</li>' . PHP_EOL;

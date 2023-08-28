@@ -1,5 +1,5 @@
 
-  <option value="{{ $category->id }}"{!! $category->id == $selectedparent ? 'selected="selected"' : ''!!}>{{ $levelstr }}{{ $category->title }}</option>
+  <option value="{{ $category->id }}"{!! $category->id == $selected ? 'selected="selected"' : ''!!}>{{ $levelstr }}{{ $category->title }}</option>
   @if (count($category->children) > 0)
     @foreach ($category->children as $sub)
       @php $levelstr .= ' --> '; @endphp
@@ -8,8 +8,7 @@
         'category' => $sub,
         'level' => $level,
         'levelstr' => $levelstr,
-        'selectedcategory' => $selectedcategory,
-        'selectedparent'  =>  $selectedparent
+        'selected' => $selected
         ])
     @endforeach
   @endif

@@ -6,7 +6,10 @@
 	<div class="col-md-3 new">
 		<a href="{{ route('thirdpartiescategories.create') }}" title="Inserisci una nuova categoria cliente" class="btn btn-sm btn-primary">Nuova Categoria</a>
 	</div>
-	<div class="col-md-7 help-small-list"></div>
+	<div class="col-md-7 help-small-list">
+
+	
+	</div>
 	<div class="col-md-2 help text-right"></div>
 </div>
 
@@ -30,10 +33,13 @@
 					@php 
 					$level = 0; 
 					$levelstr = '';
+
+					$associatedulr = 'thirdparties';
+					$associatedtitle = 'Anagrafiche';
 					@endphp
 					
 					@foreach ($categories as $category)
-						@include('layouts.subcategoriestable', ['category' => $category,'level'=>$level,'levelstr'=>$levelstr])
+						@include('layouts.subcategoriestable', ['category' => $category,'level'=>$level,'levelstr'=>$levelstr,'associatedulr'=>$associatedulr,'associatedtitle'=>$associatedtitle])
 					@endforeach
 
 				</tbody>

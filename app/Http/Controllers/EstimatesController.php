@@ -50,6 +50,7 @@ class EstimatesController extends Controller
 
   public function index(Request $request)
   {
+    
     // numero pagine
     if ($request->session()->missing('estimates itemsforpage')) $request->session()->put('estimates itemsforpage', 10);
     if (request()->input('itemsforpage')) $request->session()->put('estimates itemsforpage', request()->input('itemsforpage'));
