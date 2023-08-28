@@ -21,6 +21,7 @@
 						<th>id/Pr/Lv</th>
 						<th>Ord</th>
 						<th>Titolo</th>
+						<th>Anagrafiche</th>
 						<th>Action</th>
 					</tr>
 				</thead>

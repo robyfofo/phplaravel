@@ -15,13 +15,8 @@ for ($i = 0; $i < $level; $i++) {
   </td>
  
 
-  <td>{{ $levelstr }}{{ $category->title }}
-
-    
-    <hr>
-    Ass.{{ $category->associated }}<br>
-
-  </td>
+  <td>{{ $levelstr }}{{ $category->title }}</td>
+  <td>{{ $category->associated }}</td>
 
   <td class="actions text-end">
     <a href="javascript:void(0);" data-id="{{ $category->id }}" data-table="thirdparties_categories" data-label="Categoria" data-labelsex="a" data-token="{{ csrf_token() }}" class="setactive" title=""><i class="bx bx-{{ $category->active == 1 ? 'lock-open-alt' : 'lock-alt' }}{{ $category->active == 1 ? ' text-success' : ' text-danger' }}"></i></a><a class="" href="{{ route('thirdpartiescategories.edit', [$category->id]) }}" title="Modifica categoria"><i class='bx bx-edit'></i></a>
