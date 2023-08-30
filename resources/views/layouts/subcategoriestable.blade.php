@@ -11,7 +11,7 @@ for ($i = 0; $i < $level; $i++) {
   <td>{{ $category->id }}/{{ $category->parent_id }}/{{ $level }}</td>
 
   <td>
-    <a class="" href="{{ route('thirdpartiescategories.moreordering',[$category->id,'ASC']) }}" title="sposta giu"><i class='bx bx-down-arrow-alt' ></i></a><a class="" href="{{ route('thirdpartiescategories.lessordering',[$category->id,'ASC']) }}" title="sposta su"><i class='bx bx-up-arrow-alt' ></i></a> <small>{{ $category->ordering }}</small>
+    <a class="" href="{{ route($route.'.moreordering',[$category->id,'ASC']) }}" title="sposta giu"><i class='bx bx-down-arrow-alt' ></i></a><a class="" href="{{ route($route.'.lessordering',[$category->id,'ASC']) }}" title="sposta su"><i class='bx bx-up-arrow-alt' ></i></a> <small>{{ $category->ordering }}</small>
   </td>
  
 
@@ -19,8 +19,8 @@ for ($i = 0; $i < $level; $i++) {
   <td><a href="{{ $associatedulr }}" title="{{ $associatedtitle }}">{{ $associatedtitle }}: {{ $category->associated }}</a></td>
 
   <td class="actions text-end">
-    <a href="javascript:void(0);" data-id="{{ $category->id }}" data-table="thirdparties_categories" data-label="Categoria" data-labelsex="a" data-token="{{ csrf_token() }}" class="setactive" title=""><i class="bx bx-{{ $category->active == 1 ? 'lock-open-alt' : 'lock-alt' }}{{ $category->active == 1 ? ' text-success' : ' text-danger' }}"></i></a><a class="" href="{{ route('thirdpartiescategories.edit', [$category->id]) }}" title="Modifica categoria"><i class='bx bx-edit'></i></a>
-    {!! Form::open(['style'=>'','class'=>'float-end','method' => 'DELETE','route' => ['thirdpartiescategories.destroy', $category->id]]) !!}
+    <a href="javascript:void(0);" data-id="{{ $category->id }}" data-table="categories" data-label="Categoria" data-labelsex="a" data-token="{{ csrf_token() }}" class="setactive" title=""><i class="bx bx-{{ $category->active == 1 ? 'lock-open-alt' : 'lock-alt' }}{{ $category->active == 1 ? ' text-success' : ' text-danger' }}"></i></a><a class="" href="{{ route($route.'.edit', [$category->id]) }}" title="Modifica categoria"><i class='bx bx-edit'></i></a>
+    {!! Form::open(['style'=>'','class'=>'float-end','method' => 'DELETE','route' => [$route.'.destroy', $category->id]]) !!}
     <a class="deleteitemformbutton" href="#" title="Cancella Categoria"><i class='bx bx-trash'></i></a>
     {!! Form::close() !!}
   </td>

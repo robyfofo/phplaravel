@@ -7,9 +7,9 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\LevelsController;
 use App\Http\Controllers\ThirdpartiesController;
 use App\Http\Controllers\ThirdpartiesCategoriesController;
-use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\TimecardsController;
 use App\Http\Controllers\EstimatesController;
+use App\Http\Controllers\CategoriesController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -94,6 +94,12 @@ Route::middleware('auth')->group(function () {
   Route::get('/estimates/{estimate}/edit', [EstimatesController::class, 'edit'])->name('estimates.edit');
   Route::put('/estimates/{estimate}', [EstimatesController::class, 'update'])->name('estimates.update');
   Route::delete('/estimates/{estimate}', [EstimatesController::class, 'destroy'])->name('estimates.destroy');
+
+  // categories
+  Route::resource('/categories', CategoriesController::class);
+  Route::get('/categories.moreordering/{id}/{foo}', [CategoriesController::class, 'moreordering'])->name('categories.moreordering');
+  Route::get('/categories.lessordering/{id}/{foo}', [CategoriesController::class, 'lessordering'])->name('categories.lessordering');
+  
 
 
   Route::get('estimates/{any}', function () {

@@ -73,7 +73,7 @@ function initMCEall(){
 		relative_urls: false,
 		remove_script_host : false,
 		convert_urls : true,
-		document_base_url: siteUrl,
+		//document_base_url: siteUrl,
 
 		//filemanager_title:"Responsive Filemanager",
 		//external_filemanager_path: siteUrl+"/filemanager/",

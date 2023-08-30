@@ -80,7 +80,7 @@ class ThirdpartiesController extends Controller
     $categories = ThirdpartiesCategories::tree();
 
     $thirdparty = Thirdparty::findOrNew(0);
-    $thirdparty->category_id = 0;
+    $thirdparty->category_id = '';
     $thirdparty->location_nations_id = 0;
 		$thirdparty->location_province_id = 0;
 		$thirdparty->location_cities_id = 0;

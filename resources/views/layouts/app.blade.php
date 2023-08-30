@@ -73,6 +73,7 @@
 			var user_lang = 'it';
 			var charset_date_lang = 'it_IT';
 			var charset_lang = "it-IT";	
+      var siteUrl = "@php echo url()->current(); @endphp";
 		</script>
 
 
