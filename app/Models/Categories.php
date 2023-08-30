@@ -14,6 +14,7 @@ class Categories extends Model
   use HasFactory;
 
   public $orderType;
+  protected $appends = ['parent'];
 
   public function __construct()
   {
@@ -25,7 +26,15 @@ class Categories extends Model
     $allCategories = Categories::select(DB::raw('categories.*, 
     (SELECT COUNT(products.id) FROM products AS products WHERE categories.id = products.categories_id) AS associated'))
     ->orderBy('ordering','ASC')->get();
+
+
+//dd($allCategories);
+
+
     $rootCategories = $allCategories->whereNull('parent_id');
+
+//dd($rootCategories);
+
     self::formatTree($rootCategories,$allCategories);
     return $rootCategories;
   }
@@ -46,4 +55,19 @@ class Categories extends Model
     if (ThirdpartiesCategories::where('parent_id','=',$id)->count() > 0) return false;
     return U_TRUNCATED_CHAR_FOUND;
   }
+
+  public function parent()
+  {
+      return $this->belongsTo('App\Models\Categories', 'parent_id');
+  }
+  
+  public function getParentsNames() {
+      if($this->parent) {
+          return $this->parent->getParentsNames(). " > " . $this->title;
+      } else {
+          return $this->title;
+      }
+  }
+
+  
 }

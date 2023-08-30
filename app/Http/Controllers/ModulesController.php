@@ -19,8 +19,6 @@ class ModulesController extends Controller
    * @return \Illuminate\Contracts\View\View
    */
 
-  private $itemsforpage = 2;
-  private $page = 1;
   private $searchfromtable = '';
   private $orderType = 'ASC';
 
@@ -31,46 +29,22 @@ class ModulesController extends Controller
     if ( $request->session()->missing('modules itemsforpage') ) $request->session()->put('modules itemsforpage',10);  
     if (request()->input('itemsforpage')) $request->session()->put('modules itemsforpage',request()->input('itemsforpage'));  
     
-    // paginazione
-    if ( $request->session()->missing('modules page') ) $request->session()->put('modules page',1);  
-    if (request()->input('page')) $request->session()->put('modules page',request()->input('page'));  
-
-    if ( $request->session()->has('modules itemsforpage') ) $this->itemsforpage = $request->session()->get('modules itemsforpage');
-    if ( $request->session()->has('modules page') ) $this->page = $request->session()->get('modules page');
-
     // ricerca 
-    if ( $request->session()->missing('projeks searchfromtable') ) $request->session()->put('projeks searchfromtable','');  
-    if (request()->input('searchfromtable')) {
-        $request->session()->put('projeks searchfromtable',request()->input('searchfromtable'));  
-    } else {
-        $request->session()->put('projeks searchfromtable','');   
-    }
-    if ( $request->session()->has('projeks searchfromtable') ) $this->searchfromtable = $request->session()->get('projeks searchfromtable');
-
-    $where = array();
-    $fieldsSearch = array('name','label','alias','content');
-    if ($this->searchfromtable != '') {
-      $words = explode(',',$this->searchfromtable);
-      if (count($fieldsSearch) > 0) {
-        foreach($fieldsSearch AS $key=>$value){					
-          if (count($words) > 0) {
-            foreach($words AS $value1){
-              $where[] = array($value, 'LIKE', '%'.$value1.'%');
-            }
-          }		
-        }			
-      }
-    }
+    $request->session()->put('modules searchfromtable', '');
+    if (request()->input('searchfromtable')) $request->session()->put('modules searchfromtable', request()->input('searchfromtable'));
 
     $appJavascriptLinks = array('<script src="js/modules/modules.index.20230612.js"></script>');
       
     $modules = Module::orderBy('ordering', $this->orderType)
-      ->where($where)
-      ->paginate($this->itemsforpage);
+      ->where(function($query) {
+        $query->where('name', 'like', '%' . request()->session()->get('modules searchfromtable') . '%')
+        ->orWhere('alias', 'like', '%' . request()->session()->get('modules searchfromtable') . '%')
+        ->orWhere('label', 'like', '%' . request()->session()->get('modules searchfromtable') . '%')
+        ->orWhere('content', 'like', '%' . request()->session()->get('modules searchfromtable') . '%');
+      })
+      ->paginate(request()->session()->get('pmodules itemsforpage'));
 
     return view('modules.index', ['modules' => $modules])
-      ->with('itemsforpage', $this->itemsforpage)
-      ->with('searchfromtable', $this->searchfromtable)
       ->with('orderType', $this->orderType)
       ->with('appJavascriptLinks', $appJavascriptLinks);
   }
@@ -82,9 +56,10 @@ class ModulesController extends Controller
   */
   public function create()
   {
-    $project = new Module;
-    $ordering = getLastOrdering('modules', 'ordering', array());
-    return view('modules.create')->with('ordering', $ordering);
+    $module = Module::FindOrNew(0);
+    $module->active = 1;
+    return view('modules.form')
+    -> with('module', $module);
   }
 
   /**
@@ -104,6 +79,8 @@ class ModulesController extends Controller
     $module->content = $request->input('content');
     $module->code_menu = $request->input('code_menu');
     $module->ordering = $request->input('ordering');
+
+    //if ()  $ordering = getLastOrdering('modules', 'ordering', array());
     $module->active = $request->input('active');
     $module->save();
 

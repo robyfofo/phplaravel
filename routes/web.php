@@ -10,6 +10,7 @@ use App\Http\Controllers\ThirdpartiesCategoriesController;
 use App\Http\Controllers\TimecardsController;
 use App\Http\Controllers\EstimatesController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ProductsController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -94,19 +95,17 @@ Route::middleware('auth')->group(function () {
   Route::get('/estimates/{estimate}/edit', [EstimatesController::class, 'edit'])->name('estimates.edit');
   Route::put('/estimates/{estimate}', [EstimatesController::class, 'update'])->name('estimates.update');
   Route::delete('/estimates/{estimate}', [EstimatesController::class, 'destroy'])->name('estimates.destroy');
+  Route::get('estimates/{any}', function () {
+    return abort('404');
+  })->where('any', '.*');
 
   // categories
   Route::resource('/categories', CategoriesController::class);
   Route::get('/categories.moreordering/{id}/{foo}', [CategoriesController::class, 'moreordering'])->name('categories.moreordering');
   Route::get('/categories.lessordering/{id}/{foo}', [CategoriesController::class, 'lessordering'])->name('categories.lessordering');
   
-
-
-  Route::get('estimates/{any}', function () {
-    return abort('404');
-  })->where('any', '.*');
-
-  Route::resource('/categories', CategoriesController::class);
+  // products
+  Route::resource('/products', ProductsController::class);
 
 });
 

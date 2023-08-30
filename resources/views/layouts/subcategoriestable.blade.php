@@ -1,10 +1,9 @@
 @php
+$levelstr = '';
 for ($i = 0; $i < $level; $i++) {
   $levelstr .= '-->';
 } 
 @endphp
-
-
 
 <tr class="treegrid-{{ $category->id }}{{ $category->parent_id > 0 ? ' treegrid-parent-'.$category->parent_id : '' }}" valign="top">
   <td class="tree-simbol"></td>
@@ -24,6 +23,7 @@ for ($i = 0; $i < $level; $i++) {
     <a class="deleteitemformbutton" href="#" title="Cancella Categoria"><i class='bx bx-trash'></i></a>
     {!! Form::close() !!}
   </td>
+</tr>
 
   @if (count($category->children) > 0)
     @foreach ($category->children as $sub)
@@ -32,4 +32,3 @@ for ($i = 0; $i < $level; $i++) {
       @php $level-- @endphp
     @endforeach
   @endif
-</tr>

@@ -33,13 +33,14 @@
 					@php 
 					$level = 0; 
 					$levelstr = '';
+					$route = 'thirdpartiescategories';
 
 					$associatedulr = 'thirdparties';
 					$associatedtitle = 'Anagrafiche';
 					@endphp
 					
 					@foreach ($categories as $category)
-						@include('layouts.subcategoriestable', ['category' => $category,'level'=>$level,'levelstr'=>$levelstr,'associatedulr'=>$associatedulr,'associatedtitle'=>$associatedtitle])
+						@include('layouts.subcategoriestable', ['category' => $category,'level'=>$level,'route'=>$route,'levelstr'=>$levelstr,'associatedulr'=>$associatedulr,'associatedtitle'=>$associatedtitle])
 					@endforeach
 
 				</tbody>

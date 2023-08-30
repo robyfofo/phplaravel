@@ -2,7 +2,6 @@
 
 @section('content')
 
-
 <div class="row">
   <div class="col-md-12 new"></div>
 </div>
@@ -27,9 +26,9 @@
       </ul>
 
       @if (isset($category) && $category->id > 0)
-				{{ Form::model($categories, array('route' => array('categories.update', $category->id), 'method' => 'PUT','enctype' => 'multipart/form-data')) }}
+				{{ Form::model($categories, array('route' => array('thirdpartiescategories.update', $category->id), 'method' => 'PUT','enctype' => 'multipart/form-data')) }}
 			@else
-				{!! Form::open(['route' => 'categories.store','enctype' => 'multipart/form-data']) !!}
+				{!! Form::open(['route' => 'thirdpartiescategories.store','enctype' => 'multipart/form-data']) !!}
 			@endif
 
       <div class="tab-content">
@@ -53,9 +52,9 @@
                 <select name="parent_id" id="parent_id" class="form-select form-select-sm">
                   <option value=""></option>
                     @php 
-                      $level = 0; 
-                      $levelstr = '';
-                      $selected = $category->parent_id;
+                    $level = 0; 
+                    $levelstr = '';
+                    $selected = $category->parent_id;
                     @endphp             
                     @foreach ($categories as $cat)
                       @include('layouts.subcategoriesselect', [
@@ -77,12 +76,10 @@
         <div class="tab-pane fade" id="navs-pills-top-altro" role="tabpanel">
           <fieldset>
 
-          $category->ordering: {{ $category->ordering }};
-
-            <div class="row mb-3"> 
-              {{ Form::label('ordering', 'Ordinamento', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+            <div class="row mb-3">
+              {{ Form::label('ordering', 'Ordinamento', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label']) }}
               <div id="orderingID" class="col-sm-12 col-md-12 col-lg-2 col-xl-1">
-                {{ Form::text('ordering', $category->ordering,array('class' => 'form-control form-control-sm','length' => 10)) }}
+                {{ Form::text('ordering',$category->ordering, array('class' => 'form-control form-control-sm','length' => 10)) }}
               </div>
             </div>
 
@@ -108,7 +105,7 @@
           <button data-color="red" data-size="s" data-style="expand-right" id="submitFormID" type="submit" name="submitForm" value="submit" class="btn btn-primary submittheform">Invia</button>
         </div>
         <div class="col-md-6 col-xs-12 text-sm-center text-xl-end">
-          <a href="{{ route('categories.index') }}" title="Torna alla lista" class="btn btn-success">Indietro</a>
+          <a href="{{ route('thirdpartiescategories.index') }}" title="Torna alla lista" class="btn btn-success">Indietro</a>
         </div>
       </div>
 
