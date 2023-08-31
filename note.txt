@@ -2,24 +2,34 @@
 {"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bx-pyramid\"><\/i>","label":"%LABEL%"}
 {"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bx-users\"><\/i>","label":"%LABEL%"}
 {"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"%LABEL%"}
-<i class='bx bxs-user-detail'></i>
-<<<<<<< Updated upstream
-{"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-bullseye\"><\/i>","label":"%LABEL%"}
 {"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-clock\"><\/i>","label":"%LABEL%"}
-=======
-
-{"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-clock\"><\/i>","label":"%LABEL%"}
-
 {"name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-bulleye\"><\/i>","label":"%LABEL%"}
 
->>>>>>> Stashed changes
 {
-	"action":"thirdparties","name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"%LABEL%","submenus":
+	"action":"","name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"%LABEL%","submenus":
 		[
-			{"action":"thirdparties","name":"listCate","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"Categorie"},
-			{"action":"thirdparties","name":"listItem","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"Clienti"}
+			{"action":"thirdpartiescategories","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"Categorie"},
+			{"action":"thirdparties","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"Clienti"}
 		]
 }
+
+{
+	"action":"","name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"%LABEL%","submenus":
+		[
+			{"action":"categories","name":"listCate","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"Categorie"},
+			{"action":"","name":"listItem","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"Clienti"}
+		]
+}
+
+
+{
+	"action":"#","name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-purcase-tag\"><\/i>","label":"%LABEL%","submenus":
+		[
+			{"action":"categories","name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-folder\"><\/i>","label":"Categorie"},
+			{"action":"products","name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-tags\"><\/i>","label":"Prodotti"}
+		]
+}
+
 
 
 

@@ -77,8 +77,6 @@
         <div class="tab-pane fade" id="navs-pills-top-altro" role="tabpanel">
           <fieldset>
 
-          $category->ordering: {{ $category->ordering }};
-
             <div class="row mb-3"> 
               {{ Form::label('ordering', 'Ordinamento', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
               <div id="orderingID" class="col-sm-12 col-md-12 col-lg-2 col-xl-1">

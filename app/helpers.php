@@ -32,6 +32,7 @@ function leftmenu($allModulesActive)
     $mainLink = '';
     if (Route::is($module->name.'.*')) $mainLink = 'active';
     if (Route::is($module->name.'*')) $mainLink = 'active';
+    if ($module->action != '' && Route::is($module->action.'*')) $mainLink = 'active';
     if ($mainLink == 'active') $classLiMain .= ' active';
 
     
@@ -57,7 +58,7 @@ function leftmenu($allModulesActive)
 
    
       
-    $output .= '<li class="' . $classLiMain . '">
+    $output .= '<li class="' . $classLiMain . '">'. $menuAction.'
 
     <a class="' . $classAhrefMain . '" href="' . $menuAhref . '">' . $menuIcon;
     $output .= '<div data-i18n="' . $moduleName . '">' . $moduleLabel . '</div>' . PHP_EOL;
@@ -74,7 +75,7 @@ function leftmenu($allModulesActive)
         $submenuName = (isset($submenu->name) ? $submenu->name : '');
         $submenuIcon = (isset($submenu->icon) ? $submenu->icon : '');
         $submenuAction = (isset($submenu->action) ? $submenu->action : '');
-        $submenuUrl = '/'.$moduleName.$submenuAction;
+        $submenuUrl = '/'.$submenuAction;
         $suboutput .= '
         <li class="menu-item">
           <a href="'.$submenuUrl.'" title="'.$submanuLabel.'" class="menu-link">

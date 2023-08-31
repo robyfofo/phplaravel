@@ -42,35 +42,35 @@
 						<div class="row mb-3">
 							{{ Form::label('name', 'Nome', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
 							<div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
-								{{ Form::text('name', old('title', $product->title ?? ''), array('class' => 'form-control form-control-sm')) }}
+								{{ Form::text('name', old('name', $module->name ?? ''), array('class' => 'form-control form-control-sm')) }}
 							</div>
 						</div>
 
 						<div class="row mb-3">
 							{{ Form::label('alias', 'Alias', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
 							<div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
-								{{ Form::text('alias', null, array('class' => 'form-control form-control-sm')) }}
+								{{ Form::text('alias', old('alias', $module->alias ?? ''), array('class' => 'form-control form-control-sm')) }}
 							</div>
 						</div>
 						
 						<div class="row mb-3">
 							{{ Form::label('label', 'Label', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
 							<div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
-								{{ Form::text('label', null, array('class' => 'form-control form-control-sm')) }}
+								{{ Form::text('label', old('label', $module->label ?? ''), array('class' => 'form-control form-control-sm')) }}
 							</div>
 						</div>
 						
 						<div class="row mb-3">
-							{{ Form::label('content', 'Content', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label']) }}
+							{{ Form::label('content', 'Content', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
 							<div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
-								{{ Form::textarea('content', null, array('class' => 'form-control form-control-sm')) }}
+								{{ Form::textarea('content',old('content', $module->content ?? ''), array('class' => 'form-control form-control-sm')) }}
 							</div>
 						</div>
 						
 						<div class="row mb-3">
 							{{ Form::label('code_menu', 'Codice Menu', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
 							<div id="divfieldnameID" class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
-								{{ Form::textarea('code_menu', null, array('class' => 'form-control form-control-sm')) }}
+								{{ Form::textarea('code_menu', old('code_menu', $module->code_menu ?? ''), array('class' => 'form-control form-control-sm')) }}
 							</div>
 						</div>
 
@@ -82,16 +82,16 @@
 				<div class="tab-pane fade" id="navs-pills-top-altro" role="tabpanel">
 					<fieldset>
 
-						<div class="row mb-3">
-							{{ Form::label('ordering', 'Ordinamento', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label']) }}
-							<div id="orderingID" class="col-sm-12 col-md-12 col-lg-2 col-xl-1">
-								{{ Form::text('ordering', $module->ordering, array('class' => 'form-control form-control-sm','length' => 10)) }}
-							</div>
-						</div>
+					<div class="row mb-3"> 
+              {{ Form::label('ordering', 'Ordinamento', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+              <div id="orderingID" class="col-sm-12 col-md-12 col-lg-2 col-xl-1">
+                {{ Form::text('ordering', $module->ordering,array('class' => 'form-control form-control-sm','length' => 10)) }}
+              </div>
+            </div>
 
 						<div class="row mb-3">
-							{{ Form::label('active', 'Attiva', ['class'=>'col-sm-12 col-md-12 col-lg-2 col-xl-2 col-form-label']) }}
-							<div class="col-sm-12 col-md-12 col-lg-3 col-xl-3'">
+						{{ Form::label('active', 'Attiva', ['class'=>'col-sm-12 col-md-2 col-lg-2 col-xl-2 col-form-label col-form-label-sm']) }}
+							<div class="col-sm-12 col-md-2 col-lg-2 col-xl-2'">
 								<div class="form-check">
 									{{ Form::checkbox('active', 1,  $module->active ,array('class' => 'form-check-input')) }}
 								</div>

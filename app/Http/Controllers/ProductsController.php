@@ -74,8 +74,7 @@ class ProductsController extends Controller
     $product = Products::FindOrNew(0);
     $product->category_id = '';
 		$product->active = 1;
-		$product->ordering = 1;
-
+		$product->ordering = 0;
     return view('products.form')
     -> with('product', $product)
     -> with('categories', $categories);
@@ -99,7 +98,6 @@ class ProductsController extends Controller
     $product->save();
     return to_route('products.index')->with('success', 'Prodotto inserito!');
   }
-
 
   /**
    * Show the form for editing the specified resource.
@@ -125,9 +123,7 @@ class ProductsController extends Controller
     $product->price_unity = $request->input('price_unity');
     $product->active = $request->input('active');
     $product->categories_id = $request->input('categories_id');
-
     if (($product->categories_id <> $old_categories_id) || ($product->ordering == 0))  $product->ordering = getLastOrdering('products', 'ordering',array('field'=>'categories_id','fieldValue'=>$product->categories_id)) + 1;
-
     $product->save();
     return to_route('products.index')->with('success', 'Prodotto modificato!');
   }
@@ -139,6 +135,7 @@ class ProductsController extends Controller
   {
     $product = Products::findOrFail($id);
     $product->delete();
+    optimizeFieldOrdering($table = 'products', $fieldOrder = 'ordering', $fieldParent = array('categories_id'), $fieldParentValue = array($product->categories_id));
     return to_route('products.index')->with('success', 'Prodotto cancellato!');
   }
 

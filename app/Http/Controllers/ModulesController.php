@@ -58,6 +58,7 @@ class ModulesController extends Controller
   {
     $module = Module::FindOrNew(0);
     $module->active = 1;
+    $module->ordering = 0;
     return view('modules.form')
     -> with('module', $module);
   }
@@ -79,24 +80,11 @@ class ModulesController extends Controller
     $module->content = $request->input('content');
     $module->code_menu = $request->input('code_menu');
     $module->ordering = $request->input('ordering');
-
-    //if ()  $ordering = getLastOrdering('modules', 'ordering', array());
+    if ($module->ordering == 0)  $module->ordering = getLastOrdering('modules', 'ordering',array()) + 1;
     $module->active = $request->input('active');
     $module->save();
 
     return to_route('modules.index');
-  }
-
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Contracts\View\View
-   */
-  public function show($id)
-  {
-      $module = Module::findOrFail($id);
-      return view('modules.show',['module'=>$module]);
   }
 
   /**
@@ -107,8 +95,8 @@ class ModulesController extends Controller
    */
   public function edit($id)
   {
-      $module = Module::findOrFail($id);
-      return view('modules.edit',['module'=>$module]);
+    $module = Module::findOrFail($id);
+    return view('modules.form',['module'=>$module]);
   }
 
   /**
@@ -120,9 +108,7 @@ class ModulesController extends Controller
    */
   public function update(ModuleRequest $request,$id)
   {
-    if (!$request->has('active')) {
-      $request->merge(['active' => 0]);
-    }
+    if (!$request->has('active')) $request->merge(['active' => 0]);
     
     $module = Module::findOrFail($id);
 		$module->name = $request->input('name');
@@ -130,8 +116,9 @@ class ModulesController extends Controller
 		$module->alias = $request->input('alias');
 		$module->content = $request->input('content');
 		$module->code_menu = $request->input('code_menu');
-		$module->ordering = $request->input('ordering');
 		$module->active = $request->input('active');
+		$module->ordering = $request->input('ordering');
+    if ($module->ordering == 0)  $module->ordering = getLastOrdering('modules', 'ordering',array()) + 1;
     $module->save();
     return to_route('modules.index')->with('success', 'Modulo modificato!');
   }
