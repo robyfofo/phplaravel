@@ -77,6 +77,7 @@
 				<thead>
 					<tr>
 						<th>id</th>
+						<th>Ord</th>
 						<th>Categoria</th>
 						<th>Titolo</th>
 						<th>Contenuto</th>
@@ -88,6 +89,14 @@
 					@foreach($products as $product)
 					<tr>
 						<td>{{ $product->id }}</td>
+						<td>
+							@if ($product->ordering == 'DESC')
+								<a class="" href={{ route('products.lessordering',[$product->id,$orderType]) }}" title="sposta giu"><i class='bx bx-down-arrow-alt' ></i></a><a class="" href="{{ route('products.moreordering',[$product->id,$orderType]) }}" title="sposta su"><i class='bx bx-up-arrow-alt' ></i></a>
+							@else
+								<a class="" href="{{ route('products.moreordering',[$product->id,$orderType]) }}" title="sposta giu"><i class='bx bx-down-arrow-alt' ></i></a><a class="" href="{{ route('products.lessordering',[$product->id,$orderType]) }}" title="sposta su"><i class='bx bx-up-arrow-alt' ></i></a>
+							@endif
+							({{ $product->ordering }})
+						</td>
 						<td>{{ $product->category }} (<small>{{ $product->categories_id }}</small>)</td>
 						<td>{{ $product->title }}</td>
 						<td>{{ $product->content }}</td>

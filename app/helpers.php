@@ -223,13 +223,16 @@ function optimizeFieldOrdering($table = '', $fieldOrder = 'ordering', $fieldPare
   return true;
 }
 
-function getLastOrdering($table, $field = 'ordering', $parent_id = 0,$clause = array())
+function getLastOrdering($table, $field = 'ordering', $clause = array())
 {
+  $field = ($clause['field'] ?? '');
+  $fieldValue = ($clause['fieldValue'] ?? '');
+
   if ($table == '') return false;
   $foo = DB::table($table)
-  ->where(function($query) use($parent_id) {
-    if ($parent_id > 0) {
-      $query->where('parent_id', '=', $parent_id);
+  ->where(function($query) use($field,$fieldValue) {
+    if ($field != '' && $fieldValue > 0) {
+      $query->where($field, '=', $fieldValue);
     }
   })
   ->max('ordering');

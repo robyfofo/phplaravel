@@ -74,6 +74,7 @@ class ProductsController extends Controller
     $product = Products::FindOrNew(0);
     $product->category_id = '';
 		$product->active = 1;
+		$product->ordering = 1;
 
     return view('products.form')
     -> with('product', $product)
@@ -94,6 +95,7 @@ class ProductsController extends Controller
     $product->price_unity = $request->input('price_unity');
     $product->active = $request->input('active');
     $product->categories_id = $request->input('categories_id');
+    if ($product->ordering == 0)  $product->ordering = getLastOrdering('products', 'ordering',array('field'=>'categories_id','fieldValue'=>$product->categories_id)) + 1;
     $product->save();
     return to_route('products.index')->with('success', 'Prodotto inserito!');
   }
@@ -117,11 +119,15 @@ class ProductsController extends Controller
   {
     if (!$request->has('active')) $request->merge(['active' => 0]);
     $product = Products::findOrFail($id);
+    $old_categories_id = $product->getOriginal('categories_id');
     $product->content = $request->input('content');
     $product->title = $request->input('title');
     $product->price_unity = $request->input('price_unity');
     $product->active = $request->input('active');
     $product->categories_id = $request->input('categories_id');
+
+    if (($product->categories_id <> $old_categories_id) || ($product->ordering == 0))  $product->ordering = getLastOrdering('products', 'ordering',array('field'=>'categories_id','fieldValue'=>$product->categories_id)) + 1;
+
     $product->save();
     return to_route('products.index')->with('success', 'Prodotto modificato!');
   }
@@ -134,5 +140,40 @@ class ProductsController extends Controller
     $product = Products::findOrFail($id);
     $product->delete();
     return to_route('products.index')->with('success', 'Prodotto cancellato!');
+  }
+
+  public function lessordering($id, $foo)
+  {
+    $product = Products::findOrFail($id);
+    $result = lessorder($id,$table = 'products', 
+      $opt = array(
+        'fieldParent' => array('categories_id'), 
+        'fieldParentValue' => array($product->categories_id)
+      )
+    );
+
+    if ($result == false) {
+      return to_route('products.index')->with('error', 'Prodotto NON spostato.');
+    }
+    return to_route('products.index')->with('success', 'Prodotto spostato.');
+  }
+
+
+  public function moreordering($id, $foo)
+  {
+    $product = Products::findOrFail($id);
+    $result = moreorder(
+      $id, 
+      $table = 'products', 
+      $opt = array(
+        'fieldParent' => array('categories_id'), 
+        'fieldParentValue' => array($product->categories_id)
+      )
+    );
+
+    if ($result == false) {
+      return to_route('products.index')->with('error', 'Prodotto NON spostato.');
+    }
+    return to_route('products.index')->with('success', 'Prodotto spostato.');
   }
 }

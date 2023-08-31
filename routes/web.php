@@ -106,6 +106,8 @@ Route::middleware('auth')->group(function () {
   
   // products
   Route::resource('/products', ProductsController::class);
+  Route::get('/products.moreordering/{id}/{foo}', [ProductsController::class, 'moreordering'])->name('products.moreordering');
+  Route::get('/products.lessordering/{id}/{foo}', [ProductsController::class, 'lessordering'])->name('products.lessordering');
 
 });
 

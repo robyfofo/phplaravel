@@ -84,7 +84,7 @@ class CategoriesController extends Controller
     $category->parent_id = $request->input('parent_id');
     $category->active = $request->input('active');
     $category->ordering = $request->input('ordering');
-    if ($category->parent_id <> $old_parent_id)  $category->ordering = getLastOrdering('categories', 'ordering', $category->parent_id, array()) + 1;
+    if (($category->parent_id <> $old_parent_id) || ($category->ordering == 0 ))  $category->ordering = getLastOrdering('categories', 'ordering', $category->parent_id, array()) + 1;
     $category->save();
     return to_route('categories.index')->with('success', 'Categoria modificata!');
   }
