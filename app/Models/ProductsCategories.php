@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\belongsTo;
 use Illuminate\Support\Facades\DB;
 
-class Categories extends Model
+class ProductsCategories extends Model
 {
   use HasFactory;
 
@@ -23,18 +23,10 @@ class Categories extends Model
 
   public static function tree() 
   {
-    $allCategories = Categories::select(DB::raw('categories.*, 
-    (SELECT COUNT(products.id) FROM products AS products WHERE categories.id = products.categories_id) AS associated'))
+    $allCategories = ProductsCategories::select(DB::raw('products_categories.*, 
+    (SELECT COUNT(products.id) FROM products AS products WHERE products_categories.id = products.categories_id) AS associated'))
     ->orderBy('ordering','ASC')->get();
-
-
-//dd($allCategories);
-
-
     $rootCategories = $allCategories->whereNull('parent_id');
-
-//dd($rootCategories);
-
     self::formatTree($rootCategories,$allCategories);
     return $rootCategories;
   }
@@ -52,13 +44,13 @@ class Categories extends Model
   }
 
   public static function isfreetodelete($id) {
-    if (ThirdpartiesCategories::where('parent_id','=',$id)->count() > 0) return false;
+    if (ProductsCategories::where('parent_id','=',$id)->count() > 0) return false;
     return U_TRUNCATED_CHAR_FOUND;
   }
 
   public function parent()
   {
-      return $this->belongsTo('App\Models\Categories', 'parent_id');
+      return $this->belongsTo('App\Models\ProductsCategories', 'parent_id');
   }
   
   public function getParentsNames() {

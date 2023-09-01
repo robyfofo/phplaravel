@@ -41,18 +41,18 @@
 						{{ Form::label('categories_id', 'Categoria', ['class'=>'col-sm-12 col-md-3 col-lg-3 col-xl-3 col-form-label col-form-label-sm responsive-text-right']) }}
 						<div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
 								@php
-									$level = 0;
-									$levelstr = '';
-									$selected = Request()->session()->get('products categories_id');
+									$subcat_level = 0;
+									$subcat_levelstr = '';
+									$subcat_selected = Request()->session()->get('products categories_id');
 								@endphp
 							<select name="categories_id" id="category_id" class="form-select form-select-sm" onchange="this.form.submit();">
 								<option value=""></option>
 									@foreach ($categories as $category)
 										@include('layouts.subcategoriesselect', [
 										'cat' => $category,
-										'level' => $level,
-										'levelstr' => $levelstr,
-										'selected' => $selected
+										'subcat_level' => $subcat_level,
+										'subcat_levelstr' => $subcat_levelstr,
+										'subcat_selected' => $subcat_selected
 										])
 									@endforeach
 							</select>
@@ -80,6 +80,7 @@
 						<th>Ord</th>
 						<th>Categoria</th>
 						<th>Titolo</th>
+						<th>Immagine</th>
 						<th>Contenuto</th>
 						<th>Prezzo U.tà</th>
 						<th>Action</th>
@@ -99,6 +100,14 @@
 						</td>
 						<td>{{ $product->category }} (<small>{{ $product->categories_id }}</small>)</td>
 						<td>{{ $product->title }}</td>
+						<td>
+						
+						@if($product->image)
+						<a class="" href="/uploads/products/{{ $product->image }}" data-lightbox="image-1" data-title="{{ $product->image }}" title="{{ $product->image }}"><img src="/uploads/products/{{ $product->image }}" style="height:70px;width:70px;"></a>
+						@else 
+							<span>No image found!</span>
+						@endif
+						</td>
 						<td>{{ $product->content }}</td>
 						<td>{{ $product->price_unity }}</td>
 

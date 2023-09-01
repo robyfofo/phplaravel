@@ -52,15 +52,15 @@
                 <select name="parent_id" id="parent_id" class="form-select form-select-sm">
                   <option value=""></option>
                     @php 
-                    $level = 0; 
-                    $levelstr = '';
-                    $selected = $category->parent_id;
+                    $subcat_level = 0; 
+                    $subcat_levelstr = '';
+                    $subcat_selected = $category->parent_id;
                     @endphp             
                     @foreach ($categories as $cat)
                       @include('layouts.subcategoriesselect', [
-                        'level' => $level,
-                        'levelstr' => $levelstr,
-                        'selected' => $selected
+                        'subcat_level' => $subcat_level,
+                        'subcat_levelstr' => $subcat_levelstr,
+                        'subcat_selected' => $subcat_selected
                       ])
                     @endforeach
                 </select>

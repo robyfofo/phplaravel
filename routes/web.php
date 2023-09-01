@@ -9,10 +9,11 @@ use App\Http\Controllers\ThirdpartiesController;
 use App\Http\Controllers\ThirdpartiesCategoriesController;
 use App\Http\Controllers\TimecardsController;
 use App\Http\Controllers\EstimatesController;
-use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ProductsCategoriesController;
 use App\Http\Controllers\ProductsController;
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,9 +101,9 @@ Route::middleware('auth')->group(function () {
   })->where('any', '.*');
 
   // categories
-  Route::resource('/categories', CategoriesController::class);
-  Route::get('/categories.moreordering/{id}/{foo}', [CategoriesController::class, 'moreordering'])->name('categories.moreordering');
-  Route::get('/categories.lessordering/{id}/{foo}', [CategoriesController::class, 'lessordering'])->name('categories.lessordering');
+  Route::resource('/productscategories', ProductsCategoriesController::class);
+  Route::get('/productscategories.moreordering/{id}/{foo}', [ProductsCategoriesController::class, 'moreordering'])->name('productscategories.moreordering');
+  Route::get('/productscategories.lessordering/{id}/{foo}', [ProductsCategoriesController::class, 'lessordering'])->name('productscategories.lessordering');
   
   // products
   Route::resource('/products', ProductsController::class);
@@ -121,3 +122,11 @@ Route::controller(AjaxrequestsController::class)->group(function () {
 
     Route::put('/ajaxrequest/getprojecttimecards','getprojecttimecards');
 });
+
+
+
+Route::get('/generatelink', function () {
+  $exitCode = Artisan::call('storage:link');
+  echo 'ok';
+});
+

@@ -57,6 +57,9 @@
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
+    <!-- Other Plugin CSS -->
+		<link href="/plugins/lightbox/css/lightbox.min.css" rel="stylesheet" type="text/css">
+
     <link rel="stylesheet" href="/assets/vendor/libs/apex-charts/apex-charts.css" />
 
     @isset($appCssLinks)

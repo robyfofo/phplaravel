@@ -16,17 +16,17 @@
 {
 	"action":"","name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"%LABEL%","submenus":
 		[
-			{"action":"categories","name":"listCate","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"Categorie"},
-			{"action":"","name":"listItem","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"Clienti"}
+			{"action":"categories","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"Categorie"},
+			{"action":"","icon":"<i class=\"menu-icon tf-icons bx bxs-user-detail\"><\/i>","label":"Clienti"}
 		]
 }
 
 
 {
-	"action":"#","name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-purcase-tag\"><\/i>","label":"%LABEL%","submenus":
+	"action":"%NAME%","name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bx-purchase-tag\"><\/i>","label":"%LABEL%","submenus":
 		[
-			{"action":"categories","name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-folder\"><\/i>","label":"Categorie"},
-			{"action":"products","name":"%NAME%","icon":"<i class=\"menu-icon tf-icons bx bxs-tags\"><\/i>","label":"Prodotti"}
+			{"action":"categories","icon":"<i class=\"menu-icon tf-icons bx bxs-folder\"><\/i>","label":"Categorie"},
+			{"action":"","icon":"<i class=\"menu-icon tf-icons bx bxs-tags\"><\/i>","label":"Prodotti"}
 		]
 }
 

@@ -226,20 +226,17 @@
                   <option value=""></option>
 
                   @php 
-                  $level = 0; 
-                  $levelstr = '';
-
-                  $selectedcategory = $thirdparty->category_id;
-                  $selectedparent = 0;
+                  $subcat_level = 0; 
+                  $subcat_levelstr = '';
+                  $subcat_selected = $thirdparty->category_id;
                   @endphp
                   
                   @foreach ($categories as $category)
                     @include('layouts.subcategoriesselect', [
                       'category' => $category,
-											'level' => $level,
-											'levelstr' => $levelstr,
-											'selectedcategory' => $selectedcategory,
-											'selectedparent'  =>  $selectedparent
+											'subcat_level' => $subcat_level,
+											'subcat_levelstr' => $subcat_levelstr,
+											'subcat_selected' => $subcat_selected
 											])
                   @endforeach
 

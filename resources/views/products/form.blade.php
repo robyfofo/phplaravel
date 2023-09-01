@@ -18,6 +18,12 @@
 				</li>
 
 				<li class="nav-item">
+					<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-image" aria-controls="navs-pills-top-image" aria-selected="false">
+						Immagine
+					</button>
+				</li>
+
+				<li class="nav-item">
 					<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-altro" aria-controls="navs-pills-top-altro" aria-selected="false">
 						Altro
 					</button>
@@ -64,7 +70,48 @@
 				</div>
 				<!-- datibase -->
 
-			
+			<!-- image -->
+			<div class="tab-pane fade" id="navs-pills-top-image" role="tabpanel">
+					<fieldset>
+
+						<div class="row mb-3">
+							<div class="col-md-9">
+								<div class="row mb-3">
+									<label for="imageID" class="col-md-3 col-form-label col-form-label-sm">image</label>
+									<div class="col-md-9">
+										<input type="file" name="image" id="imageID" class="form-control">		
+									</div>							
+								</div>
+
+								@if($product->image != '')
+								<div class="row mb-3">
+									<label for="deleteimageID" class="col-sm-6 col-md-6 col-lg-2 col-xl-2 col-form-label-sm">
+										Cancella
+									</label>
+									<div class="col-sm-12 col-md-12 col-lg-3 col-xl-3'">
+										<div class="form-check">
+											<input name="deleteimage" id="deleteimageID" value="1" type="checkbox" class="form-check-input">
+											<label class="form-check-label" for="deleteimageID"></label>
+										</div>
+									</div>
+
+									<div class="col-sm-12 col-md-12 col-lg-3 col-xl-3'">
+
+									
+									<a class="" href="/uploads/products/{{ $product->image }}" data-lightbox="image-1" data-title="{{ $product->image }}" title="{{ $product->image }}"><img src="/uploads/products/{{ $product->image }}" style="height:150px;width:150px;"></a>
+									</div>
+								
+								@endif
+
+								</div>
+							</div>
+							
+						</div>
+
+					</fieldset>
+				</div>
+				<!-- image -->
+
 			
 
 				<!-- altro -->
@@ -76,16 +123,16 @@
                 <select name="categories_id" id="category_id" class="form-select form-select-sm">
                   <option value=""></option>
 										@php 
-										$level = 0; 
-										$levelstr = '';
-										$selected = $product->category_id;
+										$subcat_level = 0; 
+										$subcat_levelstr = '';
+										$subcat_selected = $product->categories_id;
 										@endphp                
 										@foreach ($categories as $cat)
 											@include('layouts.subcategoriesselect', [
 												'cat' => $cat,
-												'level' => $level,
-												'levelstr' => $levelstr,
-												'selected' => $selected,
+												'subcat_level' => $subcat_level,
+												'subcat_levelstr' => $subcat_levelstr,
+												'subcat_selected' => $subcat_selected,
 												])
 										@endforeach
                 </select>

@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 use Illuminate\Http\Request;
 
 
 use App\Models\Products;
-use App\Models\Categories;
+use App\Models\ProductsCategories;
 
 use App\Http\Requests\ProductRequest;
 
@@ -17,9 +19,12 @@ class ProductsController extends Controller
 {
   private $searchfromtable = '';
   private $orderType = 'ASC';
+  private $uploadpath;
 
   public function __construct()
   {
+    $this->uploadpath = public_path('uploads/products/');
+    !is_dir($this->uploadpath) && mkdir($this->uploadpath, 0777, true);
   }
 
   /**
@@ -40,7 +45,7 @@ class ProductsController extends Controller
     $request->session()->put('products categories_id', '');
     if (request()->input('categories_id')) $request->session()->put('products categories_id', request()->input('categories_id'));
 
-    $categories = Categories::tree();
+    $categories = ProductsCategories::tree();
 
     //dd($categories);
 
@@ -69,7 +74,7 @@ class ProductsController extends Controller
    */
   public function create()
   {
-    $categories = Categories::tree();
+    $categories = ProductsCategories::tree();
 
     $product = Products::FindOrNew(0);
     $product->category_id = '';
@@ -89,11 +94,18 @@ class ProductsController extends Controller
     if (!$request->has('active')) $request->merge(['active' => 0]);
 
     $product = new Products;
+
+    $fileName = time() . '.' . $request->image->extension();
+    $request->image->move($this->uploadpath,$fileName);
+
     $product->content = $request->input('content');
     $product->title = $request->input('title');
     $product->price_unity = $request->input('price_unity');
     $product->active = $request->input('active');
     $product->categories_id = $request->input('categories_id');
+
+    $product->image = $fileName;
+    
     if ($product->ordering == 0)  $product->ordering = getLastOrdering('products', 'ordering',array('field'=>'categories_id','fieldValue'=>$product->categories_id)) + 1;
     $product->save();
     return to_route('products.index')->with('success', 'Prodotto inserito!');
@@ -104,7 +116,7 @@ class ProductsController extends Controller
    */
   public function edit(string $id)
   {
-    $categories = Categories::tree();
+    $categories = ProductsCategories::tree();
     $product = Products::findOrFail($id);
     return view('products.form', ['product' => $product])    
     -> with('categories', $categories);    
@@ -118,11 +130,32 @@ class ProductsController extends Controller
     if (!$request->has('active')) $request->merge(['active' => 0]);
     $product = Products::findOrFail($id);
     $old_categories_id = $product->getOriginal('categories_id');
+    $old_image = $product->getOriginal('image');
+    if ($request->has('image')) {  
+    $fileName = time() . '.' . $request->image->extension();
+    $request->image->move($this->uploadpath,$fileName);
+    $product->image = $fileName;
+    // cancello quello vecchio  
+    if(Storage::exists('public/images', $old_image)){
+      Storage::delete($this->uploadpath.$old_image);
+    }
+    }
+
+    // cancella se selezionato
+    if ($request->has('deleteimage')) {
+      if(File::exists($this->uploadpath.$old_image)){
+        File::delete($this->uploadpath.$old_image);
+      }
+      $product->image = '';
+    }
+    
     $product->content = $request->input('content');
     $product->title = $request->input('title');
     $product->price_unity = $request->input('price_unity');
     $product->active = $request->input('active');
     $product->categories_id = $request->input('categories_id');
+
+
     if (($product->categories_id <> $old_categories_id) || ($product->ordering == 0))  $product->ordering = getLastOrdering('products', 'ordering',array('field'=>'categories_id','fieldValue'=>$product->categories_id)) + 1;
     $product->save();
     return to_route('products.index')->with('success', 'Prodotto modificato!');
@@ -134,6 +167,11 @@ class ProductsController extends Controller
   public function destroy(string $id)
   {
     $product = Products::findOrFail($id);
+
+    if(File::exists($this->uploadpath.$product->image)){
+      File::delete($this->uploadpath.$product->image);
+    }
+
     $product->delete();
     optimizeFieldOrdering($table = 'products', $fieldOrder = 'ordering', $fieldParent = array('categories_id'), $fieldParentValue = array($product->categories_id));
     return to_route('products.index')->with('success', 'Prodotto cancellato!');

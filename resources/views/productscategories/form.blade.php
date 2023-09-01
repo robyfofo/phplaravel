@@ -27,9 +27,9 @@
       </ul>
 
       @if (isset($category) && $category->id > 0)
-				{{ Form::model($categories, array('route' => array('categories.update', $category->id), 'method' => 'PUT','enctype' => 'multipart/form-data')) }}
+				{{ Form::model($categories, array('route' => array('productscategories.update', $category->id), 'method' => 'PUT','enctype' => 'multipart/form-data')) }}
 			@else
-				{!! Form::open(['route' => 'categories.store','enctype' => 'multipart/form-data']) !!}
+				{!! Form::open(['route' => 'productscategories.store','enctype' => 'multipart/form-data']) !!}
 			@endif
 
       <div class="tab-content">
@@ -106,7 +106,7 @@
           <button data-color="red" data-size="s" data-style="expand-right" id="submitFormID" type="submit" name="submitForm" value="submit" class="btn btn-primary submittheform">Invia</button>
         </div>
         <div class="col-md-6 col-xs-12 text-sm-center text-xl-end">
-          <a href="{{ route('categories.index') }}" title="Torna alla lista" class="btn btn-success">Indietro</a>
+          <a href="{{ route('productscategories.index') }}" title="Torna alla lista" class="btn btn-success">Indietro</a>
         </div>
       </div>
 

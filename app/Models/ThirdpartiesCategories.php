@@ -13,8 +13,8 @@ class ThirdpartiesCategories extends Model
 {
   use HasFactory;
 
-  //protected $appends = ['associated'];
   public $orderType;
+  protected $appends = ['parent'];
 
   public function __construct()
   {
@@ -49,4 +49,18 @@ class ThirdpartiesCategories extends Model
     if (ThirdpartiesCategories::where('parent_id','=',$id)->count() > 0) return false;
     return U_TRUNCATED_CHAR_FOUND;
   }
+
+    public function parent()
+  {
+      return $this->belongsTo('App\Models\ThirdpartiesCategories', 'parent_id');
+  }
+  
+  public function getParentsNames() {
+      if($this->parent) {
+          return $this->parent->getParentsNames(). " > " . $this->title;
+      } else {
+          return $this->title;
+      }
+  }
+
 }
